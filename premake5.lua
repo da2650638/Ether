@@ -3,11 +3,22 @@ workspace "Ether"
     startproject "Sandbox"
     configurations { "Debug", "Release", "Dist" }
 
+IncludeDirs = {}
+IncludeDirs["GLFW"] = "Ether/vendor/GLFW/include"
+IncludeDirs["ImGui"] = "Ether/vendor/imgui"
+IncludeDirs["Glad"] = "Ether/vendor/Glad/include"
+
+group "Denepdencies"
+    include "Ether/vendor/GLFW"
+    include "Ether/vendor/Glad"
+    include "Ether/vendor/imgui"
+group ""
+
 project "Ether"
     location "Ether"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
-    staticruntime "Off"
+    staticruntime "On"
 
     targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
@@ -20,7 +31,23 @@ project "Ether"
 
     includedirs 
     { 
-        "%{prj.name}/src" 
+        "%{prj.name}/src", 
+        "%{IncludeDirs.GLFW}",
+        "%{IncludeDirs.ImGui}",
+        "%{IncludeDirs.Glad}"
+    }
+
+    links
+    {
+		"GLFW",
+		"Glad",
+        "ImGui",
+		"opengl32.lib"
+    }
+
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
     }
 
     filter "system:windows"
@@ -30,6 +57,7 @@ project "Ether"
         defines 
         { 
             "ETH_PLATFORM_WINDOWS",
+            "GLFW_INCLUDE_NONE",
             "ETH_BUILD_DLL"
         }
 
@@ -38,20 +66,20 @@ project "Ether"
     filter { "configurations:Debug", "system:Windows" }
         defines "ETH_DEBUG"
         symbols "On"
-        buildoptions "/MDd"
+        buildoptions "/MTd"
         runtime "Debug"
 
     filter { "configurations:Release", "system:Windows" }
         defines "ETH_RELEASE"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
 
     filter { "configurations:Dist", "system:Windows" }
         defines "ETH_DIST"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
 
@@ -90,19 +118,19 @@ project "Sandbox"
     filter { "configurations:Debug", "system:windows" }
         defines "ETH_DEBUG"
         symbols "On"
-        buildoptions "/MDd"
+        buildoptions "/MTd"
         runtime "Debug"
 
     filter { "configurations:Release", "system:windows" }
         defines "ETH_RELEASE"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
 
     filter { "configurations:Dist", "system:windows" }
         defines "ETH_DIST"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
