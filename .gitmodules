@@ -1,0 +1,3 @@
+[submodule "Ether/vendor/spdlog"]
+	path = Ether/vendor/spdlog
+	url = https://github.com/da2650638/spdlog.git

@@ -1,7 +1,5 @@
-
-
 #include "Application.h"
-
+#include "Log.h"
 #include <iostream>
 
 namespace Ether
@@ -18,7 +16,8 @@ namespace Ether
 
 	void Application::Run()
 	{
-		std::cout << "Welcome to Ether Engine." << std::endl;
+		ETHER_CORE_CRITICAL("Welcome to the Ehter engine.");
+		ETHER_TRACE("Welcome to App.");
 		while(true);
 	}
 }

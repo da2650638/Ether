@@ -3,11 +3,18 @@ workspace "Ether"
     startproject "Sandbox"
     configurations { "Debug", "Release", "Dist" }
 
+IncludeDirs = {}
+IncludeDirs["spdlog"] = "Ether/vendor/spdlog/include"
+
+group "Dependencies"
+    include "Ether/vendor/spdlog"
+group ""
+
 project "Ether"
     location "Ether"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
-    staticruntime "Off"
+    staticruntime "On"
 
     targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
@@ -20,6 +27,7 @@ project "Ether"
 
     includedirs 
     { 
+        "%{IncludeDirs.spdlog}",
         "%{prj.name}/src" 
     }
 
@@ -33,25 +41,23 @@ project "Ether"
             "ETH_BUILD_DLL"
         }
 
-        postbuildcommands { "{COPY} %{cfg.buildtarget.relpath} ../bin/%{cfg.buildcfg}/Sandbox-%{cfg.system}-%{cfg.buildcfg}" }
-
     filter { "configurations:Debug", "system:Windows" }
         defines "ETH_DEBUG"
         symbols "On"
-        buildoptions "/MDd"
+        buildoptions "/MTd"
         runtime "Debug"
 
     filter { "configurations:Release", "system:Windows" }
         defines "ETH_RELEASE"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
 
     filter { "configurations:Dist", "system:Windows" }
         defines "ETH_DIST"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
 
@@ -59,7 +65,7 @@ project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "Off"
+    staticruntime "On"
 
     targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
@@ -71,6 +77,7 @@ project "Sandbox"
 
     includedirs 
     { 
+        "%{IncludeDirs.spdlog}",
         "Ether/src" 
     }
 
@@ -90,19 +97,19 @@ project "Sandbox"
     filter { "configurations:Debug", "system:windows" }
         defines "ETH_DEBUG"
         symbols "On"
-        buildoptions "/MDd"
+        buildoptions "/MTd"
         runtime "Debug"
 
     filter { "configurations:Release", "system:windows" }
         defines "ETH_RELEASE"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
 
     filter { "configurations:Dist", "system:windows" }
         defines "ETH_DIST"
         symbols "Off"
-        buildoptions "/MD"
+        buildoptions "/MT"
         optimize "On"
         runtime "Release"
