@@ -2,6 +2,8 @@
 #include "Log.h"
 #include <iostream>
 
+#include "Ether/Events/Event.h"
+
 namespace Ether
 {
 	Application::Application()
@@ -16,7 +18,7 @@ namespace Ether
 
 	void Application::Run()
 	{
-		ETHER_CORE_CRITICAL("Welcome to the Ehter engine.");
+		ETHER_CORE_INFO("Welcome to the Ehter engine.");
 		ETHER_TRACE("Welcome to App.");
 		while(true);
 	}

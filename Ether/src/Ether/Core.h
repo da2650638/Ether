@@ -16,6 +16,8 @@
 	#error Ether only supports windows.
 #endif
 
+#define BIT(x) (1 << (x))
+
 namespace Ether {
 	template <typename T>
 	using Ref = std::shared_ptr<T>;
