@@ -12,7 +12,7 @@ namespace Ether {
 		{
 		}
 
-		virtual const std::string& ToString() const override {
+		virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "WindowResizeEvent: [" << m_Width << " * " << m_Height << "]";
 			return ss.str();

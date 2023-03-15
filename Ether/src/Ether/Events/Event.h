@@ -6,6 +6,11 @@
 
 namespace Ether {
 
+	//Events in Ether are currently blocking, meaning when an event occurs it
+    //immediately gets dispatched and must be dealt with right then an there.
+    //For the future, a better strategy might be to buffer events in an event
+    //bus and process them during the "event" part of the update stage.
+
 	enum EventType {
 		NoneType = 0,
 		WindowResize, WindowClose, WindowFocus, WindowLostFocus, WindowMoved,
@@ -36,7 +41,7 @@ namespace Ether {
 		virtual EventType GetType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
-		virtual const std::string& ToString() const { return GetName(); }
+		virtual std::string ToString() const { return GetName(); }
 		bool IsInCategory(EventCategory category) {
 			return category & GetCategoryFlags();
 		}
@@ -64,4 +69,10 @@ namespace Ether {
 	private:
 		Event& m_Event;
 	};
+	//重载输出运算符，保证spdlog可以输出Event的日志。
+	inline std::ostream& operator<<(std::ostream& out, const Event& e)
+	{
+		out << e.ToString();
+		return out;
+	}
 }
