@@ -1,6 +1,6 @@
+#include "etherpch.h"
 #include "Application.h"
 #include "Log.h"
-#include <iostream>
 
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"

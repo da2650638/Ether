@@ -1,3 +1,4 @@
+#include "etherpch.h"
 #include "Log.h"
 
 namespace Ether {

@@ -1,8 +1,6 @@
 #pragma once
 #include "Event.h"
 
-#include <sstream>
-
 namespace Ether {
 
 	class KeyEvent : public Event {

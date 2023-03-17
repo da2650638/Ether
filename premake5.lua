@@ -5,9 +5,11 @@ workspace "Ether"
 
 IncludeDirs = {}
 IncludeDirs["spdlog"] = "Ether/vendor/spdlog/include"
+IncludeDirs["GLFW"] = "Ether/vendor/GLFW/include"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
+    include "Ether/vendor/GLFW"
 group ""
 
 project "Ether"
@@ -19,6 +21,9 @@ project "Ether"
     targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
 
+    pchheader "etherpch.h"
+    pchsource "Ether/src/ether.cpp"
+
     files 
     { 
         "%{prj.name}/src/**.cpp", 
@@ -28,6 +33,7 @@ project "Ether"
     includedirs 
     { 
         "%{IncludeDirs.spdlog}",
+        "%{IncludeDirs.GLFW}",
         "%{prj.name}/src" 
     }
 

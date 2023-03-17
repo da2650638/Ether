@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include "etherpch.h"
 
 #ifdef ETH_PLATFORM_WINDOWS
 	#ifdef ETHER_DYNAMIC_LIB

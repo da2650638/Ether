@@ -1,8 +1,6 @@
 #pragma once
+#include "etherpch.h"
 #include "Ether/Core.h"
-
-#include <string>
-#include <functional>
 
 namespace Ether {
 
