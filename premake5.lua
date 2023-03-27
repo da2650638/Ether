@@ -37,6 +37,11 @@ project "Ether"
         "%{prj.name}/src" 
     }
 
+    links
+    {
+        "GLFW"
+    }
+
     filter "system:windows"
         cppdialect "C++17"
         systemversion "latest"

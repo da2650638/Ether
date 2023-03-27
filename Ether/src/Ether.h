@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Ether/Log.h"
 #include "Ether/Core.h"
 #include "Ether/Application.h"
-#include "Ether/Log.h"
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/MouseEvent.h"

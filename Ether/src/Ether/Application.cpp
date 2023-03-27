@@ -4,12 +4,16 @@
 
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"
+#include "Ether/Events/ApplicationEvent.h"
 
 namespace Ether
 {
 	Application::Application()
+		: m_Running(true)
 	{
-
+		WindowProps props;
+		m_Window.reset(Window::Create(props));
+		m_Window->SetEventCallback( std::bind(&Application::OnEvent, this, std::placeholders::_1) );
 	}
 
 	Application::~Application()
@@ -22,11 +26,29 @@ namespace Ether
 		ETHER_CORE_INFO("Welcome to the Ehter engine.");
 		ETHER_TRACE("Welcome to App.");
 
-		KeyPressedEvent e(1, 100);
-		if (e.IsInCategory(EventCategoryInput))
+		while (m_Running)
 		{
-			ETHER_TRACE(e);
+			m_Window->OnUpdate();
 		}
-		while(true);
+	}
+
+	void Application::OnEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>( std::bind(&Application::OnWindowClose, this, std::placeholders::_1) );
+		dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		ETHER_CORE_INFO("Closing Application...");
+		m_Running = false;
+		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		ETHER_CORE_INFO(e);
+		return true;
 	}
 }
