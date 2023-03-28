@@ -74,6 +74,8 @@ namespace Ether {
 			WindowResizeEvent e(width, height);
 			data->Callback(e);
         });
+
+		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	}
 
 	void WindowsWindow::ShutDown()

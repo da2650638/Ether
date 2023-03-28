@@ -6,10 +6,12 @@ workspace "Ether"
 IncludeDirs = {}
 IncludeDirs["spdlog"] = "Ether/vendor/spdlog/include"
 IncludeDirs["GLFW"] = "Ether/vendor/GLFW/include"
+IncludeDirs["Glad"] = "Ether/vendor/Glad/include"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
     include "Ether/vendor/GLFW"
+    include "Ether/vendor/Glad"
 group ""
 
 project "Ether"
@@ -34,12 +36,14 @@ project "Ether"
     { 
         "%{IncludeDirs.spdlog}",
         "%{IncludeDirs.GLFW}",
+        "%{IncludeDirs.Glad}",
         "%{prj.name}/src" 
     }
 
     links
     {
-        "GLFW"
+        "GLFW",
+        "Glad"
     }
 
     filter "system:windows"
@@ -49,7 +53,8 @@ project "Ether"
         defines 
         { 
             "ETH_PLATFORM_WINDOWS",
-            "ETH_BUILD_DLL"
+            "ETH_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
     filter { "configurations:Debug", "system:Windows" }
