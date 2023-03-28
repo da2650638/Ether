@@ -36,6 +36,7 @@ namespace Ether {
 	class Event {
 		friend class EventDispatcher;
 	public:
+		bool Handled = false;
 		virtual EventType GetType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
@@ -43,9 +44,6 @@ namespace Ether {
 		bool IsInCategory(EventCategory category) {
 			return category & GetCategoryFlags();
 		}
-
-	private:
-		bool m_Handled = false;
 	};
 
 	class EventDispatcher {
@@ -58,7 +56,7 @@ namespace Ether {
 		template <typename T>
 		bool Dispatch(EventFn<T> func) {
 			if (m_Event.GetType() == T::GetStaticType()) {
-				m_Event.m_Handled = func(*((T*)(&m_Event)));
+				m_Event.Handled = func(*((T*)(&m_Event)));
 				return true;
 			}
 			return false;

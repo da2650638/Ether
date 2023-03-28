@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	Ether::Log::Init("Ether", "APP");
+	Ether::Log::Init("Ether", "Sandbox");
 	auto app = Ether::CreateApplication();
 	app->Run();
 	return 0;

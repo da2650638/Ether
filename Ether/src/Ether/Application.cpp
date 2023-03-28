@@ -9,7 +9,8 @@
 namespace Ether
 {
 	Application::Application()
-		: m_Running(true)
+		: m_Running(true),
+		  m_LayerStack()
 	{
 		WindowProps props;
 		m_Window.reset(Window::Create(props));
@@ -28,6 +29,10 @@ namespace Ether
 
 		while (m_Running)
 		{
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->OnUpdate();
+			}
 			m_Window->OnUpdate();
 		}
 	}
@@ -37,6 +42,24 @@ namespace Ether
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>( std::bind(&Application::OnWindowClose, this, std::placeholders::_1) );
 		dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
+		
+		//iterate the layer stack
+		for (Layer* layer : m_LayerStack)
+		{
+			layer->OnEvent(e);
+			if (e.Handled)
+				break;
+		}
+	}
+
+	void Application::PushLayer(Layer* layer)
+	{
+		m_LayerStack.PushLayer(layer);
+	}
+
+	void Application::PushOverlay(Layer* overlay)
+	{
+		m_LayerStack.PushOverlay(overlay);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

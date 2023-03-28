@@ -6,6 +6,7 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/MouseEvent.h"
 #include "Ether/Window.h"
+#include "Ether/LayerStack.h"
 
 namespace Ether
 {
@@ -18,6 +19,9 @@ namespace Ether
 		void Run();
 
 		void OnEvent(Event& e);
+
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 		
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -27,6 +31,7 @@ namespace Ether
 		bool m_Running;
 
 		Scope<Window> m_Window;
+		LayerStack m_LayerStack;
 	};
 
 	Application* CreateApplication();
