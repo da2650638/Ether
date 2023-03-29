@@ -1,5 +1,7 @@
 #include "Ether.h"
 
+#include "imgui.h"
+
 class SandboxLayer : public Ether::Layer {
 public:
 	SandboxLayer(const std::string& debugName)
@@ -16,6 +18,12 @@ public:
 	virtual void OnEvent(Ether::Event& e) override
 	{
 		ETHER_INFO("Sandbox Layer:[{0}]", e);
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("2222");
+		ImGui::End();
 	}
 private:
 

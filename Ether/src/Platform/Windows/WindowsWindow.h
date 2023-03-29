@@ -32,6 +32,11 @@ namespace Ether {
 		}
 		virtual void SetVSync(bool enabled) override;
 		virtual bool IsVSync() const override;
+
+		virtual void* GetNativeWindow() override
+		{
+			return m_Window;
+		}
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void ShutDown();

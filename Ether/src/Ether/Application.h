@@ -7,6 +7,7 @@
 #include "Events/MouseEvent.h"
 #include "Ether/Window.h"
 #include "Ether/LayerStack.h"
+#include "Ether/ImGui/ImGuiLayer.h"
 
 namespace Ether
 {
@@ -23,6 +24,9 @@ namespace Ether
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 		
+		inline Window& GetWindow() { return *m_Window; }
+		static inline Application& Get() { return *s_Instance; }
+
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
@@ -32,6 +36,10 @@ namespace Ether
 
 		Scope<Window> m_Window;
 		LayerStack m_LayerStack;
+
+		ImGuiLayer* m_ImGuiLayer;
+	private:
+		static Application* s_Instance;
 	};
 
 	Application* CreateApplication();

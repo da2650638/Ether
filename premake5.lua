@@ -7,11 +7,13 @@ IncludeDirs = {}
 IncludeDirs["spdlog"] = "Ether/vendor/spdlog/include"
 IncludeDirs["GLFW"] = "Ether/vendor/GLFW/include"
 IncludeDirs["Glad"] = "Ether/vendor/Glad/include"
+IncludeDirs["imgui"] = "Ether/vendor/imgui"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
     include "Ether/vendor/GLFW"
     include "Ether/vendor/Glad"
+    include "Ether/vendor/imgui"
 group ""
 
 project "Ether"
@@ -37,13 +39,16 @@ project "Ether"
         "%{IncludeDirs.spdlog}",
         "%{IncludeDirs.GLFW}",
         "%{IncludeDirs.Glad}",
+        "%{IncludeDirs.imgui}",
         "%{prj.name}/src" 
     }
 
     links
     {
         "GLFW",
-        "Glad"
+        "Glad",
+        "ImGui",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -94,6 +99,9 @@ project "Sandbox"
     includedirs 
     { 
         "%{IncludeDirs.spdlog}",
+        "%{IncludeDirs.GLFW}",
+        "%{IncludeDirs.Glad}",
+        "%{IncludeDirs.imgui}",
         "Ether/src" 
     }
 

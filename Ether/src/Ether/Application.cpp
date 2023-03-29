@@ -8,13 +8,21 @@
 
 namespace Ether
 {
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 		: m_Running(true),
 		  m_LayerStack()
 	{
+		ETHER_CORE_ASSERT((s_Instance == nullptr), "Application instance already exist.");
+		s_Instance = this;
+
 		WindowProps props;
 		m_Window.reset(Window::Create(props));
 		m_Window->SetEventCallback( std::bind(&Application::OnEvent, this, std::placeholders::_1) );
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -33,6 +41,14 @@ namespace Ether
 			{
 				layer->OnUpdate();
 			}
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
 		}
 	}
