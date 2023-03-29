@@ -99,7 +99,10 @@ project "Sandbox"
 
     includedirs 
     { 
-        "Ether/src" 
+        "Ether/src",
+        "%{IncludeDirs.GLFW}",
+        "%{IncludeDirs.ImGui}",
+        "%{IncludeDirs.Glad}" 
     }
 
     links
@@ -112,7 +115,8 @@ project "Sandbox"
         systemversion "latest"
         defines 
         { 
-            "ETH_PLATFORM_WINDOWS"
+            "ETH_PLATFORM_WINDOWS",
+            "GLFW_INCLUDE_NONE"
         }
 
     filter { "configurations:Debug", "system:windows" }

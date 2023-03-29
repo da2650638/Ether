@@ -21,6 +21,37 @@ namespace Ether
 
 	}
 
+    void Application::InitImGui(GLFWwindow *window)
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext(NULL);
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 460");
+    }
+
+    void Application::CreateNewFrameImGui()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+
+    void Application::RenderImGui()
+    {
+        //Rendering
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void Application::CleanUpImGui()
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
+
 	void Application::Run()
 	{
         GLFWwindow* window;
@@ -41,12 +72,7 @@ namespace Ether
         glfwMakeContextCurrent(window);
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         glfwSwapInterval(1);
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext(NULL);
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        ImGui::StyleColorsDark();
-        ImGui_ImplGlfw_InitForOpenGL(window, true);
-        ImGui_ImplOpenGL3_Init("#version 410");
+        InitImGui(window);
 
         bool no_titlebar = false;
         bool no_scrollbar = false;
@@ -82,9 +108,7 @@ namespace Ether
             glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
-            ImGui_ImplOpenGL3_NewFrame();
-            ImGui_ImplGlfw_NewFrame();
-            ImGui::NewFrame();
+            CreateNewFrameImGui();
 
             ImGui::Begin("MyWindow1 ", p_open, window_flags);
 
@@ -114,17 +138,13 @@ namespace Ether
 
             ImGui::ShowDemoWindow();
 
-            //Rendering
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            RenderImGui();
 
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
 
-        ImGui_ImplOpenGL3_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
+        CleanUpImGui();
 
         glfwDestroyWindow(window);
 
