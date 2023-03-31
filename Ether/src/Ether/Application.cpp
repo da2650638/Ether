@@ -6,6 +6,9 @@
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
 
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 namespace Ether
 {
 	Application* Application::s_Instance = nullptr;
@@ -37,6 +40,9 @@ namespace Ether
 
 		while (m_Running)
 		{
+			glClear(GL_COLOR_BUFFER_BIT);
+			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+
 			for (Layer* layer : m_LayerStack)
 			{
 				layer->OnUpdate();
