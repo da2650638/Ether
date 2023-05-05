@@ -9,5 +9,8 @@
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/MouseEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
+#include "Ether/Input.h"
+#include "Ether/KeyCodes.h"
+#include "Ether/MouseButtonCodes.h"
 
 #include "Ether/EntryPoint.h"

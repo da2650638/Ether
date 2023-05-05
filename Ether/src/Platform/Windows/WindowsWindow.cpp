@@ -2,6 +2,7 @@
 #include "WindowsWindow.h"
 #include "Ether/Log.h"
 #include "Ether/Events/ApplicationEvent.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Ether {
 	static bool s_GLFWInitialized = false;
@@ -19,7 +20,7 @@ namespace Ether {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
@@ -57,7 +58,9 @@ namespace Ether {
 		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		ETHER_CORE_ASSERT(m_Window, "GLFW Failed to create window.");
 
-		glfwMakeContextCurrent(m_Window);
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -74,8 +77,6 @@ namespace Ether {
 			WindowResizeEvent e(width, height);
 			data->Callback(e);
         });
-
-		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	}
 
 	void WindowsWindow::ShutDown()

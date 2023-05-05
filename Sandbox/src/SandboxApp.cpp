@@ -12,7 +12,10 @@ public:
 
 	virtual void OnUpdate() override
 	{
-
+		if (Ether::Input::IsKeyPressed(ETHER_KEY_TAB))
+		{
+			ETHER_INFO("Key Tab is pressed.");
+		}
 	}
 	//只是简单的将事件信息打印出来
 	virtual void OnEvent(Ether::Event& e) override
@@ -22,8 +25,7 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("2222");
-		ImGui::End();
+		ImGui::ShowDemoWindow();
 	}
 private:
 

@@ -18,7 +18,7 @@ namespace Ether
 		virtual ~Application();
 
 		void Run();
-
+		//在Window类及其子类当中通过SetEventCallback被设置到成员变量当中当作回调函数。
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);

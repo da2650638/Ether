@@ -5,6 +5,7 @@
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
+#include "Ether/Input.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -26,6 +27,13 @@ namespace Ether
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		Input::Create();
+
+		//Vertex Array
+		//Vertex Buffer
+		//Index Buffer
+		//Shader
 	}
 
 	Application::~Application()

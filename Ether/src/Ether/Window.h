@@ -32,7 +32,7 @@ namespace Ether {
 		virtual bool IsVSync() const = 0;
 
 		virtual void* GetNativeWindow() = 0;
-
+		//只有Application类会去调用window，所以不需要使用单独的全局静态实例
 		static Window* Create(const WindowProps& props);
 	};
 

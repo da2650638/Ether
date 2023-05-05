@@ -2,6 +2,8 @@
 #include "etherpch.h"
 #include "Ether/Window.h"
 
+#include "Ether/Renderer/GraphicsContext.h"
+
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 
@@ -42,6 +44,7 @@ namespace Ether {
 		virtual void ShutDown();
 	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;
