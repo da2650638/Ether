@@ -12,5 +12,9 @@
 #include "Ether/Input.h"
 #include "Ether/KeyCodes.h"
 #include "Ether/MouseButtonCodes.h"
+#include "Ether/Renderer/Buffer.h"
 
 #include "Ether/EntryPoint.h"
+
+//TODO: delete these include files
+#include "Platform/OpenGL/OpenGLBuffer.h"
