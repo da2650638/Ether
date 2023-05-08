@@ -38,7 +38,6 @@ namespace Ether
 
 	const BufferLayout& OpenGLVertexBuffer::GetLayout() const
 	{
-		// TODO: 在此处插入 return 语句
 		return m_Layout;
 	}
 

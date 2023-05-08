@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Log.h"
 
+#include "Ether/Renderer/RenderCommand.h"
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
@@ -48,8 +49,8 @@ namespace Ether
 
 		while (m_Running)
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
-			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			RenderCommand::Clear();
+			RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 
 			for (Layer* layer : m_LayerStack)
 			{

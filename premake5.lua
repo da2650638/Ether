@@ -8,12 +8,14 @@ IncludeDirs["spdlog"] = "Ether/vendor/spdlog/include"
 IncludeDirs["GLFW"] = "Ether/vendor/GLFW/include"
 IncludeDirs["Glad"] = "Ether/vendor/Glad/include"
 IncludeDirs["imgui"] = "Ether/vendor/imgui"
+IncludeDirs["glm"] = "Ether/vendor/glm"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
     include "Ether/vendor/GLFW"
     include "Ether/vendor/Glad"
     include "Ether/vendor/imgui"
+    include "Ether/vendor/glm"
 group ""
 
 project "Ether"
@@ -31,7 +33,9 @@ project "Ether"
     files 
     { 
         "%{prj.name}/src/**.cpp", 
-        "%{prj.name}/src/**.h" 
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/vendor/glm/glm/*.hpp",
+		"%{prj.name}/vendor/glm/glm/*.inl" 
     }
 
     includedirs 
@@ -40,6 +44,7 @@ project "Ether"
         "%{IncludeDirs.GLFW}",
         "%{IncludeDirs.Glad}",
         "%{IncludeDirs.imgui}",
+        "%{IncludeDirs.glm}",
         "%{prj.name}/src" 
     }
 
@@ -102,6 +107,7 @@ project "Sandbox"
         "%{IncludeDirs.GLFW}",
         "%{IncludeDirs.Glad}",
         "%{IncludeDirs.imgui}",
+        "%{IncludeDirs.glm}",
         "Ether/src" 
     }
 

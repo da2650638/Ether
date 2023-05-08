@@ -7,3 +7,6 @@
 [submodule "Ether/vendor/imgui"]
 	path = Ether/vendor/imgui
 	url = https://github.com/TheCherno/imgui.git
+[submodule "Ether/vendor/glm"]
+	path = Ether/vendor/glm
+	url = https://github.com/da2650638/glm.git

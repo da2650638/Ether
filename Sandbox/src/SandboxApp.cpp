@@ -1,15 +1,12 @@
 #include "Ether.h"
 
 #include "imgui.h"
-//TODO: OpenGL specificed code should be here
-#include <glad/glad.h>
 
 class SandboxLayer : public Ether::Layer {
 public:
 	SandboxLayer(const std::string& debugName)
 		: Ether::Layer(debugName)
 	{
-		//These code shouldn't be here.
 		float vertices[] = {
 			-0.5f, -0.5f, 0.0f,
 			0.5f,  -0.5f, 0.0f,
@@ -20,32 +17,20 @@ public:
 			0, 1, 2,
 			1, 2, 3
 		};
-		m_VertexBuffer.reset(new Ether::OpenGLVertexBuffer(vertices, sizeof(vertices)));
-		m_IndexBuffer.reset(new Ether::OpenGLIndexBuffer(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_VertexBuffer.reset(Ether::VertexBuffer::Create(vertices, sizeof(vertices)));
+		m_IndexBuffer.reset(Ether::IndexBuffer::Create(indices, sizeof(indices)));
 		{
 			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"} };
 			m_VertexBuffer->SetLayout(layout);
 		}
-		uint32_t index = 0;
-		uint32_t stride = m_VertexBuffer->GetLayout().GetStride();
-		for (const auto& element : m_VertexBuffer->GetLayout())
-		{
-			glVertexAttribPointer(
-				0,
-				element.GetElementCount(),
-				Ether::ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				stride,
-				(void*)element.Offset);
-			glEnableVertexAttribArray(index);
-			index++;
-		}
+		m_VertexArray.reset(Ether::VertexArray::Create());
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 	}
 
 	virtual void OnUpdate() override
 	{
-		//TODO: OpenGL specificed codes shouldn't be here.
-		glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+		Ether::RenderCommand::DrawIndexed(m_VertexArray);
 		if (Ether::Input::IsKeyPressed(ETHER_KEY_TAB))
 		{
 			ETHER_INFO("Key Tab is pressed.");
@@ -59,11 +44,12 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
 	}
 private:
 	Ether::Ref<Ether::VertexBuffer> m_VertexBuffer;
 	Ether::Ref<Ether::IndexBuffer> m_IndexBuffer;
+	Ether::Ref<Ether::VertexArray> m_VertexArray;
 };
 
 class Sandbox : public Ether::Application
