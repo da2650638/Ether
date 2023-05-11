@@ -54,9 +54,6 @@ namespace Ether
 			float now = glfwGetTime();
 			Timestep ts(now - m_LastFrameTime);
 
-			RenderCommand::Clear();
-			RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
-
 			for (Layer* layer : m_LayerStack)
 			{
 				layer->OnUpdate(ts);

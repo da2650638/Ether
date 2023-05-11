@@ -43,7 +43,7 @@ namespace Ether
 		for (const auto& element : vertex_buffer->GetLayout())
 		{
 			glVertexAttribPointer(
-				0,
+				index,
 				element.GetElementCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,

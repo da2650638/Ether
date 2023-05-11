@@ -16,6 +16,10 @@
 #include "Ether/Renderer/RenderCommand.h"
 #include "Ether/Renderer/Buffer.h"
 #include "Ether/Renderer/VertexArray.h"
+#include "Ether/Renderer/Shader.h"
+
+//TODO: delete these includes
+#include "Platform/OpenGL/OpenGLShader.h"
 
 //Core
 #include "Ether/Core/Timestep.h"

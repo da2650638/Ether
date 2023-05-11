@@ -8,10 +8,10 @@ public:
 		: Ether::Layer(debugName)
 	{
 		float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f,  -0.5f, 0.0f,
-			-0.5f,  0.5f,  0.0f,
-			0.5f,  0.5f,  0.0f
+			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+			0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f
 		};
 		uint32_t indices[] = {
 			0, 1, 2,
@@ -20,12 +20,14 @@ public:
 		m_VertexBuffer.reset(Ether::VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_IndexBuffer.reset(Ether::IndexBuffer::Create(indices, sizeof(indices)));
 		{
-			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"} };
+			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"}, {Ether::ShaderDataType::Float3, "a_Color"} };
 			m_VertexBuffer->SetLayout(layout);
 		}
 		m_VertexArray.reset(Ether::VertexArray::Create());
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+		m_ShaderLibrary.reset( new Ether::ShaderLibrary() );
+		m_ShaderLibrary->Load("Simple Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/FragmentShader.glsl");
 	}
 	
 	virtual void OnAttach() override
@@ -40,6 +42,10 @@ public:
 
 	virtual void OnUpdate(Ether::Timestep ts) override
 	{
+		Ether::RenderCommand::Clear();
+		Ether::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
+		m_VertexArray->Bind();
+		(*m_ShaderLibrary)["Simple Shader"]->Bind();
 		Ether::RenderCommand::DrawIndexed(m_VertexArray);
 		if (Ether::Input::IsKeyPressed(ETHER_KEY_TAB))
 		{
@@ -60,6 +66,7 @@ private:
 	Ether::Ref<Ether::VertexBuffer> m_VertexBuffer;
 	Ether::Ref<Ether::IndexBuffer> m_IndexBuffer;
 	Ether::Ref<Ether::VertexArray> m_VertexArray;
+	Ether::Ref<Ether::ShaderLibrary> m_ShaderLibrary;
 };
 
 class Sandbox : public Ether::Application
