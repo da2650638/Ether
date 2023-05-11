@@ -2,6 +2,7 @@
 
 #include "Ether/Core.h"
 #include "Ether/Events/Event.h"
+#include "Ether/Core/Timestep.h"
 
 namespace Ether
 {
@@ -13,7 +14,7 @@ namespace Ether
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		//以后也可能继续添加别的框架的东西
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& e) {}

@@ -38,6 +38,8 @@ namespace Ether
 		LayerStack m_LayerStack;
 
 		ImGuiLayer* m_ImGuiLayer;
+
+		float m_LastFrameTime;
 	private:
 		static Application* s_Instance;
 	};

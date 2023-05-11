@@ -7,6 +7,7 @@
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
 #include "Ether/Input.h"
+#include "Ether/Core/Timestep.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -17,7 +18,8 @@ namespace Ether
 
 	Application::Application()
 		: m_Running(true),
-		  m_LayerStack()
+		  m_LayerStack(),
+		  m_LastFrameTime(0.0f)
 	{
 		ETHER_CORE_ASSERT((s_Instance == nullptr), "Application instance already exist.");
 		s_Instance = this;
@@ -49,12 +51,15 @@ namespace Ether
 
 		while (m_Running)
 		{
+			float now = glfwGetTime();
+			Timestep ts(now - m_LastFrameTime);
+
 			RenderCommand::Clear();
 			RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 
 			for (Layer* layer : m_LayerStack)
 			{
-				layer->OnUpdate();
+				layer->OnUpdate(ts);
 			}
 
 			m_ImGuiLayer->Begin();
@@ -65,6 +70,8 @@ namespace Ether
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
+
+			m_LastFrameTime = now;
 		}
 	}
 

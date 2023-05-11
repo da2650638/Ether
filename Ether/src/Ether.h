@@ -17,4 +17,7 @@
 #include "Ether/Renderer/Buffer.h"
 #include "Ether/Renderer/VertexArray.h"
 
+//Core
+#include "Ether/Core/Timestep.h"
+
 #include "Ether/EntryPoint.h"

@@ -1,31 +1,12 @@
 #include "etherpch.h"
 
 #include "OpenGLVertexArray.h"
+#include "OpenGLBuffer.h"
 
 #include "glad/glad.h"
 
 namespace Ether
 {
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch (type)
-		{
-			case ShaderDataType::Float:  return GL_FLOAT;
-			case ShaderDataType::Float2: return GL_FLOAT;
-			case ShaderDataType::Float3: return GL_FLOAT;
-			case ShaderDataType::Float4: return GL_FLOAT;
-			case ShaderDataType::Mat3:   return GL_FLOAT;
-			case ShaderDataType::Mat4:   return GL_FLOAT;
-			case ShaderDataType::Int:    return GL_INT;
-			case ShaderDataType::Int2:   return GL_INT;
-			case ShaderDataType::Int3:   return GL_INT;
-			case ShaderDataType::Int4:   return GL_INT;
-			case ShaderDataType::Bool:   return GL_BOOL;
-		}
-		ETHER_CORE_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
-
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
 		glCreateVertexArrays(1, &m_RendererID);
@@ -49,12 +30,14 @@ namespace Ether
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertex_buffer)
 	{
+		//TODO: 既然是添加VertexBuffer，那么当前vertex_buffer之前的VertexBuffer对象都去哪里了？
 		//添加即绑定
 		ETHER_CORE_ASSERT(vertex_buffer->GetLayout().GetElements().size(), "VertexBuffer has no layout!");
 		//绑定VertexBuffer之前一定要绑定VertexArray
 		glBindVertexArray(m_RendererID);
 		vertex_buffer->Bind();
 
+		//TODO: 此处的index是应该和vertex shader中的uniform编号对应上的，是不是应该进行动态添加啊？
 		uint32_t index = 0;
 		uint32_t stride = vertex_buffer->GetLayout().GetStride();
 		for (const auto& element : vertex_buffer->GetLayout())

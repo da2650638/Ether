@@ -27,8 +27,18 @@ public:
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 	}
+	
+	virtual void OnAttach() override
+	{
 
-	virtual void OnUpdate() override
+	}
+
+	virtual void OnDetach() override
+	{
+
+	}
+
+	virtual void OnUpdate(Ether::Timestep ts) override
 	{
 		Ether::RenderCommand::DrawIndexed(m_VertexArray);
 		if (Ether::Input::IsKeyPressed(ETHER_KEY_TAB))
