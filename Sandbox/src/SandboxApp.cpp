@@ -29,7 +29,8 @@ public:
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 		m_ShaderLibrary.reset( new Ether::ShaderLibrary() );
-		m_ShaderLibrary->Load("Simple Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/FragmentShader.glsl");
+		m_ShaderLibrary->Load("Texture Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/Texture2DFragmentShader.glsl");
+		m_ShaderLibrary->Load("Flat Color Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/FlatColorFragmentColor.glsl");
 		m_Texture1 = Ether::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_Texture2 = Ether::Texture2D::Create("assets/textures/ChernoLogo.png");
 	}
@@ -48,19 +49,31 @@ public:
 	{
 		Ether::Renderer::Clear();
 		Ether::Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-		m_VertexArray->Bind();
-		auto simple_shader = (*m_ShaderLibrary)["Simple Shader"];
-		simple_shader->Bind();
-		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformInt("u_Texture", 0);
-		glm::mat4 model(1.0f);
-		m_OrthographicCameraController.OnUpdate(ts);
-		auto camera = m_OrthographicCameraController.GetCamera();
-		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformMat4("u_Model", model);
-		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+
+		Ether::Renderer::BeginScene(m_OrthographicCameraController.GetCamera());
+
+		auto texture_shader = (*m_ShaderLibrary)["Texture Shader"];
+		glm::mat4 transform(1.0f);
+		//一定要先绑定Shader的值，在设置里边的Uniform
+
+		Ether::Renderer::Submit(texture_shader, m_VertexArray, glm::translate(transform, glm::vec3(-0.6f, 0.6f, 0.0f)));
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(texture_shader)->UploadUniformInt("u_Texture", 0);
 		m_Texture1->Bind(0);
-		Ether::RenderCommand::DrawIndexed(m_VertexArray);
+		
+		Ether::Renderer::Submit(texture_shader, m_VertexArray, glm::translate(transform, glm::vec3(0.6f, 0.6f, 0.0f)));
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(texture_shader)->UploadUniformInt("u_Texture", 0);
 		m_Texture2->Bind(0);
-		Ether::RenderCommand::DrawIndexed(m_VertexArray);
+		
+
+		auto flat_color_shader = (*m_ShaderLibrary)["Flat Color Shader"];
+		Ether::Renderer::Submit(flat_color_shader, m_VertexArray, glm::translate(transform, glm::vec3(-0.6f, -0.6f, 0.0f)));
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(flat_color_shader)->UploadUniformFloat3("u_Color", glm::vec3(1.0f, 1.0f, 0.0f));
+
+		Ether::Renderer::Submit(flat_color_shader, m_VertexArray, glm::translate(transform, glm::vec3(0.6f, -0.6f, 0.0f)));
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(flat_color_shader)->UploadUniformFloat3("u_Color", glm::vec3(1.0f, 0.0f, 0.0f));
+
+		m_OrthographicCameraController.OnUpdate(ts);
+		Ether::Renderer::EndScene();
 	}
 	//只是简单的将事件信息打印出来
 	virtual void OnEvent(Ether::Event& e) override

@@ -59,17 +59,20 @@ namespace Ether
 
 	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value)
 	{
-		glUniform2fv(glGetUniformLocation(m_RendererID, name.c_str()), 2, glm::value_ptr(value));
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform2f(location, value.x, value.y);
 	}
 
 	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value)
 	{
-		glUniform3fv(glGetUniformLocation(m_RendererID, name.c_str()), 3, glm::value_ptr(value));
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform3f(location, value.x, value.y, value.z);
 	}
 
 	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
 	{
-		glUniform4fv(glGetUniformLocation(m_RendererID, name.c_str()), 4, glm::value_ptr(value));
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform4f(location, value.x, value.y, value.z, value.w);
 	}
 
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& value)

@@ -56,9 +56,12 @@ namespace Ether
 			float now = glfwGetTime();
 			Timestep ts(now - m_LastFrameTime);
 
-			for (Layer* layer : m_LayerStack)
+			if (!m_Minimized)
 			{
-				layer->OnUpdate(ts);
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnUpdate(ts);
+				}
 			}
 
 			m_ImGuiLayer->Begin();
@@ -109,6 +112,13 @@ namespace Ether
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
 		ETHER_CORE_INFO(e);
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		return true;
 	}
 }

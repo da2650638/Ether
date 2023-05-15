@@ -33,6 +33,7 @@ namespace Ether
 
 	private:
 		bool m_Running;
+		bool m_Minimized = false;
 
 		Scope<Window> m_Window;
 		LayerStack m_LayerStack;
