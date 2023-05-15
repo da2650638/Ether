@@ -9,6 +9,7 @@ IncludeDirs["GLFW"] = "Ether/vendor/GLFW/include"
 IncludeDirs["Glad"] = "Ether/vendor/Glad/include"
 IncludeDirs["imgui"] = "Ether/vendor/imgui"
 IncludeDirs["glm"] = "Ether/vendor/glm"
+IncludeDirs["stb_image"] = "Ether/vendor/stb_image"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
@@ -35,7 +36,9 @@ project "Ether"
         "%{prj.name}/src/**.cpp", 
         "%{prj.name}/src/**.h",
         "%{prj.name}/vendor/glm/glm/*.hpp",
-		"%{prj.name}/vendor/glm/glm/*.inl" 
+		"%{prj.name}/vendor/glm/glm/*.inl",
+        "%{prj.name}/vendor/stb_image/stb_image.h",
+        "%{prj.name}/vendor/stb_image/stb_image.cpp"   
     }
 
     includedirs 
@@ -45,6 +48,7 @@ project "Ether"
         "%{IncludeDirs.Glad}",
         "%{IncludeDirs.imgui}",
         "%{IncludeDirs.glm}",
+        "%{IncludeDirs.stb_image}",
         "%{prj.name}/src" 
     }
 
@@ -99,7 +103,9 @@ project "Sandbox"
 
     files 
     { 
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/assets/shaders/**.glsl",
+        "%{prj.name}/assets/textures/**.png"
     }
 
     includedirs 
@@ -109,6 +115,7 @@ project "Sandbox"
         "%{IncludeDirs.Glad}",
         "%{IncludeDirs.imgui}",
         "%{IncludeDirs.glm}",
+        "%{IncludeDirs.stb_image}",
         "Ether/src" 
     }
 

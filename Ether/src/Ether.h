@@ -13,10 +13,11 @@
 #include "Ether/KeyCodes.h"
 #include "Ether/MouseButtonCodes.h"
 
-#include "Ether/Renderer/RenderCommand.h"
+#include "Ether/Renderer/Renderer.h"
 #include "Ether/Renderer/Buffer.h"
 #include "Ether/Renderer/VertexArray.h"
 #include "Ether/Renderer/Shader.h"
+#include "Ether/Renderer/Texture.h"
 
 //TODO: delete these includes
 #include "Platform/OpenGL/OpenGLShader.h"

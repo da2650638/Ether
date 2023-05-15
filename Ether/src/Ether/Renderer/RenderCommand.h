@@ -11,6 +11,7 @@ namespace Ether
 		RenderCommand() = default;
 		~RenderCommand() = default;
 
+		static void Init();
 		static void SetClearColor(const glm::vec4& color);
 		static void Clear();
 

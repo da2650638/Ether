@@ -8,10 +8,11 @@ public:
 		: Ether::Layer(debugName)
 	{
 		float vertices[] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-			-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-			0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f
+			//Position          //color           //texCoord
+			-0.5f, -0.5f,0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			0.5f,  -0.5f,0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+			0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f
 		};
 		uint32_t indices[] = {
 			0, 1, 2,
@@ -20,7 +21,7 @@ public:
 		m_VertexBuffer.reset(Ether::VertexBuffer::Create(vertices, sizeof(vertices)));
 		m_IndexBuffer.reset(Ether::IndexBuffer::Create(indices, sizeof(indices)));
 		{
-			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"}, {Ether::ShaderDataType::Float3, "a_Color"} };
+			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"}, {Ether::ShaderDataType::Float3, "a_Color"}, {Ether::ShaderDataType::Float2, "a_TexCoord"}};
 			m_VertexBuffer->SetLayout(layout);
 		}
 		m_VertexArray.reset(Ether::VertexArray::Create());
@@ -28,6 +29,8 @@ public:
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 		m_ShaderLibrary.reset( new Ether::ShaderLibrary() );
 		m_ShaderLibrary->Load("Simple Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/FragmentShader.glsl");
+		m_Texture1 = Ether::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_Texture2 = Ether::Texture2D::Create("assets/textures/ChernoLogo.png");
 	}
 	
 	virtual void OnAttach() override
@@ -42,15 +45,16 @@ public:
 
 	virtual void OnUpdate(Ether::Timestep ts) override
 	{
-		Ether::RenderCommand::Clear();
-		Ether::RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
+		Ether::Renderer::Clear();
+		Ether::Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 		m_VertexArray->Bind();
-		(*m_ShaderLibrary)["Simple Shader"]->Bind();
+		auto simple_shader = (*m_ShaderLibrary)["Simple Shader"];
+		simple_shader->Bind();
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformInt("u_Texture", 0);
+		m_Texture1->Bind(0);
 		Ether::RenderCommand::DrawIndexed(m_VertexArray);
-		if (Ether::Input::IsKeyPressed(ETHER_KEY_TAB))
-		{
-			ETHER_INFO("Key Tab is pressed.");
-		}
+		m_Texture2->Bind(0);
+		Ether::RenderCommand::DrawIndexed(m_VertexArray);
 	}
 	//只是简单的将事件信息打印出来
 	virtual void OnEvent(Ether::Event& e) override
@@ -67,6 +71,7 @@ private:
 	Ether::Ref<Ether::IndexBuffer> m_IndexBuffer;
 	Ether::Ref<Ether::VertexArray> m_VertexArray;
 	Ether::Ref<Ether::ShaderLibrary> m_ShaderLibrary;
+	Ether::Ref<Ether::Texture2D> m_Texture1, m_Texture2;
 };
 
 class Sandbox : public Ether::Application

@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Log.h"
 
-#include "Ether/Renderer/RenderCommand.h"
+#include "Ether/Renderer/Renderer.h"
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
@@ -24,7 +24,7 @@ namespace Ether
 		ETHER_CORE_ASSERT((s_Instance == nullptr), "Application instance already exist.");
 		s_Instance = this;
 
-		WindowProps props;
+		WindowProps props{"Ether Engine", 1280, 720};
 		m_Window.reset(Window::Create(props));
 		m_Window->SetEventCallback( std::bind(&Application::OnEvent, this, std::placeholders::_1) );
 
@@ -48,6 +48,8 @@ namespace Ether
 	{
 		ETHER_CORE_INFO("Welcome to the Ehter engine.");
 		ETHER_TRACE("Welcome to App.");
+
+		Renderer::Init();
 
 		while (m_Running)
 		{
