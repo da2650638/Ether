@@ -10,6 +10,9 @@ namespace Ether {
 		{
 		}
 
+		const uint32_t GetWidth() const { return m_Width; }
+		const uint32_t GetHeight() const { return m_Height; }
+
 		virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "WindowResizeEvent: [" << m_Width << " * " << m_Height << "]";

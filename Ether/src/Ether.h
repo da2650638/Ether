@@ -18,6 +18,8 @@
 #include "Ether/Renderer/VertexArray.h"
 #include "Ether/Renderer/Shader.h"
 #include "Ether/Renderer/Texture.h"
+#include "Ether/Renderer/OrthographicCamera.h"
+#include "Ether/OrthographicCameraController.h"
 
 //TODO: delete these includes
 #include "Platform/OpenGL/OpenGLShader.h"

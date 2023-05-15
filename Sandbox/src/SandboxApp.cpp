@@ -5,7 +5,8 @@
 class SandboxLayer : public Ether::Layer {
 public:
 	SandboxLayer(const std::string& debugName)
-		: Ether::Layer(debugName)
+		: Ether::Layer(debugName),
+		m_OrthographicCameraController(16.0f / 9.0f, true)
 	{
 		float vertices[] = {
 			//Position          //color           //texCoord
@@ -46,11 +47,16 @@ public:
 	virtual void OnUpdate(Ether::Timestep ts) override
 	{
 		Ether::Renderer::Clear();
-		Ether::Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
+		Ether::Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		m_VertexArray->Bind();
 		auto simple_shader = (*m_ShaderLibrary)["Simple Shader"];
 		simple_shader->Bind();
 		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformInt("u_Texture", 0);
+		glm::mat4 model(1.0f);
+		m_OrthographicCameraController.OnUpdate(ts);
+		auto camera = m_OrthographicCameraController.GetCamera();
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformMat4("u_Model", model);
+		std::dynamic_pointer_cast<Ether::OpenGLShader>(simple_shader)->UploadUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 		m_Texture1->Bind(0);
 		Ether::RenderCommand::DrawIndexed(m_VertexArray);
 		m_Texture2->Bind(0);
@@ -59,7 +65,7 @@ public:
 	//只是简单的将事件信息打印出来
 	virtual void OnEvent(Ether::Event& e) override
 	{
-		ETHER_INFO("Sandbox Layer:[{0}]", e);
+		m_OrthographicCameraController.OnEvent(e);
 	}
 
 	virtual void OnImGuiRender() override
@@ -72,6 +78,7 @@ private:
 	Ether::Ref<Ether::VertexArray> m_VertexArray;
 	Ether::Ref<Ether::ShaderLibrary> m_ShaderLibrary;
 	Ether::Ref<Ether::Texture2D> m_Texture1, m_Texture2;
+	Ether::OrthographicCameraController m_OrthographicCameraController;
 };
 
 class Sandbox : public Ether::Application

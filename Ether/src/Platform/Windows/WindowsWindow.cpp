@@ -2,6 +2,7 @@
 #include "WindowsWindow.h"
 #include "Ether/Log.h"
 #include "Ether/Events/ApplicationEvent.h"
+#include "Ether/Events/MouseEvent.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Ether {
@@ -77,6 +78,13 @@ namespace Ether {
 			WindowResizeEvent e(width, height);
 			data->Callback(e);
         });
+
+		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) {
+			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+			MouseScrolledEvent e((float)xoffset, (float)yoffset);
+			data->Callback(e);
+		});
 	}
 
 	void WindowsWindow::ShutDown()
