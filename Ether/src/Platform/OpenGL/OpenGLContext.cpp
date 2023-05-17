@@ -1,6 +1,6 @@
 #include "etherpch.h"
 #include "OpenGLContext.h"
-#include "Ether/Log.h"
+#include "Ether/Core/Log.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>

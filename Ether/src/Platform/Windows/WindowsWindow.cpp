@@ -1,6 +1,6 @@
 #include "etherpch.h"
 #include "WindowsWindow.h"
-#include "Ether/Log.h"
+#include "Ether/Core/Log.h"
 #include "Ether/Events/ApplicationEvent.h"
 #include "Ether/Events/MouseEvent.h"
 #include "Platform/OpenGL/OpenGLContext.h"

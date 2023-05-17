@@ -16,4 +16,4 @@
 #include <Windows.h>
 #endif
 //没有必要在其他的文件中特意引入Log.h了
-#include <Ether/Log.h>
+#include <Ether/Core/Log.h>

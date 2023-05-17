@@ -10,10 +10,10 @@ public:
 	{
 		float vertices[] = {
 			//Position          //color           //texCoord
-			-0.5f, -0.5f,0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-			0.5f,  -0.5f,0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-			-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-			0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f
+			-0.4f, -0.4f,0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			0.4f,  -0.4f,0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+			-0.4f, 0.4f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+			0.4f,  0.4f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f
 		};
 		uint32_t indices[] = {
 			0, 1, 2,
@@ -56,20 +56,20 @@ public:
 		glm::mat4 transform(1.0f);
 		//一定要先绑定Shader的值，在设置里边的Uniform
 
-		Ether::Renderer::Submit(texture_shader, m_VertexArray, glm::translate(transform, glm::vec3(-0.6f, 0.6f, 0.0f)));
+		Ether::Renderer::Submit(texture_shader, m_VertexArray, glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f)));
 		std::dynamic_pointer_cast<Ether::OpenGLShader>(texture_shader)->UploadUniformInt("u_Texture", 0);
 		m_Texture1->Bind(0);
 		
-		Ether::Renderer::Submit(texture_shader, m_VertexArray, glm::translate(transform, glm::vec3(0.6f, 0.6f, 0.0f)));
+		Ether::Renderer::Submit(texture_shader, m_VertexArray, glm::translate(transform, glm::vec3(0.5f, 0.5f, 0.0f)));
 		std::dynamic_pointer_cast<Ether::OpenGLShader>(texture_shader)->UploadUniformInt("u_Texture", 0);
 		m_Texture2->Bind(0);
 		
 
 		auto flat_color_shader = (*m_ShaderLibrary)["Flat Color Shader"];
-		Ether::Renderer::Submit(flat_color_shader, m_VertexArray, glm::translate(transform, glm::vec3(-0.6f, -0.6f, 0.0f)));
+		Ether::Renderer::Submit(flat_color_shader, m_VertexArray, glm::translate(transform, glm::vec3(-0.5f, -0.5f, 0.0f)));
 		std::dynamic_pointer_cast<Ether::OpenGLShader>(flat_color_shader)->UploadUniformFloat3("u_Color", glm::vec3(1.0f, 1.0f, 0.0f));
 
-		Ether::Renderer::Submit(flat_color_shader, m_VertexArray, glm::translate(transform, glm::vec3(0.6f, -0.6f, 0.0f)));
+		Ether::Renderer::Submit(flat_color_shader, m_VertexArray, glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f)));
 		std::dynamic_pointer_cast<Ether::OpenGLShader>(flat_color_shader)->UploadUniformFloat3("u_Color", glm::vec3(1.0f, 0.0f, 0.0f));
 
 		m_OrthographicCameraController.OnUpdate(ts);

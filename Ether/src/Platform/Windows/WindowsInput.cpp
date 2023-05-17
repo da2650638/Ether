@@ -1,6 +1,6 @@
 #include "etherpch.h"
 #include "WindowsInput.h"
-#include "Ether/Application.h"
+#include "Ether/Core/Application.h"
 
 #include "GLFW/glfw3.h"
 

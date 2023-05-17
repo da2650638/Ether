@@ -1,7 +1,7 @@
 #include "etherpch.h"
 #include "ImGuiLayer.h"
 
-#include "Ether/Application.h"
+#include "Ether/Core/Application.h"
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"

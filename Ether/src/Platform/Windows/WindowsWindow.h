@@ -1,6 +1,6 @@
 #pragma once
 #include "etherpch.h"
-#include "Ether/Window.h"
+#include "Ether/Core/Window.h"
 
 #include "Ether/Renderer/GraphicsContext.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "Ether/Core.h"
+#include "Ether/Core/Core.h"
 #include "Ether/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;

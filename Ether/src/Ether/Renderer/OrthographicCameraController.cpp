@@ -1,8 +1,8 @@
 #include "etherpch.h"
 
 #include "OrthographicCameraController.h"
-#include "Ether/Input.h"
-#include "Ether/KeyCodes.h"
+#include "Ether/Core/Input.h"
+#include "Ether/Core/KeyCodes.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -69,7 +69,7 @@ namespace Ether
 
     bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
     {
-        m_ZoomLevel += 0.25f * e.GetYOffset();
+        m_ZoomLevel -= 0.25f * e.GetYOffset();
         m_ZoomLevel = std::max((float)0.25, m_ZoomLevel);
         m_Camera.SetProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
         return false;

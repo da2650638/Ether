@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ether/Input.h"
+#include "Ether/Core/Input.h"
 
 namespace Ether
 {

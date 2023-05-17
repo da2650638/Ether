@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Ether/Core.h"
-#include "Events/Event.h"
-#include "Events/KeyEvent.h"'
-#include "Events/ApplicationEvent.h"
-#include "Events/MouseEvent.h"
-#include "Ether/Window.h"
-#include "Ether/LayerStack.h"
+#include "Ether/Core/Core.h"
+#include "Ether/Events/Event.h"
+#include "Ether/Events/KeyEvent.h"'
+#include "Ether/Events/ApplicationEvent.h"
+#include "Ether/Events/MouseEvent.h"
+#include "Ether/Core/Window.h"
+#include "Ether/Core/LayerStack.h"
 #include "Ether/ImGui/ImGuiLayer.h"
 
 namespace Ether

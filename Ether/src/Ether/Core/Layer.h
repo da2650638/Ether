@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ether/Core.h"
+#include "Ether/Core/Core.h"
 #include "Ether/Events/Event.h"
 #include "Ether/Core/Timestep.h"
 

@@ -6,7 +6,7 @@
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"
 #include "Ether/Events/ApplicationEvent.h"
-#include "Ether/Input.h"
+#include "Ether/Core/Input.h"
 #include "Ether/Core/Timestep.h"
 
 #include "glad/glad.h"
