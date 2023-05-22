@@ -167,5 +167,7 @@ namespace Ether
 		//Always detach shaders after a successful link.
 		glDetachShader(m_RendererID, vertex_shader);
 		glDetachShader(m_RendererID, fragment_shader);
+		glDeleteShader(vertex_shader);
+		glDeleteShader(fragment_shader);
 	}
 }

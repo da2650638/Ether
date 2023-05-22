@@ -2,6 +2,31 @@
 
 #include "etherpch.h"
 
+#ifdef _WIN32
+	#ifdef _WIN64
+		#define ETH_PLATFORM_WINDOWS
+	#else
+		#error "x86 Builds are not supported."
+	#endif
+#elif
+	#include <TargetConditionals.h>
+	/* TARGET_OS_MAC exists on all the platforms
+	* so we must check all of them (in this order)
+	* to ensure that we're running on MAC
+	* and not some other Apple platform */
+	#if TARGET_IPHONE_SIMULATOR == 1
+		#error "IOS simulator is not supported!"
+	#elif TARGET_OS_IPHONE == 1
+		#define HZ_PLATFORM_IOS
+		#error "IOS is not supported!"
+	#elif TARGET_OS_MAC == 1
+		#define HZ_PLATFORM_MACOS
+		#error "MacOS is not supported!"
+	#else
+		#error "Unknown Apple platform!"
+	#endif
+#endif
+
 #ifdef ETH_PLATFORM_WINDOWS
 	#ifdef ETHER_DYNAMIC_LIB
 		#ifdef ETH_BUILD_DLL

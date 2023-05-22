@@ -13,6 +13,7 @@ namespace Ether
 	{
 		for (auto layer : m_Layers)
 		{
+			layer->OnDetach();
 			delete layer;
 		}
 	}
