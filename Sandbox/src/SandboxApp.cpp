@@ -1,12 +1,20 @@
 #include "Ether.h"
+#include "Ether/Core/EntryPoint.h"
 
 #include "imgui.h"
+
+#include "Sandbox2D.h"
 
 class SandboxLayer : public Ether::Layer {
 public:
 	SandboxLayer(const std::string& debugName)
 		: Ether::Layer(debugName),
 		m_OrthographicCameraController(16.0f / 9.0f, true)
+	{
+
+	}
+	
+	virtual void OnAttach() override
 	{
 		float vertices[] = {
 			//Position          //color           //texCoord
@@ -19,25 +27,20 @@ public:
 			0, 1, 2,
 			1, 2, 3
 		};
-		m_VertexBuffer.reset(Ether::VertexBuffer::Create(vertices, sizeof(vertices)));
-		m_IndexBuffer.reset(Ether::IndexBuffer::Create(indices, sizeof(indices)));
+		m_VertexBuffer = Ether::VertexBuffer::Create(vertices, sizeof(vertices));
+		m_IndexBuffer = Ether::IndexBuffer::Create(indices, sizeof(indices));
 		{
-			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"}, {Ether::ShaderDataType::Float3, "a_Color"}, {Ether::ShaderDataType::Float2, "a_TexCoord"}};
+			Ether::BufferLayout layout = { {Ether::ShaderDataType::Float3, "a_Position"}, {Ether::ShaderDataType::Float3, "a_Color"}, {Ether::ShaderDataType::Float2, "a_TexCoord"} };
 			m_VertexBuffer->SetLayout(layout);
 		}
-		m_VertexArray.reset(Ether::VertexArray::Create());
+		m_VertexArray = Ether::VertexArray::Create();
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-		m_ShaderLibrary.reset( new Ether::ShaderLibrary() );
+		m_ShaderLibrary.reset(new Ether::ShaderLibrary());
 		m_ShaderLibrary->Load("Texture Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/Texture2DFragmentShader.glsl");
 		m_ShaderLibrary->Load("Flat Color Shader", "assets/shaders/VertexShader.glsl", "assets/shaders/FlatColorFragmentColor.glsl");
 		m_Texture1 = Ether::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_Texture2 = Ether::Texture2D::Create("assets/textures/ChernoLogo.png");
-	}
-	
-	virtual void OnAttach() override
-	{
-
 	}
 
 	virtual void OnDetach() override
@@ -99,7 +102,8 @@ class Sandbox : public Ether::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new SandboxLayer("SandboxLayer"));
+		//PushLayer(new SandboxLayer("SandboxLayer"));
+		PushLayer(new Sandbox2D("Sandbox2D"));
 	}
 
 	virtual ~Sandbox()

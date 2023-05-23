@@ -7,22 +7,22 @@
 
 namespace Ether
 {
-    VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+    Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
     {
         switch (Renderer::GetAPI())
         {
             case RendererAPI::API::OpenGL:
-                return new OpenGLVertexBuffer(vertices, size);
+                return  std::make_shared<OpenGLVertexBuffer>(vertices, size);
         }
         ETHER_CORE_ASSERT(false, "Unknow API type.");
         return nullptr;
     }
-    IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
     {
         switch (RendererAPI::GetAPI())
         {
             case RendererAPI::API::OpenGL:
-                return new OpenGLIndexBuffer(indices, size / sizeof(uint32_t) );
+                return std::make_shared<OpenGLIndexBuffer>(indices, size / sizeof(uint32_t) );
         }
         ETHER_CORE_ASSERT(false, "Unknow API type.");
         return nullptr;

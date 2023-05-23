@@ -7,12 +7,12 @@
 
 namespace Ether
 {
-	VertexArray* Ether::VertexArray::Create()
+	Ref<VertexArray> Ether::VertexArray::Create()
 	{
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::OpenGL:
-				return new OpenGLVertexArray();
+				return  std::make_shared<OpenGLVertexArray>();
 		}
 		ETHER_CORE_ASSERT(false, "Unknow API type.");
 		return nullptr;

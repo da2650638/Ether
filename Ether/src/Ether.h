@@ -21,10 +21,10 @@
 #include "Ether/Renderer/OrthographicCamera.h"
 #include "Ether/Renderer/OrthographicCameraController.h"
 
-//TODO: delete these includes
+//TODO: delete these silly includes
 #include "Platform/OpenGL/OpenGLShader.h"
 
 //Core
 #include "Ether/Core/Timestep.h"
 
-#include "Ether/Core/EntryPoint.h"
+//#include "Ether/Core/EntryPoint.h"

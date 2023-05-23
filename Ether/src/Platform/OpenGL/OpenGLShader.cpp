@@ -24,7 +24,7 @@ namespace Ether
 	{
 		//TODO:搞明白seekg函数的语义。
 		std::ifstream ifs(shader_file_path, std::ios::in, std::ios::binary);
-		ETHER_CORE_ASSERT(ifs.is_open(), "Shader File:{0} open failed.");
+		ETHER_CORE_ASSERT(ifs.is_open(), "Shader File:{0} open failed.", shader_file_path);
 		ifs.seekg(0, std::ios::end);
 		size_t shader_src_size = ifs.tellg();
 		std::string shader_src(shader_src_size, '\0');
