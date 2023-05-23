@@ -60,7 +60,6 @@ namespace Ether {
 		ETHER_CORE_ASSERT(m_Window, "GLFW Failed to create window.");
 
 		m_Context = new OpenGLContext(m_Window);
-		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);

@@ -20,32 +20,44 @@ namespace Ether
     {
         if (Input::IsKeyPressed(ETHER_KEY_W))
         {
-            m_CameraPosition.y += ts * m_CameraTranslationSpeed;
+			m_CameraPosition.y += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+			m_CameraPosition.x -= std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
         }
         if (Input::IsKeyPressed(ETHER_KEY_S))
         {
-            m_CameraPosition.y -= ts * m_CameraTranslationSpeed;
+			m_CameraPosition.y -= std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+			m_CameraPosition.x += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
         }
         if (Input::IsKeyPressed(ETHER_KEY_A))
         {
-            m_CameraPosition.x -= ts * m_CameraTranslationSpeed;
+			m_CameraPosition.x -= std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+			m_CameraPosition.y -= std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
         }
         if (Input::IsKeyPressed(ETHER_KEY_D))
         {
-            m_CameraPosition.x += ts * m_CameraTranslationSpeed;
+            m_CameraPosition.x += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+			m_CameraPosition.y += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
         }
         m_Camera.SetPosition(m_CameraPosition);
 
         if (m_Rotation)
         {
-            if (Input::IsKeyPressed(ETHER_KEY_J))
+            if (Input::IsKeyPressed(ETHER_KEY_Q))
             {
                 m_CameraRotation += ts * m_CameraRotationSpeed;
             }
-            if (Input::IsKeyPressed(ETHER_KEY_L))
+            if (Input::IsKeyPressed(ETHER_KEY_E))
             {
                 m_CameraRotation -= ts * m_CameraRotationSpeed;
             }
+			if (m_CameraRotation > 180.0f)
+			{
+				m_CameraRotation -= 360.0f;
+			}
+			if (m_CameraRotation < -180.0f)
+			{
+				m_CameraRotation += 360.0f;
+			}
             m_Camera.SetRotation(m_CameraRotation);
         }
 

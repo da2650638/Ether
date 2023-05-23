@@ -22,6 +22,7 @@ namespace Ether
 
 	std::string OpenGLShader::ReadShaderFile(const std::string& shader_file_path)
 	{
+		//TODO:搞明白seekg函数的语义。
 		std::ifstream ifs(shader_file_path, std::ios::in, std::ios::binary);
 		ETHER_CORE_ASSERT(ifs.is_open(), "Shader File:{0} open failed.");
 		ifs.seekg(0, std::ios::end);
