@@ -14,6 +14,7 @@
 #include "Ether/Core/MouseButtonCodes.h"
 
 #include "Ether/Renderer/Renderer.h"
+#include "Ether/Renderer/Renderer2D.h"
 #include "Ether/Renderer/Buffer.h"
 #include "Ether/Renderer/VertexArray.h"
 #include "Ether/Renderer/Shader.h"

@@ -27,6 +27,9 @@ namespace Ether
 		WindowProps props{"Ether Engine", 1280, 720};
 		m_Window.reset(Window::Create(props));
 		m_Window->SetEventCallback( std::bind(&Application::OnEvent, this, std::placeholders::_1) );
+		m_Window->SetVSync(false);
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -48,8 +51,6 @@ namespace Ether
 	{
 		ETHER_CORE_INFO("Welcome to the Ehter engine.");
 		ETHER_TRACE("Welcome to App.");
-
-		Renderer::Init();
 
 		while (m_Running)
 		{

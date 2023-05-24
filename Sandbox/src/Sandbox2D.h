@@ -18,9 +18,6 @@ public:
 	virtual void OnImGuiRender() override;
 	virtual void OnEvent(Ether::Event& e) override;
 private:
-	Ether::Ref<Ether::VertexArray> m_VertexArray;
-	Ether::Ref<Ether::ShaderLibrary> m_ShaderLibrary;
 	Ether::OrthographicCameraController m_OrthographicCameraController;
-
-	glm::vec4 m_Color{ 0.2, 0.3, 0.8, 1.0 };
+	Ether::Ref<Ether::Texture2D> m_Texture1;
 };
