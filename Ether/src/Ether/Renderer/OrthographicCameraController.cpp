@@ -18,6 +18,8 @@ namespace Ether
 
     void OrthographicCameraController::OnUpdate(Timestep ts)
     {
+		ETHER_PROFILE_FUNCTION();
+
         if (Input::IsKeyPressed(ETHER_KEY_W))
         {
 			m_CameraPosition.y += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;

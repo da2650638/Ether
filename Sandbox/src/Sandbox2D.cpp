@@ -21,19 +21,30 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(Ether::Timestep ts)
 {
-	Ether::Renderer::Clear();
-	Ether::Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
-	m_OrthographicCameraController.OnUpdate(ts);
+	ETHER_PROFILE_FUNCTION();
 
-	Ether::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-
-	Ether::Renderer2D::DrawQuad({ -0.15f, 0.0f }, { 0.3f, 0.3f }, glm::vec4(1.0f));
-	Ether::Renderer2D::DrawQuad({ 0.15f, 0.0f }, { 0.3f, 0.3f }, glm::vec4(1.0f));
-
-	Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f ,10.0f }, m_Texture1);
-
-	Ether::Renderer2D::EndScene();
+	{
+		ETHER_PROFILE_SCOPE("CameraController::OnUpdate");
+		m_OrthographicCameraController.OnUpdate(ts);
+	}
 	
+	{
+		ETHER_PROFILE_SCOPE("Renderer Prep");
+		Ether::Renderer::Clear();
+		Ether::Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+	}
+
+	{
+		ETHER_PROFILE_SCOPE("Renderer Draw");
+		Ether::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
+
+		Ether::Renderer2D::DrawQuad({ -0.15f, 0.0f }, { 0.3f, 0.3f }, glm::vec4(1.0f));
+		Ether::Renderer2D::DrawQuad({ 0.15f, 0.0f }, { 0.3f, 0.3f }, glm::vec4(1.0f));
+
+		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f ,10.0f }, m_Texture1);
+
+		Ether::Renderer2D::EndScene();
+	}	
 }
 
 void Sandbox2D::OnImGuiRender()

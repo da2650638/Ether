@@ -17,3 +17,4 @@
 #endif
 //没有必要在其他的文件中特意引入Log.h了
 #include <Ether/Core/Log.h>
+#include <Ether/Debug/Instrumentor.h>
