@@ -14,6 +14,8 @@ namespace Ether
 
 	void OpenGLContext::Init()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		ETHER_CORE_ASSERT(status, "Failed to initialized Glad.");
@@ -37,6 +39,8 @@ namespace Ether
 
 	void OpenGLContext::SwapBuffers()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 }

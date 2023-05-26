@@ -1,6 +1,7 @@
 #include "etherpch.h"
 
 #include "Renderer.h"
+#include "Renderer2D.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -10,7 +11,15 @@ namespace Ether
 
 	void Renderer::Init()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
+		Renderer2D::Init();
+	}
+
+	void Renderer::ShutDown()
+	{
+		Renderer2D::ShutDown();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)

@@ -16,6 +16,8 @@ namespace Ether
 
 	void Renderer2D::Init()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		s_Data = new Renderer2DStorage;
 		s_Data->ShaderLibrary.reset(new ShaderLibrary());
 		float vertices[] = {
@@ -44,6 +46,8 @@ namespace Ether
 
 	void Renderer2D::ShutDown()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		//TODO: fix this memory leak.
 		if (!s_Data)
 		{
@@ -53,6 +57,8 @@ namespace Ether
 
 	void Renderer2D::BeginScene(OrthographicCamera& camera)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		for (auto iter : *(s_Data->ShaderLibrary))
 		{
 			auto shader = iter.second;
@@ -63,11 +69,13 @@ namespace Ether
 
 	void Renderer2D::EndScene()
 	{
-
+		ETHER_PROFILE_FUNCTION();
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		//TODO: rotation?
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->ShaderLibrary->Get("Shader")->Bind();
@@ -87,6 +95,8 @@ namespace Ether
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture>& texture)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_Data->ShaderLibrary->Get("Shader")->Bind();
 		s_Data->ShaderLibrary->Get("Shader")->SetMat4("u_Transform", transform);

@@ -1,0 +1,74 @@
+{"otherData": {},
+"traceEvents":[
+{
+"cat":"function",
+"dur":1,
+"name":"void __cdecl Ether::Input::Destroy(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460009
+},
+{
+"cat":"function",
+"dur":0,
+"name":"void __cdecl Ether::Renderer2D::ShutDown(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460075
+},
+{
+"cat":"function",
+"dur":115,
+"name":"__cdecl Ether::Application::~Application(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460008
+},
+{
+"cat":"function",
+"dur":0,
+"name":"void __cdecl Sandbox2D::OnDetach(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460170
+},
+{
+"cat":"function",
+"dur":2,
+"name":"__cdecl Ether::OpenGLTexture2D::~OpenGLTexture2D(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460214
+},
+{
+"cat":"function",
+"dur":644,
+"name":"void __cdecl Ether::ImGuiLayer::OnDetach(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460263
+},
+{
+"cat":"function",
+"dur":12637,
+"name":"void __cdecl Ether::WindowsWindow::ShutDown(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460978
+},
+{
+"cat":"function",
+"dur":12781,
+"name":"__cdecl Ether::WindowsWindow::~WindowsWindow(void)",
+"ph":"X",
+"pid":0,
+"tid":1075046874,
+"ts":8478460977
+}]}

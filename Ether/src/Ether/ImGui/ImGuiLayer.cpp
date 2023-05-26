@@ -24,6 +24,8 @@ namespace Ether
 
 	void ImGuiLayer::OnAttach()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
@@ -52,6 +54,8 @@ namespace Ether
 
 	void ImGuiLayer::OnDetach()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -64,6 +68,8 @@ namespace Ether
 
 	void ImGuiLayer::Begin()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -71,6 +77,8 @@ namespace Ether
 
 	void ImGuiLayer::End()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		ImGuiIO& io = ImGui::GetIO();
 
 		Application& app = Application::Get();

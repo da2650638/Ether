@@ -21,6 +21,8 @@ namespace Ether
 		  m_LayerStack(),
 		  m_LastFrameTime(0.0f)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		ETHER_CORE_ASSERT((s_Instance == nullptr), "Application instance already exist.");
 		s_Instance = this;
 
@@ -44,11 +46,16 @@ namespace Ether
 
 	Application::~Application()
 	{
+		ETHER_PROFILE_FUNCTION();
 
+		Input::Destroy();
+		Renderer::ShutDown();
 	}
 
 	void Application::Run()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		ETHER_CORE_INFO("Welcome to the Ehter engine.");
 		ETHER_TRACE("Welcome to App.");
 
@@ -59,16 +66,22 @@ namespace Ether
 
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnUpdate(ts);
+					ETHER_PROFILE_SCOPE("LayerStack OnUpdate");
+					for (Layer* layer : m_LayerStack)
+					{
+						layer->OnUpdate(ts);
+					}
 				}
 			}
 
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
 			{
-				layer->OnImGuiRender();
+				ETHER_PROFILE_SCOPE("LayerStack OnImGuiRender");
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnImGuiRender();
+				}
 			}
 			m_ImGuiLayer->End();
 
@@ -80,6 +93,8 @@ namespace Ether
 
 	void Application::OnEvent(Event& e)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>( std::bind(&Application::OnWindowClose, this, std::placeholders::_1) );
 		dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
@@ -95,16 +110,19 @@ namespace Ether
 
 	void Application::PushLayer(Layer* layer)
 	{
+		ETHER_PROFILE_FUNCTION();
 		m_LayerStack.PushLayer(layer);
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
+		ETHER_PROFILE_FUNCTION();
 		m_LayerStack.PushOverlay(overlay);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
+		ETHER_PROFILE_FUNCTION();
 		ETHER_CORE_INFO("Closing Application...");
 		m_Running = false;
 		return true;
@@ -112,6 +130,7 @@ namespace Ether
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		ETHER_PROFILE_FUNCTION();
 		ETHER_CORE_INFO(e);
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{

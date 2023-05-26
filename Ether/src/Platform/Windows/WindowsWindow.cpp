@@ -6,26 +6,34 @@
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Ether {
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		ShutDown();
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		m_Data.VSync = enabled;
 		if (enabled)
 		{
@@ -43,17 +51,19 @@ namespace Ether {
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		if (!s_GLFWInitialized)
+		if (s_GLFWWindowCount == 0)
 		{
 			int success = glfwInit();
 
 			ETHER_CORE_ASSERT(success, "Could not intialize GLFW! return value:{0}", success);
 
-			s_GLFWInitialized = true;
+			s_GLFWWindowCount++;
 		}
 
 		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
@@ -88,6 +98,13 @@ namespace Ether {
 
 	void WindowsWindow::ShutDown()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
+		--s_GLFWWindowCount;
+		if (s_GLFWWindowCount == 0)
+		{
+			glfwTerminate();
+		}
 	}
 }

@@ -9,27 +9,37 @@ namespace Ether
 {
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glCreateVertexArrays(1, &m_RendererID);
 		//glBindVertexArray(m_RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 
 	void OpenGLVertexArray::UnBind()
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertex_buffer)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		//TODO: 既然是添加VertexBuffer，那么当前vertex_buffer之前的VertexBuffer对象都去哪里了？
 		//添加即绑定
 		ETHER_CORE_ASSERT(vertex_buffer->GetLayout().GetElements().size(), "VertexBuffer has no layout!");
@@ -57,6 +67,8 @@ namespace Ether
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& index_buffer)
 	{
+		ETHER_PROFILE_FUNCTION();
+
 		//设置即绑定
 		//绑定IndexBuffer之前一定要绑定VertexArray
 		glBindVertexArray(m_RendererID);

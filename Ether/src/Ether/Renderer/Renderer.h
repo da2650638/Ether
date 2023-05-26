@@ -18,6 +18,7 @@ namespace Ether
 		};
 
 		static void Init();
+		static void ShutDown();
 
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();

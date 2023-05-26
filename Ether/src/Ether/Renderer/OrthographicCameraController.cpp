@@ -68,6 +68,8 @@ namespace Ether
 
     void OrthographicCameraController::OnEvent(Event& e)
     {
+        ETHER_PROFILE_FUNCTION();
+
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<MouseScrolledEvent>(std::bind(&OrthographicCameraController::OnMouseScrolled, this, std::placeholders::_1));
         dispatcher.Dispatch<WindowResizeEvent>(std::bind(&OrthographicCameraController::OnWindowResize, this, std::placeholders::_1));
@@ -75,6 +77,8 @@ namespace Ether
 
     bool OrthographicCameraController::OnWindowResize(WindowResizeEvent& e)
     {
+        ETHER_PROFILE_FUNCTION();
+
         uint32_t width = e.GetWidth(), height = e.GetHeight();
         m_AspectRatio = (float)width / (float)height;
         m_Camera.SetProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
@@ -83,6 +87,8 @@ namespace Ether
 
     bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
     {
+        ETHER_PROFILE_FUNCTION();
+
         m_ZoomLevel -= 0.25f * e.GetYOffset();
         m_ZoomLevel = std::max((float)0.25, m_ZoomLevel);
         m_Camera.SetProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);

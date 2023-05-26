@@ -9,6 +9,7 @@ namespace Ether
 
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
+		ETHER_PROFILE_FUNCTION();
 		glCreateBuffers(1, &m_RendererID);
 		//创建即绑定
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
@@ -18,16 +19,19 @@ namespace Ether
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
+		ETHER_PROFILE_FUNCTION();
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void OpenGLVertexBuffer::Bind() const
 	{
+		ETHER_PROFILE_FUNCTION();
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void OpenGLVertexBuffer::UnBind() const
 	{
+		ETHER_PROFILE_FUNCTION();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -44,6 +48,7 @@ namespace Ether
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: m_Count(count)
 	{
+		ETHER_PROFILE_FUNCTION();
 		glCreateBuffers(1, &m_RendererID);
 		//创建即绑定
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
@@ -53,16 +58,19 @@ namespace Ether
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
+		ETHER_PROFILE_FUNCTION();
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
 	void OpenGLIndexBuffer::Bind() const
 	{
+		ETHER_PROFILE_FUNCTION();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 
 	void OpenGLIndexBuffer::UnBind() const
 	{
+		ETHER_PROFILE_FUNCTION();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 

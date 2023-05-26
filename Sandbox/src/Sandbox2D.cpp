@@ -10,13 +10,15 @@ Sandbox2D::Sandbox2D(const std::string& debugName)
 
 void Sandbox2D::OnAttach()
 {
-	Ether::Renderer2D::Init();
+	ETHER_PROFILE_FUNCTION();
+	//Ether::Renderer2D::Init();
 	m_Texture1 = Ether::Texture2D::Create("assets/textures/Checkerboard.png");
 }
 
 void Sandbox2D::OnDetach()
 {
-	Ether::Renderer2D::ShutDown();
+	ETHER_PROFILE_FUNCTION();
+	//Ether::Renderer2D::ShutDown();
 }
 
 void Sandbox2D::OnUpdate(Ether::Timestep ts)
@@ -38,8 +40,8 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 		ETHER_PROFILE_SCOPE("Renderer Draw");
 		Ether::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
 
-		Ether::Renderer2D::DrawQuad({ -0.15f, 0.0f }, { 0.3f, 0.3f }, glm::vec4(1.0f));
-		Ether::Renderer2D::DrawQuad({ 0.15f, 0.0f }, { 0.3f, 0.3f }, glm::vec4(1.0f));
+		Ether::Renderer2D::DrawQuad({ -0.15f, 0.0f }, { 0.3f, 0.3f }, {0.2f, 0.3f, 0.8f, 1.0f});
+		Ether::Renderer2D::DrawQuad({ 0.15f, 0.0f }, { 0.3f, 0.3f }, {0.8f, 0.3f, 0.2f, 1.0f});
 
 		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f ,10.0f }, m_Texture1);
 

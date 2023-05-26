@@ -8,7 +8,7 @@ namespace Ether
 	{
 	public:
 		WindowsInput() = default;
-		~WindowsInput() = default;
+		virtual ~WindowsInput() = default;
 	protected:
 		virtual bool IsKeyPressedImpl(int keycode) override;
 		virtual bool IsMouseButtonPressedImpl(int button) override;

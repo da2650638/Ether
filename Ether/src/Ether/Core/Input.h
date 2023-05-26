@@ -8,7 +8,7 @@ namespace Ether
 	{
 	public:
 		Input() = default;
-		~Input() = default;
+		virtual ~Input() = default;
 		static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
 		static bool IsMouseButtonPressed(int button) { return s_Instance->IsMouseButtonPressedImpl(button); }
 		static std::pair<float, float> GetMousePosition() { return s_Instance->GetMousePositionImpl(); }
@@ -16,6 +16,7 @@ namespace Ether
 		static float GetMouseY() { return s_Instance->GetMouseYImpl(); }
 
 		static void Create();
+		static void Destroy();
 	protected:
 		virtual bool IsKeyPressedImpl(int keycode) = 0;
 		virtual bool IsMouseButtonPressedImpl(int button) = 0;
