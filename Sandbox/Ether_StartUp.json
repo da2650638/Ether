@@ -2,48 +2,48 @@
 "traceEvents":[
 {
 "cat":"function",
-"dur":3795,
+"dur":2715,
 "name":"void __cdecl Ether::OpenGLContext::Init(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476873919
+"tid":355272262,
+"ts":33089557125
 },
 {
 "cat":"function",
-"dur":22,
+"dur":17,
 "name":"void __cdecl Ether::WindowsWindow::SetVSync(bool)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476877944
+"tid":355272262,
+"ts":33089559961
 },
 {
 "cat":"function",
-"dur":187316,
+"dur":183491,
 "name":"void __cdecl Ether::WindowsWindow::Init(const struct Ether::WindowProps &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476690714
+"tid":355272262,
+"ts":33089376508
 },
 {
 "cat":"function",
-"dur":187363,
+"dur":183508,
 "name":"__cdecl Ether::WindowsWindow::WindowsWindow(const struct Ether::WindowProps &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476690711
+"tid":355272262,
+"ts":33089376506
 },
 {
 "cat":"function",
-"dur":9,
+"dur":7,
 "name":"void __cdecl Ether::WindowsWindow::SetVSync(bool)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476878149
+"tid":355272262,
+"ts":33089560052
 },
 {
 "cat":"function",
@@ -51,35 +51,35 @@
 "name":"void __cdecl Ether::OpenGLRendererAPI::Init(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476878205
+"tid":355272262,
+"ts":33089560076
 },
 {
 "cat":"function",
-"dur":72,
+"dur":30,
 "name":"__cdecl Ether::OpenGLVertexBuffer::OpenGLVertexBuffer(float *,unsigned int)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476878280
+"tid":355272262,
+"ts":33089560117
 },
 {
 "cat":"function",
-"dur":364,
+"dur":214,
 "name":"__cdecl Ether::OpenGLIndexBuffer::OpenGLIndexBuffer(unsigned int *,unsigned int)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476878555
+"tid":355272262,
+"ts":33089560166
 },
 {
 "cat":"function",
-"dur":38,
+"dur":70,
 "name":"__cdecl Ether::OpenGLVertexArray::OpenGLVertexArray(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879029
+"tid":355272262,
+"ts":33089560412
 },
 {
 "cat":"function",
@@ -87,17 +87,17 @@
 "name":"void __cdecl Ether::OpenGLVertexBuffer::Bind(void) const",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879209
+"tid":355272262,
+"ts":33089560517
 },
 {
 "cat":"function",
-"dur":171,
+"dur":35,
 "name":"void __cdecl Ether::OpenGLVertexArray::AddVertexBuffer(const class std::shared_ptr<class Ether::VertexBuffer> &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879126
+"tid":355272262,
+"ts":33089560505
 },
 {
 "cat":"function",
@@ -105,26 +105,26 @@
 "name":"void __cdecl Ether::OpenGLIndexBuffer::Bind(void) const",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879351
+"tid":355272262,
+"ts":33089560557
 },
 {
 "cat":"function",
-"dur":51,
+"dur":15,
 "name":"void __cdecl Ether::OpenGLVertexArray::SetIndexBuffer(const class std::shared_ptr<class Ether::IndexBuffer> &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879347
+"tid":355272262,
+"ts":33089560556
 },
 {
 "cat":"function",
-"dur":184,
+"dur":189,
 "name":"class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl Ether::OpenGLShader::ReadShaderFile(const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879464
+"tid":355272262,
+"ts":33089560598
 },
 {
 "cat":"function",
@@ -132,44 +132,44 @@
 "name":"class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl Ether::OpenGLShader::ReadShaderFile(const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879709
+"tid":355272262,
+"ts":33089560810
 },
 {
 "cat":"function",
-"dur":588,
+"dur":429,
 "name":"void __cdecl Ether::OpenGLShader::CreateShader(const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &,const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879846
+"tid":355272262,
+"ts":33089560915
 },
 {
 "cat":"function",
-"dur":1069,
+"dur":766,
 "name":"__cdecl Ether::OpenGLShader::OpenGLShader(const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &,const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &,const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476879462
+"tid":355272262,
+"ts":33089560597
 },
 {
 "cat":"function",
-"dur":36,
+"dur":16,
 "name":"void __cdecl Ether::OpenGLShader::UploadUniformInt(const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &,int)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476880606
+"tid":355272262,
+"ts":33089561391
 },
 {
 "cat":"function",
-"dur":23,
+"dur":18,
 "name":"__cdecl Ether::OpenGLTexture2D::OpenGLTexture2D(unsigned int,unsigned int)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476880696
+"tid":355272262,
+"ts":33089561423
 },
 {
 "cat":"function",
@@ -177,44 +177,44 @@
 "name":"void __cdecl Ether::OpenGLTexture2D::SetData(void *,unsigned int) const",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476880833
+"tid":355272262,
+"ts":33089561487
 },
 {
 "cat":"function",
-"dur":2634,
+"dur":1416,
 "name":"void __cdecl Ether::Renderer2D::Init(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476878256
+"tid":355272262,
+"ts":33089560096
 },
 {
 "cat":"function",
-"dur":2804,
+"dur":1452,
 "name":"void __cdecl Ether::Renderer::Init(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476878202
+"tid":355272262,
+"ts":33089560074
 },
 {
 "cat":"function",
-"dur":309,
+"dur":161,
 "name":"void __cdecl Ether::ImGuiLayer::OnAttach(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881138
+"tid":355272262,
+"ts":33089561545
 },
 {
 "cat":"function",
-"dur":398,
+"dur":206,
 "name":"void __cdecl Ether::Application::PushOverlay(class Ether::Layer *)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881130
+"tid":355272262,
+"ts":33089561542
 },
 {
 "cat":"function",
@@ -222,51 +222,51 @@
 "name":"void __cdecl Ether::Input::Create(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881575
+"tid":355272262,
+"ts":33089561765
 },
 {
 "cat":"function",
-"dur":190923,
+"dur":185286,
 "name":"__cdecl Ether::Application::Application(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476690697
+"tid":355272262,
+"ts":33089376493
 },
 {
 "cat":"function",
-"dur":1,
+"dur":2,
 "name":"__cdecl Ether::OrthographicCamera::OrthographicCamera(float,float,float,float)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881672
+"tid":355272262,
+"ts":33089561798
 },
 {
 "cat":"function",
-"dur":544,
+"dur":393,
 "name":"__cdecl Ether::OpenGLTexture2D::OpenGLTexture2D(const class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > &)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881722
+"tid":355272262,
+"ts":33089561821
 },
 {
 "cat":"function",
-"dur":608,
+"dur":435,
 "name":"void __cdecl Sandbox2D::OnAttach(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881720
+"tid":355272262,
+"ts":33089561818
 },
 {
 "cat":"function",
-"dur":656,
+"dur":454,
 "name":"void __cdecl Ether::Application::PushLayer(class Ether::Layer *)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8476881716
+"tid":355272262,
+"ts":33089561815
 }]}

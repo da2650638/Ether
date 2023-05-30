@@ -7,7 +7,8 @@
 
 namespace Ether
 {
-	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData();
+	Renderer* Renderer::s_Instance = new Renderer();
+	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData();
 
 	void Renderer::Init()
 	{
@@ -24,7 +25,7 @@ namespace Ether
 
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
-		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+		s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 
 	void Renderer::EndScene()
@@ -49,10 +50,20 @@ namespace Ether
 	void Renderer::Submit(Ref<Shader> shader, Ref<VertexArray> vertex_array, glm::mat4 transform)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
 
 		vertex_array->Bind();
 		RenderCommand::DrawIndexed(vertex_array);
+	}
+
+	void* Renderer::Submit(RenderCommandFn fn, unsigned int size)
+	{
+		return s_Instance->m_CommandQueue.Allocate(fn, size);
+	}
+
+	void Renderer::WaitAndRender()
+	{
+		s_Instance->m_CommandQueue.Execute();
 	}
 }

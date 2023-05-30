@@ -63,6 +63,7 @@ namespace Ether
 		{
 			float now = glfwGetTime();
 			Timestep ts(now - m_LastFrameTime);
+			m_LastFrameTime = now;
 
 			if (!m_Minimized)
 			{
@@ -85,9 +86,9 @@ namespace Ether
 			}
 			m_ImGuiLayer->End();
 
-			m_Window->OnUpdate();
+			Renderer::Get()->WaitAndRender();
 
-			m_LastFrameTime = now;
+			m_Window->OnUpdate();
 		}
 	}
 

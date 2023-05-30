@@ -43,7 +43,7 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 		Ether::Renderer2D::DrawQuad({ -0.15f, 0.0f }, { 0.3f, 0.3f }, {0.2f, 0.3f, 0.8f, 1.0f});
 		Ether::Renderer2D::DrawQuad({ 0.15f, 0.0f }, { 0.3f, 0.3f }, {0.8f, 0.3f, 0.2f, 1.0f});
 
-		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f ,10.0f }, m_Texture1);
+		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 200.0f ,200.0f }, m_Texture1);
 
 		Ether::Renderer2D::EndScene();
 	}	

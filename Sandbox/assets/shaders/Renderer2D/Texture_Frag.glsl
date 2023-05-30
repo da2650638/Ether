@@ -8,5 +8,5 @@ in vec2 v_TexCoord;
 
 void main()
 {
-	color = texture(u_Texture, v_TexCoord * 10.0f) * u_Color;
+	color = texture(u_Texture, v_TexCoord * 200.0f) * u_Color;
 }
