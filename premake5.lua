@@ -66,7 +66,7 @@ project "Ether"
 
         defines 
         { 
-            "ETH_PLATFORM_WINDOWS",
+            --"ETH_PLATFORM_WINDOWS",
             "ETH_BUILD_DLL",
             "GLFW_INCLUDE_NONE",
             "GRAPHICS_API_OPENGL"

@@ -6,8 +6,8 @@
 "name":"void __cdecl Ether::Input::Destroy(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460009
+"tid":1619021848,
+"ts":94518132976
 },
 {
 "cat":"function",
@@ -15,17 +15,17 @@
 "name":"void __cdecl Ether::Renderer2D::ShutDown(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460075
+"tid":1619021848,
+"ts":94518133031
 },
 {
 "cat":"function",
-"dur":115,
+"dur":93,
 "name":"__cdecl Ether::Application::~Application(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460008
+"tid":1619021848,
+"ts":94518132976
 },
 {
 "cat":"function",
@@ -33,42 +33,42 @@
 "name":"void __cdecl Sandbox2D::OnDetach(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460170
+"tid":1619021848,
+"ts":94518133104
 },
 {
 "cat":"function",
-"dur":2,
+"dur":3,
 "name":"__cdecl Ether::OpenGLTexture2D::~OpenGLTexture2D(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460214
+"tid":1619021848,
+"ts":94518133139
 },
 {
 "cat":"function",
-"dur":644,
+"dur":587,
 "name":"void __cdecl Ether::ImGuiLayer::OnDetach(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460263
+"tid":1619021848,
+"ts":94518142793
 },
 {
 "cat":"function",
-"dur":12637,
+"dur":12892,
 "name":"void __cdecl Ether::WindowsWindow::ShutDown(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460978
+"tid":1619021848,
+"ts":94518143427
 },
 {
 "cat":"function",
-"dur":12781,
+"dur":12966,
 "name":"__cdecl Ether::WindowsWindow::~WindowsWindow(void)",
 "ph":"X",
 "pid":0,
-"tid":1075046874,
-"ts":8478460977
+"tid":1619021848,
+"ts":94518143427
 }]}

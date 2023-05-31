@@ -38,6 +38,7 @@ namespace Ether
 		s_Data->VertexArray->AddVertexBuffer(vertex_buffer);
 		s_Data->VertexArray->SetIndexBuffer(index_buffer);
 		s_Data->ShaderLibrary->Load("Shader", "assets/shaders/Renderer2D/Vert.glsl", "assets/shaders/Renderer2D/Texture_Frag.glsl");
+		s_Data->ShaderLibrary->Get("Shader")->Bind();
 		s_Data->ShaderLibrary->Get("Shader")->SetInt("u_Texture", 0);
 		s_Data->WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t white_texture_data = 0xffffffff;

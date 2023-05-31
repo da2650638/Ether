@@ -100,9 +100,10 @@ namespace Ether
 		dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
 		
 		//iterate the layer stack
-		for (Layer* layer : m_LayerStack)
+		//TODO: OnEvent为什么从后往前呢？
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			layer->OnEvent(e);
+			(*it)->OnEvent(e);
 			if (e.Handled)
 				break;
 		}

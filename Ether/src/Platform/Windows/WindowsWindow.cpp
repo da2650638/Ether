@@ -3,6 +3,7 @@
 #include "Ether/Core/Log.h"
 #include "Ether/Events/ApplicationEvent.h"
 #include "Ether/Events/MouseEvent.h"
+#include "Ether/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Ether {
@@ -65,7 +66,10 @@ namespace Ether {
 
 			s_GLFWWindowCount++;
 		}
-
+#ifdef ETH_DEBUG
+		if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
 		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		ETHER_CORE_ASSERT(m_Window, "GLFW Failed to create window.");
 
