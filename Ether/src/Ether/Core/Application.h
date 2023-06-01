@@ -9,6 +9,8 @@
 #include "Ether/Core/LayerStack.h"
 #include "Ether/ImGui/ImGuiLayer.h"
 
+int main(int argc, char** argv);
+
 namespace Ether
 {
 	class ETHER_API Application
@@ -17,7 +19,6 @@ namespace Ether
 		Application();
 		virtual ~Application();
 
-		void Run();
 		//在Window类及其子类当中通过SetEventCallback被设置到成员变量当中当作回调函数。
 		void OnEvent(Event& e);
 
@@ -28,6 +29,7 @@ namespace Ether
 		static inline Application& Get() { return *s_Instance; }
 
 	private:
+		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
@@ -43,6 +45,8 @@ namespace Ether
 		float m_LastFrameTime;
 	private:
 		static Application* s_Instance;
+		//在EntryPoint.h里边被实现
+		friend int ::main(int argc, char** argv);
 	};
 
 	Application* CreateApplication();
