@@ -10,6 +10,7 @@ bin-int/
 *.vcxproj
 *.sln
 Ether_*.json
+*.log
 
 # Exclude
 !vendor/bin
