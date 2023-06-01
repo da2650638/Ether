@@ -11,7 +11,7 @@
 #include "Ether/Events/ApplicationEvent.h"
 #include "Ether/Core/Input.h"
 #include "Ether/Core/KeyCodes.h"
-#include "Ether/Core/MouseButtonCodes.h"
+#include "Ether/Core/MouseCodes.h"
 
 #include "Ether/Renderer/Renderer.h"
 #include "Ether/Renderer/Renderer2D.h"

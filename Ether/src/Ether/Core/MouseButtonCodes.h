@@ -1,5 +1,5 @@
 #pragma once
-
+//TODO: useless file, need deleting.
 //From glfw3.h
 #define ETHER_MOUSE_BUTTON_1         0
 #define ETHER_MOUSE_BUTTON_2         1

@@ -1,6 +1,8 @@
 #pragma once
 #include "Event.h"
 
+#include "Ether/Core/MouseCodes.h"
+
 namespace Ether {
 
 	class MouseMovedEvent : public Event {
@@ -47,19 +49,19 @@ namespace Ether {
 
 	class MouseButtonEvent : public Event {
 	public:
-		inline int GetButton() const { return m_Button; }
+		inline MouseCode GetButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouseButton)
 	protected:
-		MouseButtonEvent(int button)
+		MouseButtonEvent(MouseCode button)
 			: m_Button(button) {}
 
-		int m_Button;
+		MouseCode m_Button;
 	};
 
 	class MouseButtonPressedEvent : public MouseButtonEvent {
 	public:
-		MouseButtonPressedEvent(int button)
+		MouseButtonPressedEvent(MouseCode button)
 			: MouseButtonEvent(button) {}
 
 		virtual std::string ToString() const override
@@ -74,7 +76,7 @@ namespace Ether {
 
 	class MouseButtonReleasedEvent : public MouseButtonEvent {
 	public:
-		MouseButtonReleasedEvent(int button)
+		MouseButtonReleasedEvent(MouseCode button)
 			: MouseButtonEvent(button)	{}
 
 		virtual std::string ToString() const override

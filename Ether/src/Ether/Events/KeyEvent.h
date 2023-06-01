@@ -1,26 +1,28 @@
 #pragma once
 #include "Event.h"
 
+#include "Ether/Core/KeyCodes.h"
+
 namespace Ether {
 
 	class KeyEvent : public Event {
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyBoard | EventCategoryInput)
 	protected:
-		KeyEvent(int keycode)
+		KeyEvent(KeyCode keycode)
 			: m_KeyCode(keycode)
 		{
 
 		}
 
-		int m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 	class KeyPressedEvent : public KeyEvent {
 	public:
-		KeyPressedEvent(int keycode, uint32_t repeatCount)
+		KeyPressedEvent(KeyCode keycode, uint32_t repeatCount)
 			: KeyEvent(keycode), m_RepeatCount(repeatCount)
 		{}
 
@@ -37,7 +39,7 @@ namespace Ether {
 
 	class KeyReleasedEvent : public KeyEvent {
 	public:
-		KeyReleasedEvent(int keycode)
+		KeyReleasedEvent(KeyCode keycode)
 			: KeyEvent(keycode)
 		{}
 
