@@ -29,6 +29,7 @@ namespace Ether
 
 	void Renderer::EndScene()
 	{
+
 	}
 
 	void Renderer::SetClearColor(const glm::vec4& color)

@@ -82,6 +82,7 @@ namespace Ether
         uint32_t width = e.GetWidth(), height = e.GetHeight();
         m_AspectRatio = (float)width / (float)height;
         m_Camera.SetProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+
         return false;
     }
 
