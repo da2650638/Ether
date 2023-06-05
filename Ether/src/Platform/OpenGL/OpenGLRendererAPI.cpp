@@ -63,4 +63,10 @@ namespace Ether
     {
         glDrawElements(GL_TRIANGLES, vertex_array->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
     }
+
+    void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count)
+    {
+        uint32_t count = index_count ? vertex_array->GetIndexBuffer()->GetCount() : index_count;
+        glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+    }
 }

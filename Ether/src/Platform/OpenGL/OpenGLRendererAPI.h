@@ -16,5 +16,7 @@ namespace Ether
 		virtual void Clear() override;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertex_array) override;
+
+		virtual void DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count) override;
 	};
 }

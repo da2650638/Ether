@@ -19,5 +19,8 @@ public:
 	virtual void OnEvent(Ether::Event& e) override;
 private:
 	Ether::OrthographicCameraController m_OrthographicCameraController;
-	Ether::Ref<Ether::Texture2D> m_Texture1;
+	Ether::Ref<Ether::Texture2D> m_Texture1, m_Texture2;
+	float m_BgTilingFactor;
+	float m_BgRotation;
+	glm::vec4 m_BgTintColor;
 };

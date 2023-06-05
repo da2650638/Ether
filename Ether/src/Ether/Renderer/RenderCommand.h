@@ -17,6 +17,7 @@ namespace Ether
 		static void Clear();
 
 		static void DrawIndexed(const Ref<VertexArray>& vertex_array);
+		static void DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count);
 	private:
 		static RendererAPI *s_RendererAPI;
 	};

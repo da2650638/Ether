@@ -33,4 +33,9 @@ namespace Ether
 	{
 		s_RendererAPI->DrawIndexed(vertex_array);
 	}
+
+	void RenderCommand::DrawIndexed(const Ref<VertexArray>& vertex_array, uint32_t index_count)
+	{
+		s_RendererAPI->DrawIndexed(vertex_array, index_count);
+	}
 }

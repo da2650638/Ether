@@ -17,12 +17,24 @@ namespace Ether
         ETHER_CORE_ASSERT(false, "Unknow API type.");
         return nullptr;
     }
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+
+    Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+    {
+        switch (Renderer::GetAPI())
+        {
+            case RendererAPI::API::OpenGL:
+                return  std::make_shared<OpenGLVertexBuffer>(size);
+        }
+        ETHER_CORE_ASSERT(false, "Unknow API type.");
+        return nullptr;
+    }
+
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
     {
         switch (RendererAPI::GetAPI())
         {
             case RendererAPI::API::OpenGL:
-                return std::make_shared<OpenGLIndexBuffer>(indices, size / sizeof(uint32_t) );
+                return std::make_shared<OpenGLIndexBuffer>(indices, count);
         }
         ETHER_CORE_ASSERT(false, "Unknow API type.");
         return nullptr;

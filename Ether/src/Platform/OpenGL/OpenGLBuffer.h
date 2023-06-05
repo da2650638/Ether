@@ -29,11 +29,14 @@ namespace Ether
 	class ETHER_API OpenGLVertexBuffer : public VertexBuffer
 	{
 	public:
+		OpenGLVertexBuffer(uint32_t size);
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		~OpenGLVertexBuffer();
 
 		virtual void Bind() const override;
 		virtual void UnBind() const override;
+
+		virtual void SetData(const void* data, uint32_t size) override;
 
 		virtual void SetLayout(const BufferLayout& layout) override;
 		virtual const BufferLayout& GetLayout() const override;
