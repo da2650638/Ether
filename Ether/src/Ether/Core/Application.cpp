@@ -126,7 +126,7 @@ namespace Ether
 		ETHER_PROFILE_FUNCTION();
 		ETHER_CORE_INFO("Closing Application...");
 		m_Running = false;
-		return true;
+		return false;
 	}
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)

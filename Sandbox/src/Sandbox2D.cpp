@@ -38,6 +38,7 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 		ETHER_PROFILE_SCOPE("Renderer Prep");
 		Ether::Renderer::Clear();
 		Ether::Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+		Ether::Renderer2D::ResetStats();
 	}
 
 	{
@@ -52,11 +53,33 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_Texture1, 10.0f);
 		Ether::Renderer2D::DrawRotatedQuad({ -0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, rotation, m_Texture1, 20.0f);
 		Ether::Renderer2D::EndScene();
+
+		Ether::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
+		for (float y = -4.75; y < 5.25; y += 0.5)
+		{
+			for (float x = -4.75; x < 5.25; x += 0.5)
+			{
+				Ether::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, { (x + 4.75) / 10.0f, (y + 4.75) / 10.0f, 0.3f, 0.7f });
+			}
+		}
+		Ether::Renderer2D::EndScene();
 	}	
 }
 
 void Sandbox2D::OnImGuiRender()
 {
+	ETHER_PROFILE_FUNCTION();
+
+	ImGui::Begin("Settings");
+
+	auto stats = Ether::Renderer2D::GetStats();
+	ImGui::Text("Renderer2D Stats:");
+	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+	ImGui::Text("Quads: %d", stats.QuadCount);
+	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+	ImGui::End();
 }
 
 void Sandbox2D::OnEvent(Ether::Event& e)

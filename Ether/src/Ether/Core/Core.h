@@ -50,7 +50,7 @@
 #ifdef ETH_ENABLE_ASSERT
 #define ETHER_CORE_ASSERT(x, ...) { if(!x) { ETHER_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #define ETHER_ASSERT(x, ...) { if(!x) { ETHER_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#elif
+#else
 #define ETHER_CORE_ASSERT(x, ...)
 #define ETHER_ASSERT(x, ...)
 #endif

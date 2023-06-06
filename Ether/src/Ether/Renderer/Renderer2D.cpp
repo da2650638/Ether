@@ -17,7 +17,7 @@ namespace Ether
 
 	struct Renderer2DData
 	{
-		const uint32_t MaxQuads = 10000;
+		const uint32_t MaxQuads = 20000;
 		const uint32_t MaxVertices = MaxQuads * 4;
 		const uint32_t MaxIndices = MaxQuads * 6;
 		static const uint32_t MaxTextureSlots = 32; //Depends on render capability
@@ -35,6 +35,8 @@ namespace Ether
 		uint32_t TextureSlotIndex = 1;	// 0 = pure white texture
 
 		glm::vec4 QuadVertexPositions[4];
+
+		Renderer2D::Statistics Stats;
 	};
 
 	struct Renderer2DStorage {
@@ -73,7 +75,7 @@ namespace Ether
 		Ref<IndexBuffer> index_buffer = IndexBuffer::Create(indices, s_Data.MaxIndices);
 		delete[] indices;
 
-		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxQuads];
+		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
 		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
 
 		BufferLayout layout = { 
@@ -131,6 +133,7 @@ namespace Ether
 
 		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
 		s_Data.QuadIndexCount = 0;
+		s_Data.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::EndScene()
@@ -145,16 +148,13 @@ namespace Ether
 
 	void Renderer2D::Flush()
 	{
-		s_Data.ShaderLibrary->Get("Shader")->Bind();
-		glm::mat4 transform = glm::mat4(1.0f);
-		s_Data.ShaderLibrary->Get("Shader")->SetMat4("u_Transform", transform);
-
 		s_Data.VertexArray->Bind();
 		for (int i = 0; i < s_Data.TextureSlotIndex; i++)
 		{
 			s_Data.TextureSlots[i]->Bind(i);
 		}
 		RenderCommand::DrawIndexed(s_Data.VertexArray, s_Data.QuadIndexCount);
+		s_Data.Stats.DrawCalls++;
 		for (int i = 0; i < s_Data.TextureSlotIndex; i++)
 		{
 			s_Data.TextureSlots[i]->UnBind(i);
@@ -164,6 +164,9 @@ namespace Ether
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		ETHER_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= s_Data.MaxIndices)
+			FlushAndReset();
 
 		float texture_index = 0.0f;
 
@@ -199,6 +202,7 @@ namespace Ether
 
 		s_Data.QuadIndexCount += 6;
 
+		s_Data.Stats.QuadCount++;
 		//TODO: rotation?
 		/*
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
@@ -221,6 +225,9 @@ namespace Ether
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		ETHER_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= s_Data.MaxIndices)
+			FlushAndReset();
 
 		float texture_index = 0.0f;
 		glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
@@ -273,7 +280,7 @@ namespace Ether
 
 		s_Data.QuadIndexCount += 6;
 
-
+		s_Data.Stats.QuadCount++;
 		/*glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 		s_Data.ShaderLibrary->Get("Shader")->Bind();
 		s_Data.ShaderLibrary->Get("Shader")->SetMat4("u_Transform", transform);
@@ -299,6 +306,9 @@ namespace Ether
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
 		ETHER_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= s_Data.MaxIndices)
+			FlushAndReset();
 
 		float texture_index = 0.0f;
 
@@ -333,6 +343,8 @@ namespace Ether
 		s_Data.QuadVertexBufferPtr++;
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
 	}
 
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -343,6 +355,9 @@ namespace Ether
 	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
 	{
 		ETHER_PROFILE_FUNCTION();
+
+		if (s_Data.QuadIndexCount >= s_Data.MaxIndices)
+			FlushAndReset();
 
 		float texture_index = 0.0f;
 		glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
@@ -394,5 +409,26 @@ namespace Ether
 		s_Data.QuadVertexBufferPtr++;
 
 		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::ResetStats()
+	{
+		memset(&s_Data.Stats, 0, sizeof(Renderer2D::Statistics));
+	}
+
+	Renderer2D::Statistics Renderer2D::GetStats()
+	{
+		return s_Data.Stats;
+	}
+
+	void Renderer2D::FlushAndReset()
+	{
+		EndScene();
+
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_Data.QuadIndexCount = 0;
+		s_Data.TextureSlotIndex = 1;
 	}
 }
