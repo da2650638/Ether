@@ -41,16 +41,16 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 	}
 
 	{
+		static float rotation = 0.0f;
+		rotation += ts * 50.0f;
+
 		ETHER_PROFILE_SCOPE("Renderer Draw");
 		Ether::Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-
-		Ether::Renderer2D::DrawQuad({ -0.3f, -0.15f }, { 0.3f, 0.3f }, {0.2f, 0.3f, 0.8f, 1.0f});
-		Ether::Renderer2D::DrawQuad({ 0.0f, -0.15f }, { 0.3f, 0.5f }, {0.8f, 0.3f, 0.2f, 1.0f});
-
-		Ether::Renderer2D::DrawQuad({ -0.5f, -0.5f }, { 0.3f, 0.3f }, m_Texture2);
-
-		Ether::Renderer2D::DrawQuad({ -10.0f, -10.0f, -0.1f }, { 20.0f, 20.0f }, m_Texture1, 20.0f);
-
+		Ether::Renderer2D::DrawRotatedQuad({ 1.0f, 0.0f }, { 0.8f, 0.8f }, -45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
+		Ether::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+		Ether::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_Texture1, 10.0f);
+		Ether::Renderer2D::DrawRotatedQuad({ -0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, rotation, m_Texture1, 20.0f);
 		Ether::Renderer2D::EndScene();
 	}	
 }
