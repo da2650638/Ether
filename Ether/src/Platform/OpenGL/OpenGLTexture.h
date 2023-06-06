@@ -19,6 +19,7 @@ namespace Ether
 		virtual void Bind(uint32_t slot) const override;
 		virtual void UnBind(uint32_t slot) const override;
 		virtual void SetData(void* data, uint32_t size) const override;
+		virtual bool operator==(const Texture& other) const override;
 	private:
 		std::string m_Path;
 		uint32_t m_RendererID;

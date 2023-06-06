@@ -102,4 +102,9 @@ namespace Ether
 		ETHER_CORE_ASSERT(size == (m_Width * m_Height * bytes_per_pixel), "Data must be entire texture.");
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
+
+	bool OpenGLTexture2D::operator==(const Texture& other) const
+	{
+		return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
+	}
 }
