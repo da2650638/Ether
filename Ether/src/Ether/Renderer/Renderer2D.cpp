@@ -118,6 +118,7 @@ namespace Ether
 		//{
 		//	delete s_Data;
 		//}
+		delete s_Data.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(OrthographicCamera& camera)
@@ -215,7 +216,7 @@ namespace Ether
 			FlushAndReset();
 
 		float texture_index = 0.0f;
-		glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
+		glm::vec4 color = tintColor;
 
 		for (int i = 0; i < s_Data.TextureSlotIndex; i++)
 		{
@@ -317,7 +318,7 @@ namespace Ether
 			FlushAndReset();
 
 		float texture_index = 0.0f;
-		glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
+		glm::vec4 color = tintColor;
 
 		for (int i = 0; i < s_Data.TextureSlotIndex; i++)
 		{

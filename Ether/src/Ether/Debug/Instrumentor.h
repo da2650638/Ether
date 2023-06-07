@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <fstream>
 
+//TODO: Optimization
 namespace Ether
 {
 	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
