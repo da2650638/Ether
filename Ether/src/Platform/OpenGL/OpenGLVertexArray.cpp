@@ -52,6 +52,7 @@ namespace Ether
 		uint32_t stride = vertex_buffer->GetLayout().GetStride();
 		for (const auto& element : vertex_buffer->GetLayout())
 		{
+			//TODO: Fixed incorrect cases
 			glVertexAttribPointer(
 				index,
 				element.GetElementCount(),
