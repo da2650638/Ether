@@ -228,6 +228,9 @@ namespace Ether
 
 		if (texture_index == 0.0f)
 		{
+			if(s_Data.TextureSlotIndex >= s_Data.MaxTextureSlots)
+				FlushAndReset();
+
 			texture_index = static_cast<float>(s_Data.TextureSlotIndex);
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
@@ -327,6 +330,9 @@ namespace Ether
 
 		if (texture_index == 0.0f)
 		{
+			if (s_Data.TextureSlotIndex >= s_Data.MaxTextureSlots)
+				FlushAndReset();
+
 			texture_index = static_cast<float>(s_Data.TextureSlotIndex);
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
