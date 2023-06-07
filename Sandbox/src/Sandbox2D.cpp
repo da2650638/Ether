@@ -50,7 +50,7 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 		Ether::Renderer2D::DrawRotatedQuad({ 1.0f, 0.0f }, { 0.8f, 0.8f }, -45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
 		Ether::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 		Ether::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_Texture1, 10.0f);
+		Ether::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.2f }, { 20.0f, 20.0f }, m_Texture1, 20.0f);
 		Ether::Renderer2D::DrawRotatedQuad({ -0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, rotation, m_Texture1, 20.0f);
 		Ether::Renderer2D::EndScene();
 
@@ -59,7 +59,7 @@ void Sandbox2D::OnUpdate(Ether::Timestep ts)
 		{
 			for (float x = -4.75; x < 5.25; x += 0.5)
 			{
-				Ether::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, { (x + 4.75) / 10.0f, (y + 4.75) / 10.0f, 0.3f, 0.7f });
+				Ether::Renderer2D::DrawQuad({ x, y, -0.1f }, { 0.45f, 0.45f }, { (x + 4.75) / 10.0f, (y + 4.75) / 10.0f, 0.3f, 0.7f });
 			}
 		}
 		Ether::Renderer2D::EndScene();
