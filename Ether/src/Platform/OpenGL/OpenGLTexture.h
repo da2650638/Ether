@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ether/Core/Core.h"
+#include "Ether/Core/Base.h"
 #include "Ether/Renderer/Texture.h"
 
 #include <glad/glad.h>

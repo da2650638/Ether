@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ether/Core/Core.h"
+#include "Ether/Core/Base.h"
 #include "Ether/Events/Event.h"
 #include "Ether/Events/KeyEvent.h"'
 #include "Ether/Events/ApplicationEvent.h"

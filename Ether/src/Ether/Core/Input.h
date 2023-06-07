@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Ether/Core/Core.h"
+#include "Ether/Core/Base.h"
 #include "Ether/Core/MouseCodes.h"
 #include "Ether/Core/KeyCodes.h"
 

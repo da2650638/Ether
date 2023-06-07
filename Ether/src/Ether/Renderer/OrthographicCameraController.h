@@ -1,5 +1,5 @@
 #pragma once
-#include "Ether/Core/Core.h"
+#include "Ether/Core/Base.h"
 #include "Ether/Core/Timestep.h"
 #include "Ether/Events/Event.h"
 #include "Ether/Events/MouseEvent.h"

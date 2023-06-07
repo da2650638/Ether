@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Ether/Core/Log.h"
-#include "Ether/Core/Core.h"
+#include "Ether/Core/Base.h"
 #include "Ether/Core/Layer.h"
 #include "Ether/Core/LayerStack.h"
 #include "Ether/Core/Application.h"

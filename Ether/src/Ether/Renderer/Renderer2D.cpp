@@ -149,6 +149,9 @@ namespace Ether
 
 	void Renderer2D::Flush()
 	{
+		if (s_Data.QuadIndexCount == 0)
+			return;
+
 		s_Data.VertexArray->Bind();
 		for (int i = 0; i < s_Data.TextureSlotIndex; i++)
 		{
