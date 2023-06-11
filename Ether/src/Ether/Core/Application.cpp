@@ -52,6 +52,11 @@ namespace Ether
 		Renderer::ShutDown();
 	}
 
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	void Application::Run()
 	{
 		ETHER_PROFILE_FUNCTION();
@@ -63,6 +68,7 @@ namespace Ether
 		{
 			float now = glfwGetTime();
 			Timestep ts(now - m_LastFrameTime);
+			m_LastFrameTime = now;
 
 			if (!m_Minimized)
 			{
@@ -73,21 +79,19 @@ namespace Ether
 						layer->OnUpdate(ts);
 					}
 				}
-			}
 
-			m_ImGuiLayer->Begin();
-			{
-				ETHER_PROFILE_SCOPE("LayerStack OnImGuiRender");
-				for (Layer* layer : m_LayerStack)
+				m_ImGuiLayer->Begin();
 				{
-					layer->OnImGuiRender();
+					ETHER_PROFILE_SCOPE("LayerStack OnImGuiRender");
+					for (Layer* layer : m_LayerStack)
+					{
+						layer->OnImGuiRender();
+					}
 				}
+				m_ImGuiLayer->End();
 			}
-			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
-
-			m_LastFrameTime = now;
 		}
 	}
 

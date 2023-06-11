@@ -21,6 +21,7 @@
 #include "Ether/Renderer/Texture.h"
 #include "Ether/Renderer/OrthographicCamera.h"
 #include "Ether/Renderer/OrthographicCameraController.h"
+#include "Ether/Renderer/Framebuffer.h"
 
 //TODO: delete these silly includes
 #include "Platform/OpenGL/OpenGLShader.h"

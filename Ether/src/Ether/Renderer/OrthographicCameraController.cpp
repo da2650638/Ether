@@ -75,6 +75,14 @@ namespace Ether
         dispatcher.Dispatch<WindowResizeEvent>(std::bind(&OrthographicCameraController::OnWindowResize, this, std::placeholders::_1));
     }
 
+	void OrthographicCameraController::OnResize(uint32_t width, uint32_t height)
+	{
+		ETHER_PROFILE_FUNCTION();
+
+		m_AspectRatio = (float)width / (float)height;
+		m_Camera.SetProjectionMatrix(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
     bool OrthographicCameraController::OnWindowResize(WindowResizeEvent& e)
     {
         ETHER_PROFILE_FUNCTION();
