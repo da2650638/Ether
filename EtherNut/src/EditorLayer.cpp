@@ -6,7 +6,7 @@ namespace Ether {
 
 	EditorLayer::EditorLayer(const std::string& debugName)
 		: Layer(debugName),
-		m_OrthographicCameraController(16.0f / 9.0f),
+		m_OrthographicCameraController(1280.0f / 720.0f),
 		m_BgTilingFactor(10.0f),
 		m_BgTintColor({ 1.0f, 1.0f, 1.0f, 1.0f }),
 		m_BgRotation(0.0f)
@@ -60,6 +60,7 @@ namespace Ether {
 			Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 			Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.2f }, { 20.0f, 20.0f }, m_Texture1, 20.0f);
 			Renderer2D::DrawRotatedQuad({ -0.0f, 0.0f }, { 1.0f, 1.0f }, rotation, m_Texture1, 1.0f);
+			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 			Renderer2D::EndScene();
 
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
@@ -169,15 +170,16 @@ namespace Ether {
 		ImGui::End();
 
 		ImGui::Begin("Viewport");
-		auto texture = m_Framebuffer->GetColorAttachment();
-		ImVec2 viewport_size_now = ImGui::GetContentRegionAvail();
-		ImVec2 framebuffer_size_now = { (float)m_Framebuffer->GetFramebufferSpecification().Width, (float)m_Framebuffer->GetFramebufferSpecification().Height };
-		if (framebuffer_size_now.x != viewport_size_now.x || framebuffer_size_now.y != viewport_size_now.y)
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
 		{
-			m_Framebuffer->Resize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
-			m_OrthographicCameraController.OnResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
+			m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
+			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+			m_OrthographicCameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
 		}
-		ImGui::Image((void*)texture, { viewport_size_now.x, viewport_size_now.y }, ImVec2(0, 1), ImVec2(1, 0));
+		uint32_t textureID = m_Framebuffer->GetColorAttachment();
+		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		ImGui::End();
 
 		ImGui::End();

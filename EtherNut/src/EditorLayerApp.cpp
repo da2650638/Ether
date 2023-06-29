@@ -13,7 +13,7 @@ namespace Ether {
 		Editor()
 		{
 			//PushLayer(new SandboxLayer("SandboxLayer"));
-			PushLayer(new EditorLayer("Sandbox2D"));
+			PushLayer(new EditorLayer("Ether-Editor"));
 		}
 
 		virtual ~Editor()

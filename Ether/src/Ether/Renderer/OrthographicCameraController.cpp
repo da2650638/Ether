@@ -40,7 +40,6 @@ namespace Ether
             m_CameraPosition.x += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
 			m_CameraPosition.y += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
         }
-        m_Camera.SetPosition(m_CameraPosition);
 
         if (m_Rotation)
         {
@@ -62,6 +61,8 @@ namespace Ether
 			}
             m_Camera.SetRotation(m_CameraRotation);
         }
+
+        m_Camera.SetPosition(m_CameraPosition);
 
         m_CameraTranslationSpeed = m_ZoomLevel;
     }
