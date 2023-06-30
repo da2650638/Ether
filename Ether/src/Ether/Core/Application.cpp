@@ -35,20 +35,11 @@ namespace Ether
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-
-		Input::Create();
-
-		//Vertex Array
-		//Vertex Buffer
-		//Index Buffer
-		//Shader
 	}
 
 	Application::~Application()
 	{
 		ETHER_PROFILE_FUNCTION();
-
-		Input::Destroy();
 		Renderer::ShutDown();
 	}
 
@@ -130,7 +121,7 @@ namespace Ether
 		ETHER_PROFILE_FUNCTION();
 		ETHER_CORE_INFO("Closing Application...");
 		m_Running = false;
-		return false;
+		return true;
 	}
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)

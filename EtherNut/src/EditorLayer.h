@@ -26,8 +26,7 @@ namespace Ether {
 		float m_BgTilingFactor;
 		float m_BgRotation;
 		glm::vec4 m_BgTintColor;
-
-		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+		bool m_ViewportFocused = false, m_ViewportHovered = false;
 	};
 
 }

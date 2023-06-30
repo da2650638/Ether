@@ -69,9 +69,12 @@ namespace Ether
 	void ImGuiLayer::OnEvent(Event& e)
 	{
 		//TODO: 
-		ImGuiIO& io = ImGui::GetIO();
-		e.Handled = e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-		e.Handled = e.IsInCategory(EventCategoryKeyBoard) & io.WantCaptureKeyboard;
+		if (m_BlockEvents)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategoryKeyBoard) & io.WantCaptureKeyboard;
+		}
 	}
 
 	void ImGuiLayer::Begin()

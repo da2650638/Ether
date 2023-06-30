@@ -38,7 +38,8 @@ namespace Ether {
 
 		{
 			ETHER_PROFILE_SCOPE("CameraController::OnUpdate");
-			m_OrthographicCameraController.OnUpdate(ts);
+			if(m_ViewportFocused)
+				m_OrthographicCameraController.OnUpdate(ts);
 		}
 
 		{
@@ -170,16 +171,20 @@ namespace Ether {
 		ImGui::End();
 
 		ImGui::Begin("Viewport");
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize))
-		{
-			m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		//既没有Focused也没有Hovered的时候才会设置BlockEvents
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
-			m_OrthographicCameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
+		auto texture = m_Framebuffer->GetColorAttachment();
+		ImVec2 viewport_size_now = ImGui::GetContentRegionAvail();
+		ImVec2 framebuffer_size_now = { (float)m_Framebuffer->GetFramebufferSpecification().Width, (float)m_Framebuffer->GetFramebufferSpecification().Height };
+		if (framebuffer_size_now.x != viewport_size_now.x || framebuffer_size_now.y != viewport_size_now.y)
+		{
+			m_Framebuffer->Resize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
+			m_OrthographicCameraController.OnResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 		}
-		uint32_t textureID = m_Framebuffer->GetColorAttachment();
-		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		ImGui::Image((void*)texture, { viewport_size_now.x, viewport_size_now.y }, ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 
 		ImGui::End();

@@ -30,6 +30,7 @@ namespace Ether
 
 		void Close();
 
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer;  }
 	private:
 		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
