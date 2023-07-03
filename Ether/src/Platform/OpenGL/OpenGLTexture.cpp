@@ -107,4 +107,8 @@ namespace Ether
 	{
 		return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
 	}
+	uint32_t OpenGLTexture2D::GetRendererID() const
+	{
+		return m_RendererID;
+	}
 }

@@ -11,6 +11,7 @@ namespace Ether
 		virtual void Bind(uint32_t slot) const = 0;
 		virtual void UnBind(uint32_t slot) const = 0;
 		virtual void SetData(void* data, uint32_t size) const = 0;
+		virtual uint32_t GetRendererID() const = 0;
 
 		virtual bool operator==(const Texture& other) const = 0;
 	};

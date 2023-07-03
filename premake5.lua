@@ -1,6 +1,6 @@
  workspace "Ether"
     architecture "x86_64"
-    startproject "EtherNut"
+    startproject "RayTracing"
     configurations { "Debug", "Release", "Dist" }
 
 IncludeDirs = {}
@@ -94,6 +94,67 @@ project "Ether"
 
 project "EtherNut"
     location "EtherNut"
+    kind "ConsoleApp"
+    language "C++"
+    staticruntime "On"
+    
+    targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
+    objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
+    
+    files 
+    { 
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/assets/shaders/**.glsl",
+        "%{prj.name}/assets/textures/**.png"
+    }
+    
+    includedirs 
+    { 
+        "%{IncludeDirs.spdlog}",
+        "%{IncludeDirs.GLFW}",
+        "%{IncludeDirs.Glad}",
+        "%{IncludeDirs.imgui}",
+        "%{IncludeDirs.glm}",
+        "%{IncludeDirs.stb_image}",
+        "Ether/src" 
+    }
+    
+    links
+    {
+        "Ether"
+    }
+    
+    filter "system:windows"
+        cppdialect "C++17"
+        systemversion "latest"
+        defines 
+        { 
+            "ETH_PLATFORM_WINDOWS"
+        }
+    
+    filter { "configurations:Debug", "system:windows" }
+        defines "ETH_DEBUG"
+        symbols "On"
+        buildoptions "/MTd"
+        runtime "Debug"
+    
+    filter { "configurations:Release", "system:windows" }
+        defines "ETH_RELEASE"
+        symbols "Off"
+        buildoptions "/MT"
+        optimize "On"
+        runtime "Release"
+    
+    filter { "configurations:Dist", "system:windows" }
+        defines "ETH_DIST"
+        symbols "Off"
+        buildoptions "/MT"
+        optimize "On"
+        runtime "Release"
+
+project "RayTracing"
+    location "RayTracing"
     kind "ConsoleApp"
     language "C++"
     staticruntime "On"
