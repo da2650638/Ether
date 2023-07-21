@@ -5,7 +5,8 @@
 namespace Ether
 {
 	Ether::RayTracerLayer::RayTracerLayer(const std::string& name)
-		: Layer(name)
+		: Layer(name),
+		  m_OrthographicCameraController(1280.0f / 720.0f)
 	{
 
 	}
@@ -15,6 +16,13 @@ namespace Ether
 		ETHER_PROFILE_FUNCTION();
 
 		m_Image = Image::Create(1280, 720);
+
+		FramebufferSpecification spec;
+		spec.Width = 1280;
+		spec.Height = 720;
+		m_Framebuffer = Framebuffer::Create(spec);
+
+		m_BackgroundTexture = Texture2D::Create("assets/textures/bg1.jpg");
 	}
 
 	void RayTracerLayer::OnDetach()
@@ -24,7 +32,16 @@ namespace Ether
 
 	void RayTracerLayer::OnUpdate(Timestep ts)
 	{
-		
+		ETHER_PROFILE_SCOPE("RayTracerLayer::OnUpdate");
+		m_Framebuffer->Bind();
+		Renderer::Clear();
+		Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+		Renderer2D::ResetStats();
+
+		Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
+		Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.2f }, { 2.0f * m_OrthographicCameraController.GetAspectRatio(), 2.0f}, m_BackgroundTexture, 1.0f);
+		Renderer2D::EndScene();
+		m_Framebuffer->UnBind();
 	}
 
 	void RayTracerLayer::OnImGuiRender()
@@ -111,8 +128,13 @@ namespace Ether
 
 
 		ImGui::Begin("Viewport");
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		//既没有Focused也没有Hovered的时候才会设置BlockEvents
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
-		auto texture = m_Image->GetTextureRendererID();
+		//auto texture = m_Image->GetTextureRendererID();
+		auto texture = m_Framebuffer->GetColorAttachment();
 		ImVec2 viewport_size = ImGui::GetContentRegionAvail();
 		if (viewport_size.x != m_Image->GetWidth() || viewport_size.y != m_Image->GetHeight())
 		{
@@ -126,6 +148,6 @@ namespace Ether
 
 	void RayTracerLayer::OnEvent(Event& e)
 	{
-
+		m_OrthographicCameraController.OnEvent(e);
 	}
 }

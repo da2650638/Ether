@@ -29,7 +29,7 @@ namespace Ether
 				float gf = ((float)y / (float)m_ImageHeight) * 255.0f;
 				uint32_t rb = (uint32_t)rf, gb = (uint32_t)gf;
 				pixel_color |= (gb << 8);
-				pixel_color |= rb;
+				pixel_color |= (rb);
 				m_Image[m_ImageWidth * y + x] = pixel_color;
 				pixel_color = 0xff000000;
 			}

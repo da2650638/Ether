@@ -20,6 +20,10 @@ namespace Ether
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& e) override;
 	private:
+		OrthographicCameraController m_OrthographicCameraController;
+		Ref<Texture2D> m_BackgroundTexture;
 		Ref<Image> m_Image;
+		Ref<Framebuffer> m_Framebuffer;
+		bool m_ViewportFocused = false, m_ViewportHovered = false;
 	};
 }

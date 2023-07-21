@@ -20,6 +20,8 @@ namespace Ether
 
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
+
+		const float& GetAspectRatio() const { return m_AspectRatio; }
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);
 		bool OnMouseScrolled(MouseScrolledEvent& e);
