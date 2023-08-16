@@ -91,8 +91,10 @@ namespace Ether
 		ETHER_PROFILE_FUNCTION();
 
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>( std::bind(&Application::OnWindowClose, this, std::placeholders::_1) );
-		dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
+		//dispatcher.Dispatch<WindowCloseEvent>( std::bind(&Application::OnWindowClose, this, std::placeholders::_1) );
+		//dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
+		dispatcher.Dispatch<WindowCloseEvent>( ETHER_BIND_EVENT_FN(OnWindowClose) );
+		dispatcher.Dispatch<WindowResizeEvent>( ETHER_BIND_EVENT_FN(OnWindowResize) );
 		
 		//iterate the layer stack
 		//TODO: OnEvent为什么从后往前呢？

@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <iomanip>
 #include <fstream>
+#include <thread>
 
 //TODO: Optimization
 namespace Ether
 {
+	//TODO: understand these codes.
 	using FloatingPointMicroseconds = std::chrono::duration<double, std::micro>;
 
 	struct ProfileResult
@@ -45,6 +47,11 @@ namespace Ether
 				// Subsequent profiling output meant for the original session will end up in the
 				// newly opened session instead.  That's better than having badly formatted
 				// profiling output.
+				//TODO: fix these header file error.
+				//if (::Ether::Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
+				//{
+				//	ETHER_CORE_ERROR("Instrumentor::BeginSession('{0}') when session '{1}' already open.", name, m_CurrentSession->Name);
+				//}
 				InternalEndSession();
 			}
 			m_OutputStream.open(filepath);
@@ -52,6 +59,13 @@ namespace Ether
 			if (m_OutputStream.is_open()) {
 				m_CurrentSession = new InstrumentationSession({ name });
 				WriteHeader();
+			}
+			else
+			{
+				//if (Log::GetCoreLogger()) // Edge case: BeginSession() might be before Log::Init()
+				//{
+				//	ETHER_CORE_ERROR("Instrumentor could not open results file '{0}'.", filepath);
+				//}
 			}
 		}
 
@@ -148,11 +162,40 @@ namespace Ether
 		std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
 		bool m_Stopped;
 	};
+
+	namespace InstrumentorUtils {
+
+		template <size_t N>
+		struct ChangeResult
+		{
+			char Data[N];
+		};
+
+		template <size_t N, size_t K>
+		constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
+		{
+			ChangeResult<N> result = {};
+
+			size_t srcIndex = 0;
+			size_t dstIndex = 0;
+			while (srcIndex < N)
+			{
+				size_t matchIndex = 0;
+				while (matchIndex < K - 1 && srcIndex + matchIndex < N - 1 && expr[srcIndex + matchIndex] == remove[matchIndex])
+					matchIndex++;
+				if (matchIndex == K - 1)
+					srcIndex += matchIndex;
+				result.Data[dstIndex++] = expr[srcIndex] == '"' ? '\'' : expr[srcIndex];
+				srcIndex++;
+			}
+			return result;
+		}
+	}
 }
 
 
 
-#define ETHER_PROFILE 0
+#define ETHER_PROFILE 1
 #if ETHER_PROFILE
 	// Resolve which function signature macro will be used. Note that this only
 	// is resolved when the (pre)compiler starts, so the syntax highlighting
@@ -176,7 +219,11 @@ namespace Ether
 	#endif
 	#define ETHER_PROFILE_BEGIN_SESSION(name, filepath) ::Ether::Instrumentor::Get().BeginSession(name, filepath)
 	#define ETHER_PROFILE_END_SESSION() ::Ether::Instrumentor::Get().EndSession()
-	#define ETHER_PROFILE_SCOPE(name) ::Ether::InstrumentationTimer timer##__LINE__(name)
+	//Fixed error when adding different timers to a single scope
+	#define ETHER_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixed_name_##line = ::Ether::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+                                                                                     ::Ether::InstrumentationTimer timer##line(fixed_name_##line.Data)
+	#define ETHER_PROFILE_SCOPE_LINE(name, line) ETHER_PROFILE_SCOPE_LINE2(name, line)
+	#define ETHER_PROFILE_SCOPE(name) ETHER_PROFILE_SCOPE_LINE(name, __LINE__)
 	#define ETHER_PROFILE_FUNCTION() ETHER_PROFILE_SCOPE(ETHER_FUNC_SIG)
 #else
 	#define ETHER_PROFILE_BEGIN_SESSION(name, filepath) 

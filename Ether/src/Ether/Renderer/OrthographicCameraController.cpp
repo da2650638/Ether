@@ -3,6 +3,7 @@
 #include "OrthographicCameraController.h"
 #include "Ether/Core/Input.h"
 #include "Ether/Core/KeyCodes.h"
+#include "Ether/Core/Base.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -72,8 +73,10 @@ namespace Ether
         ETHER_PROFILE_FUNCTION();
 
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<MouseScrolledEvent>(std::bind(&OrthographicCameraController::OnMouseScrolled, this, std::placeholders::_1));
-        dispatcher.Dispatch<WindowResizeEvent>(std::bind(&OrthographicCameraController::OnWindowResize, this, std::placeholders::_1));
+        //dispatcher.Dispatch<MouseScrolledEvent>(std::bind(&OrthographicCameraController::OnMouseScrolled, this, std::placeholders::_1));
+        //dispatcher.Dispatch<WindowResizeEvent>(std::bind(&OrthographicCameraController::OnWindowResize, this, std::placeholders::_1));
+        dispatcher.Dispatch<MouseScrolledEvent>(ETHER_BIND_EVENT_FN(OnMouseScrolled));
+        dispatcher.Dispatch<WindowResizeEvent>(ETHER_BIND_EVENT_FN(OnWindowResize));
     }
 
 	void OrthographicCameraController::OnResize(uint32_t width, uint32_t height)

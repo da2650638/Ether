@@ -43,6 +43,10 @@
 
 #define BIT(x) (1 << (x))
 
+//using std::bind in modern C++ is a bad practice, as lambdas can do the same and much more
+//#define HZ_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+#define ETHER_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+
 #ifdef ETH_DEBUG
     #define ETH_ENABLE_ASSERT
 #endif

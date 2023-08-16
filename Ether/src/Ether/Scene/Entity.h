@@ -39,9 +39,9 @@ namespace Ether
 		{
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
-		operator bool() const { return (uint32_t)m_EntityHandle != (uint32_t)-1; }
+		operator bool() const { return m_EntityHandle != entt::null; }
 	private:
-		entt::entity m_EntityHandle{ (uint32_t)-1};
+		entt::entity m_EntityHandle{ entt::null };
 		//TODO: need optimizing.We must using our own weak_ptr to wrapper this ptr.
 		Scene* m_Scene;
 	};
