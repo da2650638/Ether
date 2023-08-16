@@ -24,6 +24,12 @@ namespace Ether {
 		spec.Width = 1280;
 		spec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(spec);
+
+		m_Scene = std::make_shared<Scene>();
+		auto square = m_Scene->CreateEntity("Square");
+		square.AddComponent<SpriteRendererComponent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+
+		m_SquareEntity = square;
 	}
 
 	void EditorLayer::OnDetach()
@@ -51,28 +57,12 @@ namespace Ether {
 		}
 
 		{
-			static float rotation = 0.0f;
-			rotation += ts * 50.0f;
 
 			ETHER_PROFILE_SCOPE("Renderer Draw");
 			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-			Renderer2D::DrawRotatedQuad({ 1.0f, 0.0f }, { 0.8f, 0.8f }, -45.0f, { 0.8f, 0.2f, 0.3f, 1.0f });
-			Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-			Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-			Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.2f }, { 20.0f, 20.0f }, m_Texture1, 20.0f);
-			Renderer2D::DrawRotatedQuad({ -0.0f, 0.0f }, { 1.0f, 1.0f }, rotation, m_Texture1, 1.0f);
-			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+			m_Scene->OnUpdate(ts);
 			Renderer2D::EndScene();
 
-			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
-			for (float y = -4.75; y < 5.25; y += 0.5)
-			{
-				for (float x = -4.75; x < 5.25; x += 0.5)
-				{
-					Renderer2D::DrawQuad({ x, y, 0.0f }, { 0.45f, 0.45f }, { (x + 4.75) / 10.0f, (y + 4.75) / 10.0f, 0.3f, 1.0f });
-				}
-			}
-			Renderer2D::EndScene();
 			m_Framebuffer->UnBind();
 		}
 	}
@@ -167,6 +157,16 @@ namespace Ether {
 		ImGui::Text("Quads: %d", stats.QuadCount);
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+		if (m_SquareEntity)
+		{
+			ImGui::Separator();
+			auto& tag = m_SquareEntity.GetComponent<TagComponent>().Tag;
+			ImGui::Text("%s", tag.c_str());
+			auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+			ImGui::ColorEdit4("Square Entity Color:", glm::value_ptr(squareColor));
+			ImGui::Separator();
+		}
+
 
 		ImGui::End();
 

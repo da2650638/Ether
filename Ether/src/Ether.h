@@ -23,6 +23,10 @@
 #include "Ether/Renderer/OrthographicCameraController.h"
 #include "Ether/Renderer/Framebuffer.h"
 
+#include "Ether/Scene/Components.h"
+#include "Ether/Scene/Entity.h"
+#include "Ether/Scene/Scene.h"
+
 //TODO: delete these silly includes
 #include "Platform/OpenGL/OpenGLShader.h"
 

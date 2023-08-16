@@ -10,6 +10,7 @@ IncludeDirs["Glad"] = "Ether/vendor/Glad/include"
 IncludeDirs["imgui"] = "Ether/vendor/imgui"
 IncludeDirs["glm"] = "Ether/vendor/glm"
 IncludeDirs["stb_image"] = "Ether/vendor/stb_image"
+IncludeDirs["entt"] = "Ether/vendor/entt/include"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
@@ -38,7 +39,8 @@ project "Ether"
         "%{prj.name}/vendor/glm/glm/*.hpp",
 		"%{prj.name}/vendor/glm/glm/*.inl",
         "%{prj.name}/vendor/stb_image/stb_image.h",
-        "%{prj.name}/vendor/stb_image/stb_image.cpp"   
+        "%{prj.name}/vendor/stb_image/stb_image.cpp",
+        "%{prj.name}/vendor/entt/include/entt.hpp"   
     }
 
     includedirs 
@@ -49,6 +51,7 @@ project "Ether"
         "%{IncludeDirs.imgui}",
         "%{IncludeDirs.glm}",
         "%{IncludeDirs.stb_image}",
+        "%{IncludeDirs.entt}",
         "%{prj.name}/src" 
     }
 
@@ -117,6 +120,7 @@ project "EtherNut"
         "%{IncludeDirs.imgui}",
         "%{IncludeDirs.glm}",
         "%{IncludeDirs.stb_image}",
+        "%{IncludeDirs.entt}",
         "Ether/src" 
     }
     
@@ -178,6 +182,7 @@ project "Sandbox"
         "%{IncludeDirs.imgui}",
         "%{IncludeDirs.glm}",
         "%{IncludeDirs.stb_image}",
+        "%{IncludeDirs.entt}",
         "Ether/src" 
     }
 
