@@ -30,6 +30,8 @@ namespace Ether {
 		square.AddComponent<SpriteRendererComponent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 		m_SquareEntity = square;
+		m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
+		m_CameraEntity.AddComponent<CameraComponent>();
 	}
 
 	void EditorLayer::OnDetach()
@@ -59,9 +61,8 @@ namespace Ether {
 		{
 
 			ETHER_PROFILE_SCOPE("Renderer Draw");
-			Renderer2D::BeginScene(m_OrthographicCameraController.GetCamera());
+
 			m_Scene->OnUpdate(ts);
-			Renderer2D::EndScene();
 
 			m_Framebuffer->UnBind();
 		}
@@ -183,6 +184,8 @@ namespace Ether {
 		{
 			m_Framebuffer->Resize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 			m_OrthographicCameraController.OnResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
+		
+			m_Scene->OnViewportResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 		}
 		ImGui::Image((void*)texture, { viewport_size_now.x, viewport_size_now.y }, ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
@@ -193,6 +196,7 @@ namespace Ether {
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_OrthographicCameraController.OnEvent(e);
+		m_CameraEntity.GetComponent<CameraComponent>().Camera.OnEvent(e);
 	}
 
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Ether/Scene/SceneCamera.h"
+
 #include <glm/glm.hpp>
 #include <string>
 
@@ -37,5 +39,16 @@ namespace Ether
 		SpriteRendererComponent(const SpriteRendererComponent& other) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
+	};
+
+	struct CameraComponent
+	{
+		Ether::SceneCamera Camera;
+		//Basiclly it's possible to have multiple cameras in the scene, and you may want to switch between them.
+		bool Primary = true; //TODO: think about moving to scene.
+		bool FixedAspectRatio = false;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent& other) = default;
 	};
 }

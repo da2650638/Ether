@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "OrthographicCamera.h"
+#include "Camera.h"
 
 #include "glm/glm.hpp"
 
@@ -15,6 +16,7 @@ namespace Ether
 		static void Init();
 		static void ShutDown();
 
+		static void BeginScene(Camera camera, glm::mat4 transform);
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();
 

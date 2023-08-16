@@ -121,6 +121,23 @@ namespace Ether
 		delete s_Data.QuadVertexBufferBase;
 	}
 
+	void Renderer2D::BeginScene(Camera camera, glm::mat4 transform)
+	{
+		ETHER_PROFILE_FUNCTION();
+
+		glm::mat4 view_projection = camera.GetProjection() * glm::inverse(transform);
+		for (auto iter : *(s_Data.ShaderLibrary))
+		{
+			auto shader = iter.second;
+			shader->Bind();
+			shader->SetMat4("u_ViewProjection", view_projection);
+		}
+
+		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_Data.QuadIndexCount = 0;
+		s_Data.TextureSlotIndex = 1;
+	}
+
 	void Renderer2D::BeginScene(OrthographicCamera& camera)
 	{
 		ETHER_PROFILE_FUNCTION();

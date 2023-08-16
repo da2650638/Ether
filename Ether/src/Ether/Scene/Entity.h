@@ -37,6 +37,7 @@ namespace Ether
 		template <typename T>
 		bool HasComponent()
 		{
+			//all_of function can do the same as old has function
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
 		operator bool() const { return m_EntityHandle != entt::null; }

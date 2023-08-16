@@ -28,6 +28,7 @@ namespace Ether {
 		glm::vec4 m_BgTintColor;
 		Ref<Scene> m_Scene;
 		Entity m_SquareEntity;
+		Entity m_CameraEntity;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 	};
