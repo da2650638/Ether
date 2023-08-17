@@ -6,19 +6,10 @@
 #include "Entity.h"
 
 #include "Ether/Renderer/Renderer2D.h"
+#include "Ether/Scene/ScriptableEntity.h"
 
 namespace Ether
 {
-	static void DoMath(const glm::mat4& transform)
-	{
-
-	}
-
-	static void OnTransformConstruct(entt::registry& registry, entt::entity entity)
-	{
-
-	}
-
 	Scene::Scene()
 	{
 
@@ -39,6 +30,22 @@ namespace Ether
 
 	void Scene::OnUpdate(Timestep ts)
 	{
+		//Update Scripts
+		m_Registry.view<NativeScriptComponent>().each(
+			[=](entt::entity entity, NativeScriptComponent& nsc)
+			{
+				//如果Instance还没有被实例化，则需要进行实例化
+				if (!nsc.Instance)
+				{
+					nsc.Instance = nsc.InstantiateScript();
+					nsc.Instance->m_Entity = { entity, this };
+					nsc.Instance->OnCreate();
+				}
+
+				nsc.Instance->OnUpdate(ts);
+			}
+		);
+
 		Camera* main_camera = nullptr;
 		glm::mat4* camera_transform = nullptr;
 		auto view = m_Registry.view<TransformComponent, CameraComponent>();

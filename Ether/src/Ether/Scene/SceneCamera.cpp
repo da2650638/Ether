@@ -27,26 +27,6 @@ namespace Ether
 		RecalculateProjection();
 	}
 
-	void SceneCamera::OnEvent(Event& e)
-	{
-		ETHER_PROFILE_FUNCTION();
-
-		EventDispatcher dispatcher(e);
-
-		dispatcher.Dispatch<MouseScrolledEvent>( ETHER_BIND_EVENT_FN(OnMouseScrolled) );
-	}
-
-	bool SceneCamera::OnMouseScrolled(MouseScrolledEvent& e)
-	{
-		ETHER_PROFILE_FUNCTION();
-
-		float orthographic_size = m_OrthographicSize;
-		orthographic_size -= 0.25f * e.GetYOffset();
-		orthographic_size = std::max((float)0.25, orthographic_size);
-		SetOrthographicSize(orthographic_size);
-		return false;
-	}
-
 	void SceneCamera::RecalculateProjection()
 	{
 		float ortho_left = -0.5 * m_AspectRatio * m_OrthographicSize;

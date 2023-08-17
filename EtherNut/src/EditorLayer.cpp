@@ -32,6 +32,76 @@ namespace Ether {
 		m_SquareEntity = square;
 		m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
 		m_CameraEntity.AddComponent<CameraComponent>();
+
+		struct CameraController : public ScriptableEntity
+		{
+			virtual void OnCreate() override
+			{
+				ETHER_CORE_INFO("CameraController::OnCreate");
+			}
+
+			virtual void OnDestroy() override
+			{
+
+			}
+
+			virtual void OnUpdate(Timestep ts) override
+			{
+				ETHER_PROFILE_FUNCTION();
+
+				if (Input::IsKeyPressed(ETHER_KEY_W))
+				{
+					m_CameraPosition.y += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					m_CameraPosition.x -= std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+				}
+				if (Input::IsKeyPressed(ETHER_KEY_S))
+				{
+					m_CameraPosition.y -= std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					m_CameraPosition.x += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+				}
+				if (Input::IsKeyPressed(ETHER_KEY_A))
+				{
+					m_CameraPosition.x -= std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					m_CameraPosition.y -= std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+				}
+				if (Input::IsKeyPressed(ETHER_KEY_D))
+				{
+					m_CameraPosition.x += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					m_CameraPosition.y += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+				}
+
+				if (m_Rotation)
+				{
+					if (Input::IsKeyPressed(ETHER_KEY_Q))
+					{
+						m_CameraRotation += ts * m_CameraRotationSpeed;
+					}
+					if (Input::IsKeyPressed(ETHER_KEY_E))
+					{
+						m_CameraRotation -= ts * m_CameraRotationSpeed;
+					}
+					if (m_CameraRotation > 180.0f)
+					{
+						m_CameraRotation -= 360.0f;
+					}
+					if (m_CameraRotation < -180.0f)
+					{
+						m_CameraRotation += 360.0f;
+					}
+				}
+
+				auto& transform_component = GetComponent<TransformComponent>();
+				transform_component = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));;
+			}
+
+			bool m_Rotation = true;
+			glm::vec3 m_CameraPosition{ 0.0f, 0.0f, 0.0f };
+			float m_CameraRotation = 0.0f;
+			float m_CameraTranslationSpeed = 4.5f;
+			float m_CameraRotationSpeed = 9.0f;
+		};
+
+		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach()
@@ -196,7 +266,6 @@ namespace Ether {
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_OrthographicCameraController.OnEvent(e);
-		m_CameraEntity.GetComponent<CameraComponent>().Camera.OnEvent(e);
 	}
 
 }

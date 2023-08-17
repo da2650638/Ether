@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Ether/Scene/SceneCamera.h"
+#include "ScriptableEntity.h"
 
 #include <glm/glm.hpp>
 #include <string>
@@ -50,5 +51,23 @@ namespace Ether
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent& other) = default;
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance;
+
+		ScriptableEntity* (*InstantiateScript)();
+		void(*DestroyScript)(NativeScriptComponent* nsc);
+
+		template <typename T>
+		void Bind()
+		{
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+		}
+
+		NativeScriptComponent() = default;
+		NativeScriptComponent(const NativeScriptComponent& other) = default;
 	};
 }

@@ -17,9 +17,6 @@ namespace Ether
 		
 		const float& GetOrthographicSize() const { return m_OrthographicSize; }
 		void SetOrthographicSize(const float& orthographic_size) { m_OrthographicSize = orthographic_size; RecalculateProjection(); }
-
-		void OnEvent(Event& e);
-		bool OnMouseScrolled(MouseScrolledEvent& e);
 	private:
 		void RecalculateProjection();
 	private:
