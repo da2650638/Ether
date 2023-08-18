@@ -5,6 +5,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "Panels/SceneHierarchyPanel.h"
+
 namespace Ether {
 
 	class EditorLayer : public Layer {
@@ -29,6 +31,8 @@ namespace Ether {
 		Ref<Scene> m_Scene;
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
+		// Panels
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 	};

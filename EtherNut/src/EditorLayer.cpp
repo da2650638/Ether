@@ -6,10 +6,10 @@ namespace Ether {
 
 	EditorLayer::EditorLayer(const std::string& debugName)
 		: Layer(debugName),
-		m_OrthographicCameraController(1280.0f / 720.0f),
-		m_BgTilingFactor(10.0f),
-		m_BgTintColor({ 1.0f, 1.0f, 1.0f, 1.0f }),
-		m_BgRotation(0.0f)
+		  m_OrthographicCameraController(1280.0f / 720.0f),
+		  m_BgTilingFactor(10.0f),
+		  m_BgTintColor({ 1.0f, 1.0f, 1.0f, 1.0f }),
+		  m_BgRotation(0.0f)
 	{
 	}
 
@@ -32,6 +32,8 @@ namespace Ether {
 		m_SquareEntity = square;
 		m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
 		m_CameraEntity.AddComponent<CameraComponent>();
+
+		m_SceneHierarchyPanel.SetContext(m_Scene);
 
 		struct CameraController : public ScriptableEntity
 		{
@@ -240,6 +242,8 @@ namespace Ether {
 
 
 		ImGui::End();
+
+		m_SceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::Begin("Viewport");
 		m_ViewportFocused = ImGui::IsWindowFocused();

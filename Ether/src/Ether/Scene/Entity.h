@@ -41,7 +41,10 @@ namespace Ether
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
 		operator bool() const { return m_EntityHandle != entt::null; }
-	private:
+		operator uint32_t() const { return (uint32_t)m_EntityHandle; }
+		bool operator==(const Entity& other) const { return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene; }
+		bool operator!=(const Entity& other) const { return !(*this == other); }
+	private: 
 		entt::entity m_EntityHandle{ entt::null };
 		//TODO: need optimizing.We must using our own weak_ptr to wrapper this ptr.
 		Scene* m_Scene;
