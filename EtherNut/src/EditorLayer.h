@@ -30,6 +30,7 @@ namespace Ether {
 		glm::vec4 m_BgTintColor;
 		Ref<Scene> m_Scene;
 		Entity m_SquareEntity;
+		Entity m_SquareEntity2;
 		Entity m_CameraEntity;
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;

@@ -83,5 +83,82 @@ namespace Ether
 				ImGui::TreePop();
 			}
 		}
+
+		if (entity.HasComponent<CameraComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			{
+				auto& camera_component = entity.GetComponent<CameraComponent>();
+				auto& camera = camera_component.Camera;
+
+				const char* projection_type_strings[] = { "Perspective", "Orthographic" };
+				const char* current_projection_type_string = projection_type_strings[(int)camera_component.Camera.GetProjectionType()];
+				if (ImGui::BeginCombo("Projection", current_projection_type_string))
+				{
+					for (int i = 0; i < 2; i++)
+					{
+						bool is_selected = (current_projection_type_string == projection_type_strings[i]);
+						if (ImGui::Selectable(projection_type_strings[i], is_selected))	//这个if语句就代表鼠标点击到某个Combo选项上了，不点击的话，括号里面的代码不会执行
+						{
+							current_projection_type_string = projection_type_strings[i];
+							camera_component.Camera.SetProjectionType((SceneCamera::ProjectionType)i);
+						}
+
+						//不明白这段代码的意思，是否有这段代码不影响程序正常运行
+						if (is_selected)
+						{
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+
+					ImGui::EndCombo();
+				}
+
+				if (camera_component.Camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
+				{
+					float perspective_vertical_fov = glm::degrees(camera.GetPerspectiveVerticalFOV());
+					if (ImGui::DragFloat("Vertical FOV", &perspective_vertical_fov))
+					{
+						camera.SetPerspectiveVerticalFOV(glm::radians(perspective_vertical_fov));
+					}
+
+					float perspective_nearclip = camera.GetPerspectiveNearClip();
+					if (ImGui::DragFloat("Near", &perspective_nearclip))
+					{
+						camera.SetPerspectiveNearClip(perspective_nearclip);
+					}
+
+					float perspective_farclip = camera.GetPerspectiveFarClip();
+					if (ImGui::DragFloat("Far", &perspective_farclip))
+					{
+						camera.SetPerspectiveFarClip(perspective_farclip);
+					}
+				}
+
+				if (camera_component.Camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
+				{
+					float orthographic_size = camera.GetOrthographicSize();
+					if (ImGui::DragFloat("Size", &orthographic_size))
+					{
+						camera.SetOrthographicSize(orthographic_size);
+					}
+
+					float orthographic_nearclip = camera.GetOrthographicNearClip();
+					if (ImGui::DragFloat("Near", &orthographic_nearclip))
+					{
+						camera.SetOrthographicNearClip(orthographic_nearclip);
+					}
+
+					float orthographic_farclip = camera.GetOrthographicFarClip();
+					if (ImGui::DragFloat("Far", &orthographic_farclip))
+					{
+						camera.SetOrthographicFarClip(orthographic_farclip);
+					}
+				}
+
+
+				ImGui::TreePop();
+			}
+		}
 	}
 }

@@ -26,10 +26,14 @@ namespace Ether {
 		m_Framebuffer = Framebuffer::Create(spec);
 
 		m_Scene = std::make_shared<Scene>();
-		auto square = m_Scene->CreateEntity("Square");
+		auto square = m_Scene->CreateEntity("Green Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
+		auto square2 = m_Scene->CreateEntity("Red Square");
+		square2.AddComponent<SpriteRendererComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
 		m_SquareEntity = square;
+		m_SquareEntity2 = square2;
 		m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
 		m_CameraEntity.AddComponent<CameraComponent>();
 
@@ -70,6 +74,15 @@ namespace Ether {
 				{
 					m_CameraPosition.x += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
 					m_CameraPosition.y += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+				}
+
+				if (Input::IsKeyPressed(ETHER_KEY_UP))
+				{
+					m_CameraPosition.z -= ts * m_CameraTranslationSpeed;
+				}
+				if (Input::IsKeyPressed(ETHER_KEY_DOWN))
+				{
+					m_CameraPosition.z += ts * m_CameraTranslationSpeed;
 				}
 
 				if (m_Rotation)
