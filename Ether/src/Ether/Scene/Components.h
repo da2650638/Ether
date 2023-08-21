@@ -60,7 +60,7 @@ namespace Ether
 	{
 		Ether::SceneCamera Camera;
 		//Basiclly it's possible to have multiple cameras in the scene, and you may want to switch between them.
-		bool Primary = true; //TODO: think about moving to scene.
+		bool Primary = false; //TODO: think about moving to scene.
 		bool FixedAspectRatio = false;
 
 		CameraComponent() = default;
