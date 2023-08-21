@@ -47,6 +47,7 @@ namespace Ether {
 	};
 
 	class EventDispatcher {
+		//TODO: optimize this std::function.
 		template <typename T>
 		using EventFn = std::function<bool(T&)>;
 	public:
@@ -56,7 +57,8 @@ namespace Ether {
 		template <typename T>
 		bool Dispatch(EventFn<T> func) {
 			if (m_Event.GetType() == T::GetStaticType()) {
-				m_Event.Handled = func(*((T*)(&m_Event)));
+				//Fix that Event::Handled could be set back to false By using |= instead of =, once m_Event.Handled has been set to true, it'll never be reset to false.
+				m_Event.Handled |= func(*((T*)(&m_Event)));
 				return true;
 			}
 			return false;

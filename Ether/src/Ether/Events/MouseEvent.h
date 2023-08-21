@@ -51,7 +51,7 @@ namespace Ether {
 	public:
 		inline MouseCode GetButton() const { return m_Button; }
 
-		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouseButton)
+		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouseButton | EventCategoryMouse)
 	protected:
 		MouseButtonEvent(MouseCode button)
 			: m_Button(button) {}

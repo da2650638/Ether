@@ -12,6 +12,9 @@ namespace Ether
 {
 	class Renderer2D
 	{
+		//TODO: Make FlushAndReset() not call EndScene() 
+		//By introducing a function StartBatch(), renamed FlushAndReset() to NextBatch()
+		//https://github.com/TheCherno/Hazel/commit/0ee7476c85190c5e34f97aaf0aaae2736f37855e
 	public:
 		static void Init();
 		static void ShutDown();

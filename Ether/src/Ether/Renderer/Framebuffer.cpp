@@ -1,6 +1,6 @@
 #include "etherpch.h"
 
-#include "Framebuffer.h"
+#include "Ether/Renderer/Framebuffer.h"
 #include "Renderer.h"
 
 #include "Platform/OpenGL/OpenGLFramebuffer.h"
