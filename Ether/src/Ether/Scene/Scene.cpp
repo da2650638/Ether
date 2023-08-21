@@ -47,7 +47,7 @@ namespace Ether
 		);
 
 		Camera* main_camera = nullptr;
-		glm::mat4* camera_transform = nullptr;
+		glm::mat4 camera_transform;
 		auto view = m_Registry.view<TransformComponent, CameraComponent>();
 		for (auto entity : view)
 		{
@@ -55,21 +55,21 @@ namespace Ether
 			if (camera.Primary)
 			{
 				main_camera = &camera.Camera;
-				camera_transform = &transform.Transform;
+				camera_transform = transform.GetTransform();
 				break;
 			}
 		}
 
 		if (main_camera)
 		{
-			Renderer2D::BeginScene(*main_camera, *camera_transform);
+			Renderer2D::BeginScene(*main_camera, camera_transform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
 				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-				Renderer2D::DrawQuad(transform.Transform, sprite.Color);
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
 			}
 
 			Renderer2D::EndScene();

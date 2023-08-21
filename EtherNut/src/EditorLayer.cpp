@@ -55,65 +55,63 @@ namespace Ether {
 			{
 				ETHER_PROFILE_FUNCTION();
 
+				auto& transform_component = GetComponent<TransformComponent>();
+
 				if (Input::IsKeyPressed(ETHER_KEY_W))
 				{
-					m_CameraPosition.y += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
-					m_CameraPosition.x -= std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.y += std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.x -= std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
 				}
 				if (Input::IsKeyPressed(ETHER_KEY_S))
 				{
-					m_CameraPosition.y -= std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
-					m_CameraPosition.x += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.y -= std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.x += std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
 				}
 				if (Input::IsKeyPressed(ETHER_KEY_A))
 				{
-					m_CameraPosition.x -= std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
-					m_CameraPosition.y -= std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.x -= std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.y -= std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
 				}
 				if (Input::IsKeyPressed(ETHER_KEY_D))
 				{
-					m_CameraPosition.x += std::cos(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
-					m_CameraPosition.y += std::sin(glm::radians(m_CameraRotation)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.x += std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+					transform_component.Translation.y += std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
 				}
 
 				if (Input::IsKeyPressed(ETHER_KEY_UP))
 				{
-					m_CameraPosition.z -= ts * m_CameraTranslationSpeed;
+					transform_component.Translation.z -= ts * m_CameraTranslationSpeed;
 				}
 				if (Input::IsKeyPressed(ETHER_KEY_DOWN))
 				{
-					m_CameraPosition.z += ts * m_CameraTranslationSpeed;
+					transform_component.Translation.z += ts * m_CameraTranslationSpeed;
 				}
 
 				if (m_Rotation)
 				{
 					if (Input::IsKeyPressed(ETHER_KEY_Q))
 					{
-						m_CameraRotation += ts * m_CameraRotationSpeed;
+						transform_component.Rotation.z += ts * m_CameraRotationSpeed;
 					}
 					if (Input::IsKeyPressed(ETHER_KEY_E))
 					{
-						m_CameraRotation -= ts * m_CameraRotationSpeed;
+						transform_component.Rotation.z -= ts * m_CameraRotationSpeed;
 					}
-					if (m_CameraRotation > 180.0f)
+					if (transform_component.Rotation.z > 180.0f)
 					{
-						m_CameraRotation -= 360.0f;
+						transform_component.Rotation.z -= 360.0f;
 					}
-					if (m_CameraRotation < -180.0f)
+					if (transform_component.Rotation.z < -180.0f)
 					{
-						m_CameraRotation += 360.0f;
+						transform_component.Rotation.z += 360.0f;
 					}
 				}
-
-				auto& transform_component = GetComponent<TransformComponent>();
-				transform_component = glm::translate(glm::mat4(1.0f), m_CameraPosition) * glm::rotate(glm::mat4(1.0f), glm::radians(m_CameraRotation), glm::vec3(0.0f, 0.0f, 1.0f));;
 			}
 
 			bool m_Rotation = true;
-			glm::vec3 m_CameraPosition{ 0.0f, 0.0f, 0.0f };
-			float m_CameraRotation = 0.0f;
+
 			float m_CameraTranslationSpeed = 4.5f;
-			float m_CameraRotationSpeed = 9.0f;
+			float m_CameraRotationSpeed = 30.0f;
 		};
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
