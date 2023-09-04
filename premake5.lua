@@ -1,4 +1,4 @@
- workspace "Ether"
+workspace "Ether"
     architecture "x86_64"
     startproject "EtherNut"
     configurations { "Debug", "Release", "Dist" }
@@ -11,6 +11,7 @@ IncludeDirs["imgui"] = "Ether/vendor/imgui"
 IncludeDirs["glm"] = "Ether/vendor/glm"
 IncludeDirs["stb_image"] = "Ether/vendor/stb_image"
 IncludeDirs["entt"] = "Ether/vendor/entt/include"
+IncludeDirs["yaml_cpp"] = "Ether/vendor/yaml-cpp/include"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
@@ -18,13 +19,14 @@ group "Dependencies"
     include "Ether/vendor/Glad"
     include "Ether/vendor/imgui"
     include "Ether/vendor/glm"
+    include "Ether/vendor/yaml-cpp"
 group ""
 
 project "Ether"
     location "Ether"
     kind "StaticLib"
     language "C++"
-    staticruntime "On"
+    staticruntime "on"
 
     targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
@@ -52,6 +54,7 @@ project "Ether"
         "%{IncludeDirs.glm}",
         "%{IncludeDirs.stb_image}",
         "%{IncludeDirs.entt}",
+        "%{IncludeDirs.yaml_cpp}",
         "%{prj.name}/src" 
     }
 
@@ -60,6 +63,7 @@ project "Ether"
         "GLFW",
         "Glad",
         "ImGui",
+        "yaml-cpp",
         "opengl32.lib"
     }
 
@@ -99,7 +103,7 @@ project "EtherNut"
     location "EtherNut"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "On"
+    staticruntime "on"
     
     targetdir "bin/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/%{prj.name}-%{cfg.system}-%{cfg.buildcfg}"
@@ -121,6 +125,7 @@ project "EtherNut"
         "%{IncludeDirs.glm}",
         "%{IncludeDirs.stb_image}",
         "%{IncludeDirs.entt}",
+        "%{IncludeDirs.yaml_cpp}",
         "Ether/src" 
     }
     

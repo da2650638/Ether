@@ -6,6 +6,7 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "Panels/SceneHierarchyPanel.h"
+#include "Ether/Scene/SceneSerializer.h"
 
 namespace Ether {
 

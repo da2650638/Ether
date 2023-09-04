@@ -29,6 +29,8 @@ namespace Ether
 		TransformComponent(const TransformComponent& other) = default;
 		TransformComponent(const glm::vec3& translation)
 			: Translation(translation) { }
+		TransformComponent(const glm::vec3& translation, const glm::vec3& rotation, const glm::vec3& scale)
+			: Translation(translation), Rotation(rotation), Scale(scale) {}
 
 		glm::mat4 GetTransform() const
 		{
@@ -36,7 +38,9 @@ namespace Ether
 			glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), Rotation.x, { 1.0f, 0.0f, 0.0f })
 				* glm::rotate(glm::mat4(1.0f), Rotation.y, { 0.0f, 1.0f, 0.0f })
 				* glm::rotate(glm::mat4(1.0f), Rotation.z, { 0.0f ,0.0f, 1.0f });
+
 			glm::mat4 translate = glm::translate(glm::mat4(1.0f), Translation);
+			
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), Scale);
 			return translate * rotation * scale;
 		}

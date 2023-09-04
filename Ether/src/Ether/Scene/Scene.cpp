@@ -8,6 +8,8 @@
 #include "Ether/Renderer/Renderer2D.h"
 #include "Ether/Scene/ScriptableEntity.h"
 
+#include <glm/gtx/string_cast.hpp>
+
 namespace Ether
 {
 	Scene::Scene()

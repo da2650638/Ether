@@ -26,95 +26,95 @@ namespace Ether {
 		m_Framebuffer = Framebuffer::Create(spec);
 
 		m_Scene = std::make_shared<Scene>();
-		auto square = m_Scene->CreateEntity("Green Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
-		auto square2 = m_Scene->CreateEntity("Red Square");
-		square2.AddComponent<SpriteRendererComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		//auto square = m_Scene->CreateEntity("Green Square");
+		//square.AddComponent<SpriteRendererComponent>(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		//auto square2 = m_Scene->CreateEntity("Red Square");
+		//square2.AddComponent<SpriteRendererComponent>(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
-		m_SquareEntity = square;
-		m_SquareEntity2 = square2;
-		m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
-		m_CameraEntity.AddComponent<CameraComponent>();
+		//m_SquareEntity = square;
+		//m_SquareEntity2 = square2;
+		//m_CameraEntity = m_Scene->CreateEntity("CameraEntity");
+		//m_CameraEntity.AddComponent<CameraComponent>();
 
 		m_SceneHierarchyPanel.SetContext(m_Scene);
 
-		struct CameraController : public ScriptableEntity
-		{
-			virtual void OnCreate() override
-			{
-				ETHER_CORE_INFO("CameraController::OnCreate");
-			}
+		//struct CameraController : public ScriptableEntity
+		//{
+		//	virtual void OnCreate() override
+		//	{
+		//		ETHER_CORE_INFO("CameraController::OnCreate");
+		//	}
 
-			virtual void OnDestroy() override
-			{
+		//	virtual void OnDestroy() override
+		//	{
 
-			}
+		//	}
 
-			virtual void OnUpdate(Timestep ts) override
-			{
-				ETHER_PROFILE_FUNCTION();
+		//	virtual void OnUpdate(Timestep ts) override
+		//	{
+		//		ETHER_PROFILE_FUNCTION();
 
-				auto& transform_component = GetComponent<TransformComponent>();
+		//		auto& transform_component = GetComponent<TransformComponent>();
 
-				if (Input::IsKeyPressed(ETHER_KEY_W))
-				{
-					transform_component.Translation.y += std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-					transform_component.Translation.x -= std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-				}
-				if (Input::IsKeyPressed(ETHER_KEY_S))
-				{
-					transform_component.Translation.y -= std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-					transform_component.Translation.x += std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-				}
-				if (Input::IsKeyPressed(ETHER_KEY_A))
-				{
-					transform_component.Translation.x -= std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-					transform_component.Translation.y -= std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-				}
-				if (Input::IsKeyPressed(ETHER_KEY_D))
-				{
-					transform_component.Translation.x += std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-					transform_component.Translation.y += std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
-				}
+		//		if (Input::IsKeyPressed(ETHER_KEY_W))
+		//		{
+		//			transform_component.Translation.y += std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//			transform_component.Translation.x -= std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//		}
+		//		if (Input::IsKeyPressed(ETHER_KEY_S))
+		//		{
+		//			transform_component.Translation.y -= std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//			transform_component.Translation.x += std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//		}
+		//		if (Input::IsKeyPressed(ETHER_KEY_A))
+		//		{
+		//			transform_component.Translation.x -= std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//			transform_component.Translation.y -= std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//		}
+		//		if (Input::IsKeyPressed(ETHER_KEY_D))
+		//		{
+		//			transform_component.Translation.x += std::cos(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//			transform_component.Translation.y += std::sin(glm::radians(transform_component.Rotation.z)) * ts * m_CameraTranslationSpeed;
+		//		}
 
-				if (Input::IsKeyPressed(ETHER_KEY_UP))
-				{
-					transform_component.Translation.z -= ts * m_CameraTranslationSpeed;
-				}
-				if (Input::IsKeyPressed(ETHER_KEY_DOWN))
-				{
-					transform_component.Translation.z += ts * m_CameraTranslationSpeed;
-				}
+		//		if (Input::IsKeyPressed(ETHER_KEY_UP))
+		//		{
+		//			transform_component.Translation.z -= ts * m_CameraTranslationSpeed;
+		//		}
+		//		if (Input::IsKeyPressed(ETHER_KEY_DOWN))
+		//		{
+		//			transform_component.Translation.z += ts * m_CameraTranslationSpeed;
+		//		}
 
-				if (m_Rotation)
-				{
-					if (Input::IsKeyPressed(ETHER_KEY_Q))
-					{
-						transform_component.Rotation.z += ts * m_CameraRotationSpeed;
-					}
-					if (Input::IsKeyPressed(ETHER_KEY_E))
-					{
-						transform_component.Rotation.z -= ts * m_CameraRotationSpeed;
-					}
-					if (transform_component.Rotation.z > 180.0f)
-					{
-						transform_component.Rotation.z -= 360.0f;
-					}
-					if (transform_component.Rotation.z < -180.0f)
-					{
-						transform_component.Rotation.z += 360.0f;
-					}
-				}
-			}
+		//		if (m_Rotation)
+		//		{
+		//			if (Input::IsKeyPressed(ETHER_KEY_Q))
+		//			{
+		//				transform_component.Rotation.z += ts * m_CameraRotationSpeed;
+		//			}
+		//			if (Input::IsKeyPressed(ETHER_KEY_E))
+		//			{
+		//				transform_component.Rotation.z -= ts * m_CameraRotationSpeed;
+		//			}
+		//			if (transform_component.Rotation.z > 180.0f)
+		//			{
+		//				transform_component.Rotation.z -= 360.0f;
+		//			}
+		//			if (transform_component.Rotation.z < -180.0f)
+		//			{
+		//				transform_component.Rotation.z += 360.0f;
+		//			}
+		//		}
+		//	}
 
-			bool m_Rotation = true;
+		//	bool m_Rotation = true;
 
-			float m_CameraTranslationSpeed = 4.5f;
-			float m_CameraRotationSpeed = 30.0f;
-		};
+		//	float m_CameraTranslationSpeed = 4.5f;
+		//	float m_CameraRotationSpeed = 30.0f;
+		//};
 
-		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+		//m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 	}
 
 	void EditorLayer::OnDetach()
@@ -217,12 +217,27 @@ namespace Ether {
 
 		if (ImGui::BeginMenuBar())
 		{
-			if (ImGui::BeginMenu("Options"))
+			if (ImGui::BeginMenu("File"))
 			{
 				// Disabling fullscreen would allow the window to be moved to the front of other windows,
 				// which we can't undo at the moment without finer window depth/z control.
-				ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-				ImGui::MenuItem("Padding", NULL, &opt_padding);
+				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
+				//ImGui::MenuItem("Padding", NULL, &opt_padding);
+				//ImGui::Separator();
+
+				if (ImGui::MenuItem("Serialize", NULL))
+				{
+					std::cout << "Serialize." << std::endl;
+					SceneSerializer serializer(m_Scene);
+					serializer.Serialize("assets/scenes/unnamed.scene");
+				}
+
+				if (ImGui::MenuItem("Deserialize", NULL))
+				{
+					std::cout << "Deserialize." << std::endl;
+					SceneSerializer serializer(m_Scene);
+					serializer.Deserialize("assets/scenes/unnamed.scene");
+				}
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Close", NULL, false, &show_dock_space != NULL))
@@ -246,6 +261,7 @@ namespace Ether {
 
 		m_SceneHierarchyPanel.OnImGuiRender();
 
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
@@ -264,6 +280,7 @@ namespace Ether {
 		}
 		ImGui::Image((void*)texture, { viewport_size_now.x, viewport_size_now.y }, ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
+		ImGui::PopStyleVar();
 
 		ImGui::End();
 	}

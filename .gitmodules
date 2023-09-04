@@ -14,3 +14,6 @@
 	path = Ether/vendor/glm
 	url = https://github.com/da2650638/glm.git
 	branch = master
+[submodule "Ether/vendor/yaml-cpp"]
+	path = Ether/vendor/yaml-cpp
+	url = https://github.com/da2650638/yaml-cpp.git
