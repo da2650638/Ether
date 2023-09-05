@@ -38,7 +38,7 @@ namespace Ether
 		{
 			m_SelectionContext = {};
 		}
-
+		//设置点击右键弹出创建实体菜单
 		if (ImGui::BeginPopupContextWindow("Scene Hierarchy Menu", 1/* 1代表右键 */, false))
 		{
 			if (ImGui::MenuItem("Create Empty Entity"))
@@ -64,6 +64,7 @@ namespace Ether
 		//默认不打开树节点，因此也默认一开始也不需要使用到TreePop()函数
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0);
 		bool opened = ImGui::TreeNodeEx( /*Unique Id*/(void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
+		//点击则设置当前实体
 		if (ImGui::IsItemClicked())
 		{
 			m_SelectionContext = entity;
@@ -186,7 +187,7 @@ namespace Ether
 
 				ImGui::EndPopup();
 			}
-
+			//如果树节点被打开，则绘制控件
 			if (open)
 			{
 				ui_function(component);
@@ -228,13 +229,29 @@ namespace Ether
 		{
 			if (ImGui::MenuItem("Camera"))
 			{
-				m_SelectionContext.AddComponent<CameraComponent>();
+				//Prevent crash when user adds a component that is already present
+				if (!m_SelectionContext.HasComponent<CameraComponent>())
+				{
+					m_SelectionContext.AddComponent<CameraComponent>();
+				}
+				else
+				{
+					ETHER_CORE_WARN("This entity already has the Camera Component!");
+				}
 				ImGui::CloseCurrentPopup();
 			}
 
 			if (ImGui::MenuItem("Sprite Renderer"))
 			{
-				m_SelectionContext.AddComponent<SpriteRendererComponent>();
+				//Prevent crash when user adds a component that is already present
+				if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
+				{
+					m_SelectionContext.AddComponent<SpriteRendererComponent>();
+				}
+				else
+				{
+					ETHER_CORE_WARN("This entity already has the Sprite Renderer Component!");
+				}
 				ImGui::CloseCurrentPopup();
 			}
 

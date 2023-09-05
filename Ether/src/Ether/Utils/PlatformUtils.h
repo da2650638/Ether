@@ -6,8 +6,10 @@ namespace Ether {
 	{
 	public:
 		// These return empty strings if cancelled
-		static std::string OpenFile(const char* filter);
-		static std::string SaveFile(const char* filter);
+#ifdef ETH_PLATFORM_WINDOWS
+		static std::optional<std::string> OpenFile(const char* filter);
+		static std::optional<std::string> SaveFile(const char* filter);
+#endif
 	};
 
 }

@@ -330,25 +330,25 @@ namespace Ether {
 
 	void EditorLayer::OpenScene()
 	{
-		std::string filepath = FileDialogs::OpenFile("Scene(*.scene)\0*.scene\0");
-		if (!filepath.empty())
+		std::optional<std::string> filepath = FileDialogs::OpenFile("Scene(*.scene)\0*.scene\0");
+		if (filepath)
 		{
 			m_Scene = std::make_shared<Scene>();
 			m_Scene->OnViewportResize(m_ViewportWidth, m_ViewportHeight);
 			m_SceneHierarchyPanel.SetContext(m_Scene);
 
 			SceneSerializer serializer(m_Scene);
-			serializer.Deserialize(filepath);
+			serializer.Deserialize(filepath.value());
 		}
 	}
 
 	void EditorLayer::SaveSceneAs()
 	{
-		std::string filepath = FileDialogs::SaveFile("Scene (*.scene)\0*.scene\0");
-		if (!filepath.empty())
+		std::optional<std::string> filepath = FileDialogs::SaveFile("Scene (*.scene)\0*.scene\0");
+		if (filepath)
 		{
 			SceneSerializer serializer(m_Scene);
-			serializer.Serialize(filepath);
+			serializer.Serialize(filepath.value());
 		}
 	}
 

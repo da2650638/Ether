@@ -165,11 +165,12 @@ namespace Ether
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		std::ifstream ifs(filepath);
-		std::stringstream ss;
-		ss << ifs.rdbuf();
-
-		YAML::Node data = YAML::Load(ss.str());
+		//std::ifstream ifs(filepath);
+		//std::stringstream ss;
+		//ss << ifs.rdbuf();
+		//YAML::Node data = YAML::Load(ss.str());
+		//Use YAML::LoadFile instead of old way
+		YAML::Node data = YAML::LoadFile(filepath);
 		if (!data["Scene"])
 			return false;
 
