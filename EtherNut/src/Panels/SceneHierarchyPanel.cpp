@@ -15,6 +15,8 @@ namespace Ether
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		//TODO: We must initialize the m_SelectionContext, if we don't there will be the undefined memory access error when we create new scene.
+		m_SelectionContext = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()

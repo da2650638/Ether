@@ -7,6 +7,7 @@
 
 #include "Panels/SceneHierarchyPanel.h"
 #include "Ether/Scene/SceneSerializer.h"
+#include "Ether/Utils/PlatformUtils.h"
 
 namespace Ether {
 
@@ -23,9 +24,16 @@ namespace Ether {
 		virtual void OnImGuiRender() override;
 		virtual void OnEvent(Event& e) override;
 	private:
+		bool OnKeyPressed(KeyPressedEvent& e);
+
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+	private:
 		OrthographicCameraController m_OrthographicCameraController;
 		Ref<Texture2D> m_Texture1, m_Texture2;
 		Ref<Framebuffer> m_Framebuffer;
+		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 		float m_BgTilingFactor;
 		float m_BgRotation;
 		glm::vec4 m_BgTintColor;

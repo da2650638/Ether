@@ -225,19 +225,12 @@ namespace Ether {
 				//ImGui::MenuItem("Padding", NULL, &opt_padding);
 				//ImGui::Separator();
 
-				if (ImGui::MenuItem("Serialize", NULL))
-				{
-					std::cout << "Serialize." << std::endl;
-					SceneSerializer serializer(m_Scene);
-					serializer.Serialize("assets/scenes/unnamed.scene");
-				}
-
-				if (ImGui::MenuItem("Deserialize", NULL))
-				{
-					std::cout << "Deserialize." << std::endl;
-					SceneSerializer serializer(m_Scene);
-					serializer.Deserialize("assets/scenes/unnamed.scene");
-				}
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+					NewScene();
+				if (ImGui::MenuItem("Open...", "Ctrl+O"))
+					OpenScene();
+				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					SaveSceneAs();
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("Close", NULL, false, &show_dock_space != NULL))
@@ -270,6 +263,8 @@ namespace Ether {
 
 		auto texture = m_Framebuffer->GetColorAttachment();
 		ImVec2 viewport_size_now = ImGui::GetContentRegionAvail();
+		m_ViewportWidth = viewport_size_now.x;
+		m_ViewportHeight = viewport_size_now.y;
 		ImVec2 framebuffer_size_now = { (float)m_Framebuffer->GetFramebufferSpecification().Width, (float)m_Framebuffer->GetFramebufferSpecification().Height };
 		if (framebuffer_size_now.x != viewport_size_now.x || framebuffer_size_now.y != viewport_size_now.y)
 		{
@@ -288,6 +283,73 @@ namespace Ether {
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_OrthographicCameraController.OnEvent(e);
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(ETHER_BIND_EVENT_FN(OnKeyPressed));
+	}
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		bool control = Input::IsKeyPressed(ETHER_KEY_LEFT_CONTROL) || Input::IsKeyPressed(ETHER_KEY_RIGHT_CONTROL);
+		bool shift = Input::IsKeyPressed(ETHER_KEY_LEFT_SHIFT) || Input::IsKeyPressed(ETHER_KEY_RIGHT_SHIFT);
+		switch (e.GetKeyCode())
+		{
+			case Key::N:
+			{
+				if (control)
+				{
+					NewScene();
+				}
+				break;
+			}
+			case Key::O:
+			{
+				if (control)
+				{
+					OpenScene();
+				}
+				break;
+			}
+			case Key::S:
+			{
+				if (control && shift)
+				{
+					SaveSceneAs();
+				}
+				break;
+			}
+		}
+		return false;
+	}
+
+	void EditorLayer::NewScene()
+	{
+		m_Scene = std::make_shared<Scene>();
+		m_Scene->OnViewportResize(m_ViewportWidth, m_ViewportHeight);
+		m_SceneHierarchyPanel.SetContext(m_Scene);
+	}
+
+	void EditorLayer::OpenScene()
+	{
+		std::string filepath = FileDialogs::OpenFile("Scene(*.scene)\0*.scene\0");
+		if (!filepath.empty())
+		{
+			m_Scene = std::make_shared<Scene>();
+			m_Scene->OnViewportResize(m_ViewportWidth, m_ViewportHeight);
+			m_SceneHierarchyPanel.SetContext(m_Scene);
+
+			SceneSerializer serializer(m_Scene);
+			serializer.Deserialize(filepath);
+		}
+	}
+
+	void EditorLayer::SaveSceneAs()
+	{
+		std::string filepath = FileDialogs::SaveFile("Scene (*.scene)\0*.scene\0");
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(m_Scene);
+			serializer.Serialize(filepath);
+		}
 	}
 
 }

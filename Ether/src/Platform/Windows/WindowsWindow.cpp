@@ -3,6 +3,7 @@
 #include "Ether/Core/Log.h"
 #include "Ether/Events/ApplicationEvent.h"
 #include "Ether/Events/MouseEvent.h"
+#include "Ether/Events/KeyEvent.h"
 #include "Ether/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLContext.h"
 
@@ -97,6 +98,31 @@ namespace Ether {
 
 			MouseScrolledEvent e((float)xoffset, (float)yoffset);
 			data->Callback(e);
+		});
+
+		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+			switch (action) {
+			case GLFW_RELEASE:
+			{
+				KeyReleasedEvent e((KeyCode)key);
+				data->Callback(e);
+				break;
+			}
+			case GLFW_PRESS:
+			{
+				KeyPressedEvent e((KeyCode)key, 0);
+				data->Callback(e);
+				break;
+			}
+			case GLFW_REPEAT:
+			{
+				KeyPressedEvent e((KeyCode)key, true);
+				data->Callback(e);
+				break;
+			}
+			}
 		});
 	}
 

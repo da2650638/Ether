@@ -138,7 +138,7 @@ namespace Ether
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 		out << YAML::Key << "Scene" << YAML::Value << "Untitled Scene";
-		out << YAML::Key << "Entity" << YAML::Value;
+		out << YAML::Key << "Entities" << YAML::Value;
 		out << YAML::BeginSeq;
 		m_Scene->m_Registry.each(
 			[&](auto entityID) 
@@ -176,7 +176,7 @@ namespace Ether
 		std::string scene_name = data["Scene"].as<std::string>();
 		ETHER_CORE_TRACE("Deserializing scene {0}...", scene_name);
 
-		auto entities = data["Entity"];
+		auto entities = data["Entities"];
 		if (entities)
 		{
 			for (auto entity : entities)
