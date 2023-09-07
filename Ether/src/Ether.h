@@ -27,6 +27,8 @@
 #include "Ether/Scene/Entity.h"
 #include "Ether/Scene/Scene.h"
 
+#include "Ether/Math/Math.h"
+
 //TODO: delete these silly includes
 #include "Platform/OpenGL/OpenGLShader.h"
 

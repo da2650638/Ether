@@ -11,6 +11,8 @@ namespace Ether
 		SceneHierarchyPanel(const Ref<Scene>& context);
 
 		void SetContext(const Ref<Scene>& context);
+
+		const Entity& GetSelectionContext() const { return m_SelectionContext; }
 		
 		void OnImGuiRender();
 	private:

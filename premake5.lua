@@ -12,6 +12,7 @@ IncludeDirs["glm"] = "Ether/vendor/glm"
 IncludeDirs["stb_image"] = "Ether/vendor/stb_image"
 IncludeDirs["entt"] = "Ether/vendor/entt/include"
 IncludeDirs["yaml_cpp"] = "Ether/vendor/yaml-cpp/include"
+IncludeDirs["ImGuizmo"] = "Ether/vendor/ImGuizmo"
 
 group "Dependencies"
     include "Ether/vendor/spdlog"
@@ -42,7 +43,9 @@ project "Ether"
 		"%{prj.name}/vendor/glm/glm/*.inl",
         "%{prj.name}/vendor/stb_image/stb_image.h",
         "%{prj.name}/vendor/stb_image/stb_image.cpp",
-        "%{prj.name}/vendor/entt/include/entt.hpp"   
+        "%{prj.name}/vendor/entt/include/entt.hpp",
+        "%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+        "%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"   
     }
 
     includedirs 
@@ -55,6 +58,7 @@ project "Ether"
         "%{IncludeDirs.stb_image}",
         "%{IncludeDirs.entt}",
         "%{IncludeDirs.yaml_cpp}",
+        "%{IncludeDirs.ImGuizmo}",
         "%{prj.name}/src" 
     }
 
@@ -66,6 +70,9 @@ project "Ether"
         "yaml-cpp",
         "opengl32.lib"
     }
+
+    filter "files:%{prj.name}/vendor/ImGuizmo/**.cpp"
+        flags { "NoPCH" }
 
     filter "system:windows"
         cppdialect "C++17"
@@ -126,6 +133,7 @@ project "EtherNut"
         "%{IncludeDirs.stb_image}",
         "%{IncludeDirs.entt}",
         "%{IncludeDirs.yaml_cpp}",
+        "%{IncludeDirs.ImGuizmo}",
         "Ether/src" 
     }
     

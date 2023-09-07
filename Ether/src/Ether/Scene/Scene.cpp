@@ -100,6 +100,21 @@ namespace Ether
 		}
 	}
 
+	Entity Scene::GetPrimaryCameraEntity()
+	{
+		auto camera_entities = m_Registry.view<CameraComponent>();
+		for (auto& camera_entity : camera_entities)
+		{
+			const auto& camera_component = camera_entities.get<CameraComponent>(camera_entity);
+			if (camera_component.Primary)
+			{
+				return { camera_entity, this };
+			}
+		}
+
+		return { entt::null, nullptr };
+	}
+
 	template <typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{

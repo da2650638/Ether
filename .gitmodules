@@ -17,3 +17,6 @@
 [submodule "Ether/vendor/yaml-cpp"]
 	path = Ether/vendor/yaml-cpp
 	url = https://github.com/da2650638/yaml-cpp.git
+[submodule "Ether/vendor/ImGuizmo"]
+	path = Ether/vendor/ImGuizmo
+	url = https://github.com/da2650638/ImGuizmo.git

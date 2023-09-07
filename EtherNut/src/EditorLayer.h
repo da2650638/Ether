@@ -44,6 +44,8 @@ namespace Ether {
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 
+		int m_GizmoType = - 1;
+
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 	};
 

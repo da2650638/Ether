@@ -5,6 +5,9 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
+
 #include <string>
 
 namespace Ether
@@ -35,14 +38,19 @@ namespace Ether
 		glm::mat4 GetTransform() const
 		{
 			//旋转矩阵
-			glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), Rotation.x, { 1.0f, 0.0f, 0.0f })
+			/*glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), Rotation.x, { 1.0f, 0.0f, 0.0f })
 				* glm::rotate(glm::mat4(1.0f), Rotation.y, { 0.0f, 1.0f, 0.0f })
 				* glm::rotate(glm::mat4(1.0f), Rotation.z, { 0.0f ,0.0f, 1.0f });
 
 			glm::mat4 translate = glm::translate(glm::mat4(1.0f), Translation);
 			
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), Scale);
-			return translate * rotation * scale;
+			return translate * rotation * scale;*/
+			glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
+
+			return glm::translate(glm::mat4(1.0f), Translation)
+				* rotation
+				* glm::scale(glm::mat4(1.0f), Scale);
 		}
 
 		//转型运算符

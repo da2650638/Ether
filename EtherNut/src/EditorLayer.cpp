@@ -2,6 +2,8 @@
 
 #include "imgui.h"
 
+#include <ImGuizmo.h>
+
 namespace Ether {
 
 	EditorLayer::EditorLayer(const std::string& debugName)
@@ -274,6 +276,47 @@ namespace Ether {
 			m_Scene->OnViewportResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 		}
 		ImGui::Image((void*)texture, { viewport_size_now.x, viewport_size_now.y }, ImVec2(0, 1), ImVec2(1, 0));
+
+		//ImGuizmo
+		Entity entity = m_SceneHierarchyPanel.GetSelectionContext();
+		if (entity)
+		{
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
+
+			Entity camera_entity = m_Scene->GetPrimaryCameraEntity();
+			if (camera_entity && m_GizmoType != -1)
+			{
+				glm::mat4 camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
+				glm::mat4 camera_projection = camera_entity.GetComponent<CameraComponent>().Camera.GetProjection();
+				glm::mat4 transform = entity.GetComponent<TransformComponent>().GetTransform();
+				ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_projection), (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
+
+				if (ImGuizmo::IsUsing())
+				{
+					glm::vec3 translation, rotation, scale;
+					Math::DecomposeTransform(transform, translation, rotation, scale);
+
+					auto& entity_transform_component = entity.GetComponent<TransformComponent>();
+					if (m_GizmoType == ImGuizmo::OPERATION::TRANSLATE)
+					{
+						entity_transform_component.Translation = translation;
+					}
+					if (m_GizmoType == ImGuizmo::OPERATION::SCALE)
+					{
+						entity_transform_component.Scale = scale;
+					}
+					if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+					{
+						glm::vec3 delta_rotation = rotation - entity_transform_component.Rotation;
+						entity_transform_component.Rotation += delta_rotation;
+					}					
+				}
+			}
+		}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
 
@@ -317,6 +360,27 @@ namespace Ether {
 				}
 				break;
 			}
+			// Gizmos
+			case Key::Q:
+			{
+				m_GizmoType = - 1;
+				break;
+			}
+			case Key::W:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			}
+			case Key::E:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+			}
+			case Key::R:
+			{
+				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
+			}				
 		}
 		return false;
 	}
