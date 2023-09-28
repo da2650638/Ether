@@ -8,6 +8,7 @@
 #include "Panels/SceneHierarchyPanel.h"
 #include "Ether/Scene/SceneSerializer.h"
 #include "Ether/Utils/PlatformUtils.h"
+#include "Ether/Renderer/EditorCamera.h"
 
 namespace Ether {
 
@@ -31,6 +32,7 @@ namespace Ether {
 		void SaveSceneAs();
 	private:
 		OrthographicCameraController m_OrthographicCameraController;
+		EditorCamera m_EditorCamera;
 		Ref<Texture2D> m_Texture1, m_Texture2;
 		Ref<Framebuffer> m_Framebuffer;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;

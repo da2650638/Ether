@@ -4,6 +4,8 @@
 
 #include <ImGuizmo.h>
 
+#include <glm/gtx/string_cast.hpp>
+
 namespace Ether {
 
 	EditorLayer::EditorLayer(const std::string& debugName)
@@ -40,6 +42,7 @@ namespace Ether {
 		//m_CameraEntity.AddComponent<CameraComponent>();
 
 		m_SceneHierarchyPanel.SetContext(m_Scene);
+		m_EditorCamera = EditorCamera(30.f, 1.778, 0.1f, 1000.f);
 
 		//struct CameraController : public ScriptableEntity
 		//{
@@ -133,6 +136,7 @@ namespace Ether {
 			ETHER_PROFILE_SCOPE("CameraController::OnUpdate");
 			if(m_ViewportFocused)
 				m_OrthographicCameraController.OnUpdate(ts);
+			m_EditorCamera.OnUpdate(ts);
 		}
 
 		{
@@ -147,7 +151,7 @@ namespace Ether {
 
 			ETHER_PROFILE_SCOPE("Renderer Draw");
 
-			m_Scene->OnUpdate(ts);
+			m_Scene->OnUpdateEditor(ts, m_EditorCamera);
 
 			m_Framebuffer->UnBind();
 		}
@@ -246,11 +250,64 @@ namespace Ether {
 		ImGui::Begin("Settings");
 
 		auto stats = Renderer2D::GetStats();
+		ImGui::Text("Renderer Stats:");
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
 		ImGui::Text("Quads: %d", stats.QuadCount);
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+		ImGui::Separator();
+		const ImGuiTreeNodeFlags tree_node_flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_FramePadding;
+		//const ImGuiTreeNodeFlags tree_node_flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
+		ImGui::Text("Editor Camera:");
+		bool open = ImGui::TreeNodeEx("Cursor Position:", tree_node_flags, "Cursor Position:");
+		if (open)
+		{
+			ImGui::Text("x: %.3f", m_EditorCamera.m_InitialMousePosition.x);
+			ImGui::Text("y: %.3f", m_EditorCamera.m_InitialMousePosition.y);
+			ImGui::TreePop();
+		}
+		open = ImGui::TreeNodeEx("Viewport Size:", tree_node_flags, "Viewport Size:");
+		if (open)
+		{
+			ImGui::Text("Width: %.3f", m_EditorCamera.m_ViewportWidth);
+			ImGui::Text("Height: %.3f", m_EditorCamera.m_ViewportHeight);
+			ImGui::TreePop();
+		}
+		open = ImGui::TreeNodeEx("Directions:", tree_node_flags, "Directions:");
+		if (open)
+		{
+			ImGui::Text("Forward: %s", glm::to_string(m_EditorCamera.GetForwardDirection()).c_str());
+			ImGui::Text("Up: %s", glm::to_string(m_EditorCamera.GetUpDirection()).c_str());
+			ImGui::Text("Right: %s", glm::to_string(m_EditorCamera.GetRightDirection()).c_str());
+			ImGui::TreePop();
+		}
+		open = ImGui::TreeNodeEx("Perspective:", tree_node_flags, "Perspective:");
+		if (open)
+		{
+			ImGui::Text("FOV: %.3f", m_EditorCamera.m_FOV);
+			ImGui::Text("AspectRatio: %.3f", m_EditorCamera.m_AspectRatio);
+			ImGui::Text("NearClip: %.3f", m_EditorCamera.m_NearClip);
+			ImGui::Text("FarClip: %.3f", m_EditorCamera.m_FarClip);
+			ImGui::TreePop();
+		}
+		open = ImGui::TreeNodeEx("Rotation:", tree_node_flags, "Rotation:");
+		if (open)
+		{
+			ImGui::Text("Pitch(degrees): %.3f", glm::degrees(m_EditorCamera.m_Pitch));
+			ImGui::Text("Yaw(degrees): %.3f", glm::degrees(m_EditorCamera.m_Yaw));
+			ImGui::TreePop();
+		}
+		open = ImGui::TreeNodeEx("Translate:", tree_node_flags, "Translate:");
+		if (open)
+		{
+			ImGui::Text("Position: %.3f, %.3f, %.3f", m_EditorCamera.m_Position.x, m_EditorCamera.m_Position.y, m_EditorCamera.m_Position.z);
+			ImGui::Text("FocalPoint: %.3f, %.3f, %.3f", m_EditorCamera.m_FocalPoint.x, m_EditorCamera.m_FocalPoint.y, m_EditorCamera.m_FocalPoint.z);
+			ImGui::Text("Distance: %.3f", m_EditorCamera.m_Distance);
+			ImGui::TreePop();
+		}
+		//glm::vec2 m_InitialMousePosition = { 0.0f, 0.0f };
 
 		ImGui::End();
 
@@ -273,6 +330,7 @@ namespace Ether {
 			m_Framebuffer->Resize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 			m_OrthographicCameraController.OnResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 		
+			m_EditorCamera.SetViewportSize(viewport_size_now.x, viewport_size_now.y);
 			m_Scene->OnViewportResize((uint32_t)viewport_size_now.x, (uint32_t)viewport_size_now.y);
 		}
 		ImGui::Image((void*)texture, { viewport_size_now.x, viewport_size_now.y }, ImVec2(0, 1), ImVec2(1, 0));
@@ -286,11 +344,16 @@ namespace Ether {
 
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
 
-			Entity camera_entity = m_Scene->GetPrimaryCameraEntity();
-			if (camera_entity && m_GizmoType != -1)
+			//Entity runtime_camera_entity = m_Scene->GetPrimaryCameraEntity();
+			if (/*runtime_camera_entity && */m_GizmoType != -1)
 			{
-				glm::mat4 camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
-				glm::mat4 camera_projection = camera_entity.GetComponent<CameraComponent>().Camera.GetProjection();
+
+				//glm::mat4 camera_view = glm::inverse(camera_entity.GetComponent<TransformComponent>().GetTransform());
+				//glm::mat4 camera_projection = camera_entity.GetComponent<CameraComponent>().Camera.GetProjection();
+				//glm::mat4 transform = entity.GetComponent<TransformComponent>().GetTransform();
+				//ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_projection), (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
+				glm::mat4 camera_view = m_EditorCamera.GetViewMatrix();
+				glm::mat4 camera_projection = m_EditorCamera.GetProjection();
 				glm::mat4 transform = entity.GetComponent<TransformComponent>().GetTransform();
 				ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_projection), (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
 
@@ -325,9 +388,10 @@ namespace Ether {
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		m_OrthographicCameraController.OnEvent(e);
+		//m_OrthographicCameraController.OnEvent(e);
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(ETHER_BIND_EVENT_FN(OnKeyPressed));
+		m_EditorCamera.OnEvent(e);
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
