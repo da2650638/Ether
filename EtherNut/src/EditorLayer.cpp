@@ -25,6 +25,7 @@ namespace Ether {
 		m_Texture2 = Texture2D::Create("assets/textures/ChernoLogo.png");
 
 		FramebufferSpecification spec;
+		spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		spec.Width = 1280;
 		spec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(spec);
@@ -320,7 +321,7 @@ namespace Ether {
 		//既没有Focused也没有Hovered的时候才会设置BlockEvents
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
-		auto texture = m_Framebuffer->GetColorAttachment();
+		auto texture = m_Framebuffer->GetColorAttachment(0);
 		ImVec2 viewport_size_now = ImGui::GetContentRegionAvail();
 		m_ViewportWidth = viewport_size_now.x;
 		m_ViewportHeight = viewport_size_now.y;
