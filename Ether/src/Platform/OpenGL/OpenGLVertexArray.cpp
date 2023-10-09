@@ -52,17 +52,62 @@ namespace Ether
 		uint32_t stride = vertex_buffer->GetLayout().GetStride();
 		for (const auto& element : vertex_buffer->GetLayout())
 		{
-			//TODO: Fixed incorrect cases
-			glVertexAttribPointer(
-				index,
-				element.GetElementCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				stride,
-				(void*)element.Offset);
-			glEnableVertexAttribArray(index);
-			index++;
+			//根据不同情况进行处理
+			switch (element.Type)
+			{
+				case ShaderDataType::Float:
+				case ShaderDataType::Float2:
+				case ShaderDataType::Float3:
+				case ShaderDataType::Float4:
+				{
+					glEnableVertexAttribArray(index);
+					glVertexAttribPointer(index,
+										  element.GetElementCount(),
+										  ShaderDataTypeToOpenGLBaseType(element.Type),
+										  element.Normalized ? GL_TRUE : GL_FALSE,
+										  stride,
+										  (const void*)element.Offset);
+					index++;
+					break;
+				}
+				case ShaderDataType::Int:
+				case ShaderDataType::Int2:
+				case ShaderDataType::Int3:
+				case ShaderDataType::Int4:
+				case ShaderDataType::Bool:
+				{
+					glEnableVertexAttribArray(index);
+					glVertexAttribIPointer(index,
+										   element.GetElementCount(),
+										   ShaderDataTypeToOpenGLBaseType(element.Type),
+										   stride,
+										   (const void*)element.Offset);
+					index++;
+					break;
+				}
+				case ShaderDataType::Mat3:
+				case ShaderDataType::Mat4:
+				{
+					uint8_t count = element.GetElementCount();
+					for (uint8_t i = 0; i < count; i++)
+					{
+						glEnableVertexAttribArray(index);
+						glVertexAttribPointer(index,
+							count,
+							ShaderDataTypeToOpenGLBaseType(element.Type),
+							element.Normalized ? GL_TRUE : GL_FALSE,
+							stride,
+							(const void*)(element.Offset + sizeof(float) * count * i));
+						glVertexAttribDivisor(index, 1);
+						index++;
+					}
+					break;
+				}
+				default:
+					ETHER_CORE_ASSERT(false, "Unknown ShaderDataType!");
+			}
 		}
+
 		m_VertexBuffers.push_back(vertex_buffer);
 	}
 

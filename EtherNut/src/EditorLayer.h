@@ -45,6 +45,7 @@ namespace Ether {
 		Entity m_CameraEntity;
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		glm::vec2 m_ViewportBounds[2];
 
 		int m_GizmoType = - 1;
 

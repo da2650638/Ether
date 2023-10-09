@@ -35,7 +35,7 @@ namespace Ether
 			glBindTexture(TextureTarget(multisampled), texture);
 		}
 
-		static void AttachColorTexture(uint32_t texture, int samples, GLenum format, uint32_t width, uint32_t height, int index)
+		static void AttachColorTexture(uint32_t texture, int samples,GLenum internal_format, GLenum format, uint32_t width, uint32_t height, int index)
 		{
 			bool multisampled = samples > 1;
 			if (multisampled)
@@ -44,7 +44,7 @@ namespace Ether
 			}
 			else
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -75,6 +75,20 @@ namespace Ether
 			}
 
 			glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, TextureTarget(multisampled), texture, 0);
+		}
+
+		static GLenum InternalTextureFormatToGL(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case FramebufferTextureFormat::RGBA8:
+					return GL_RGBA8;
+				case FramebufferTextureFormat::RED_INTEGER:
+					return GL_RED_INTEGER;
+			}
+
+			ETHER_CORE_ASSERT(false, "UnKnown FramebufferTextureFormat.");
+			return 0;
 		}
 	}
 
@@ -130,6 +144,29 @@ namespace Ether
 		Invalidate();
 	}
 
+	int OpenGLFramebuffer::ReadPixel(uint32_t attachment_index, int x, int y)
+	{
+		ETHER_CORE_ASSERT(attachment_index < m_ColorAttachments.size(), "attchment_index cross the bound.");
+
+		//TOKNOW: 不用bind和unbind吗？
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachment_index);
+		int pixel_data = -1;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
+		return pixel_data;
+	}
+
+	void OpenGLFramebuffer::ClearAttachment(uint32_t attachment_index, int value)
+	{
+		ETHER_CORE_ASSERT(attachment_index < m_ColorAttachments.size(), "attchment_index cross the bound.");
+
+		auto spec = m_ColorAttachmentSpecifications[attachment_index];
+		glClearTexImage(m_ColorAttachments[attachment_index],
+			0,
+			Utils::InternalTextureFormatToGL(spec.TextureFormat),
+			GL_INT,
+			&value);
+	}
+
 	uint32_t OpenGLFramebuffer::GetColorAttachment(uint32_t index) const
 	{
 		ETHER_CORE_ASSERT(m_ColorAttachmentSpecifications.size() > index, "Index could not be larger than m_ColorAttachmentSpecifications.size()");
@@ -171,7 +208,12 @@ namespace Ether
 				{
 					case FramebufferTextureFormat::RGBA8:
 					{
-						Utils::AttachColorTexture(m_ColorAttachments[i], m_Spec.Samples, GL_RGBA8, m_Spec.Width, m_Spec.Height, i);
+						Utils::AttachColorTexture(m_ColorAttachments[i], m_Spec.Samples, GL_RGBA8, GL_RGBA, m_Spec.Width, m_Spec.Height, i);
+						break;
+					}
+					case FramebufferTextureFormat::RED_INTEGER:
+					{
+						Utils::AttachColorTexture(m_ColorAttachments[i], m_Spec.Samples, GL_R32I, GL_RED_INTEGER, m_Spec.Width, m_Spec.Height, i);
 						break;
 					}
 				}
@@ -192,7 +234,7 @@ namespace Ether
 			}
 		}
 
-		//TODO: 理解这段代码的意思
+		//TODO: optimize these codes.
 		if (m_ColorAttachments.size() > 1)
 		{
 			ETHER_CORE_ASSERT(m_ColorAttachments.size() <= 4, "m_ColorAttachments.size() > 4");

@@ -25,7 +25,7 @@ namespace Ether {
 		m_Texture2 = Texture2D::Create("assets/textures/ChernoLogo.png");
 
 		FramebufferSpecification spec;
-		spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		spec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
 		spec.Width = 1280;
 		spec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(spec);
@@ -145,6 +145,9 @@ namespace Ether {
 			m_Framebuffer->Bind();
 			Renderer::Clear();
 			Renderer::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
+
+			m_Framebuffer->ClearAttachment(1, - 1);
+
 			Renderer2D::ResetStats();
 		}
 
@@ -153,6 +156,19 @@ namespace Ether {
 			ETHER_PROFILE_SCOPE("Renderer Draw");
 
 			m_Scene->OnUpdateEditor(ts, m_EditorCamera);
+
+			auto mouse_pos = ImGui::GetMousePos();	//获取鼠标的坐标（整个屏幕范围）
+			float mouse_x = mouse_pos.x, mouse_y = mouse_pos.y;
+			mouse_x -= m_ViewportBounds[0].x, mouse_y -= m_ViewportBounds[0].y;
+			//上下翻转
+			mouse_y = (m_ViewportBounds[1].y - m_ViewportBounds[0].y) - mouse_y;
+			int mx = (int)mouse_x, my = (int)mouse_y;
+			glm::vec2 viewport_size = m_ViewportBounds[1] - m_ViewportBounds[0];
+			if (mx >= 0 && my >= 0 && mx < (int)(viewport_size.x) && my < (int)(viewport_size.y))
+			{
+				int entity_id = m_Framebuffer->ReadPixel(1, mx, my);
+				ETHER_CORE_INFO("Entity ID(place holder): {0}", entity_id);
+			}
 
 			m_Framebuffer->UnBind();
 		}
@@ -316,10 +332,21 @@ namespace Ether {
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
 		ImGui::Begin("Viewport");
+		
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
 		//既没有Focused也没有Hovered的时候才会设置BlockEvents
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+		
+		ImVec2 min_bound = ImGui::GetWindowContentRegionMin();
+		ImVec2 max_bound = ImGui::GetWindowContentRegionMax();
+		ImVec2 window_pos = ImGui::GetWindowPos();	//返回的是窗口的左上角在整个屏幕中的坐标
+		min_bound.x += window_pos.x;
+		min_bound.y += window_pos.y;
+		max_bound.x += window_pos.x;
+		max_bound.y += window_pos.y;
+		m_ViewportBounds[0] = { min_bound.x, min_bound.y };
+		m_ViewportBounds[1] = { max_bound.x, max_bound.y };
 
 		auto texture = m_Framebuffer->GetColorAttachment(0);
 		ImVec2 viewport_size_now = ImGui::GetContentRegionAvail();
@@ -343,7 +370,7 @@ namespace Ether {
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
+			ImGuizmo::SetRect(min_bound.x, min_bound.y, max_bound.x - min_bound.x, max_bound.y - min_bound.y);
 
 			//Entity runtime_camera_entity = m_Scene->GetPrimaryCameraEntity();
 			if (/*runtime_camera_entity && */m_GizmoType != -1)
@@ -428,22 +455,26 @@ namespace Ether {
 			// Gizmos
 			case Key::Q:
 			{
-				m_GizmoType = - 1;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = - 1;
 				break;
 			}
 			case Key::W:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 				break;
 			}
 			case Key::E:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
 			}
 			case Key::R:
 			{
-				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				if (!ImGuizmo::IsUsing())
+					m_GizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 			}				
 		}

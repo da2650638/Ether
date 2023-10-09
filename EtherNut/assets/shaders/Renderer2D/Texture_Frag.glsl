@@ -1,5 +1,6 @@
 #version 450 core
 layout(location = 0) out vec4 color;
+layout(location = 1) out int color2; //Placeholder for out entity ID.
 
 uniform sampler2D u_Textures[32];
 
@@ -48,4 +49,6 @@ void main()
 		case 31: texColor *= texture(u_Textures[31], v_TexCoord * v_TilingFactor); break;
 	}
 	color = texColor;
+
+	color2 = 50; //Placeholder for out entity ID.
 }

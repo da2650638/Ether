@@ -14,6 +14,10 @@ namespace Ether
 		virtual void UnBind() const override;
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		//virtual uint32_t GetColorAttachment() const override;
+		virtual int ReadPixel(uint32_t attchment_index, int x, int y) override;
+
+		virtual void ClearAttachment(uint32_t attachment_index, int value) override;
+
 		virtual uint32_t GetColorAttachment(uint32_t index = 0) const override;
 		virtual const FramebufferSpecification& GetFramebufferSpecification() const override;
 
